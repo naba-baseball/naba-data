@@ -9,12 +9,6 @@ export default defineNuxtConfig({
       }
     },
     storage: {
-      redis: {
-        driver: 'redis',
-        base: 'cache',
-        host: 'localhost',
-        port: 6379
-      },
       files: {
         driver: 'fs',
         base: '.files'

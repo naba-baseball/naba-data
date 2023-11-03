@@ -23,6 +23,8 @@
   "dependencies": {
     "mongodb": "^6.2.0",
     "papaparse": "^5.4.1",
+    "redis": "^4.6.10",
+    "redis-om": "^0.4.3",
     "vest": "^5.1.2"
   }
 }
