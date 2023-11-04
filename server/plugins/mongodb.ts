@@ -1,8 +1,9 @@
-export default defineNitroPlugin(async (app) => {
+export default defineNitroPlugin(async () => {
   const client = useDB()
   try {
     await client.connect()
-  } catch (e) {
+  }
+  catch (e) {
     console.error('failed to connect to mongodb:', e)
   }
 })

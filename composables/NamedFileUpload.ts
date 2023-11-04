@@ -1,27 +1,26 @@
-import { create, test, enforce, warn } from 'vest'
+import { create, enforce, test, warn } from 'vest'
 
-type NamedFileUploadOptions = { fileName: string; uploadURL: string }
+interface NamedFileUploadOptions { fileName: string; uploadURL: string }
 /**
  *
  * @param formRef should have a file input with name="file"
- * @param fileName
- * @returns
+ * @param options
  */
 export function useNamedFileUpload(
   formRef: MaybeRefOrGetter<HTMLFormElement>,
-  options: MaybeRefOrGetter<NamedFileUploadOptions>
+  options: MaybeRefOrGetter<NamedFileUploadOptions>,
 ) {
   const opts = computed(() => toValue(options))
   const {
     execute: upload,
     status,
-    error
+    error,
   } = useLazyFetch(opts.value.uploadURL, {
     method: 'POST',
     immediate: false,
     onRequest(req) {
       req.options.body = new FormData(toValue(formRef))
-    }
+    },
   })
   const suite = create<'file', '', (data: { file?: File }) => void>((data) => {
     test(
@@ -30,7 +29,7 @@ export function useNamedFileUpload(
       () => {
         warn()
         enforce(data.file?.name).equals(opts.value.fileName)
-      }
+      },
     )
   })
 
@@ -39,9 +38,9 @@ export function useNamedFileUpload(
   watchEffect(() => file.value && validate({ file: file.value }))
 
   function submit() {
-    if (results.value?.hasErrors()) {
+    if (results.value?.hasErrors())
       return
-    }
+
     upload()
   }
 
@@ -55,6 +54,6 @@ export function useNamedFileUpload(
     /** errors of the form submission request */
     error,
     /** validation results */
-    results
+    results,
   }
 }

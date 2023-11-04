@@ -1,3 +1,3 @@
 import { columns } from '../assets/columns'
 
-export default eventHandler(() => columns.map((col) => col.toLowerCase()))
+export default eventHandler(() => columns.map(col => col.toLowerCase()))

@@ -1,9 +1,9 @@
 <script lang="ts" setup>
 const props = defineProps<{ fileName: string; url: string }>()
 const form = ref()
-const { file, submit, error, status, results } = useNamedFileUpload(form, {
+const { file, submit, error: uploadError, status: uploadStatus, results } = useNamedFileUpload(form, {
   fileName: props.fileName,
-  uploadURL: props.url
+  uploadURL: props.url,
 })
 </script>
 
@@ -17,24 +17,32 @@ const { file, submit, error, status, results } = useNamedFileUpload(form, {
     <fieldset>
       <label for="file">Upload {{ props.fileName }}</label>
       <input
-        @change="file = $event.target.files[0]"
-        required
         id="file"
+        required
         name="file"
         type="file"
-      />
+        @change="file = $event.target.files[0]"
+      >
       <template v-if="results?.hasWarnings('file')">
         <template v-for="error of results.getWarnings('file')">
           {{ error }}
         </template>
       </template>
     </fieldset>
-    <button :disabled="results.hasErrors()">submit</button>
+    <button :disabled="results.hasErrors()">
+      submit
+    </button>
     <div>
       <p>
-        <template v-if="status === 'pending'"> uploading... </template>
-        <template v-if="status === 'success'"> done! </template>
-        <template v-if="status === 'error'"> uh oh... {{ error }} </template>
+        <template v-if="uploadStatus === 'pending'">
+          uploading...
+        </template>
+        <template v-if="uploadStatus === 'success'">
+          done!
+        </template>
+        <template v-if="uploadStatus === 'error'">
+          uh oh... {{ uploadError }}
+        </template>
       </p>
     </div>
   </form>

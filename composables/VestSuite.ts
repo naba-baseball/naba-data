@@ -1,4 +1,3 @@
-
 import type { Suite } from 'vest'
 import type { CB } from 'vest-utils'
 
@@ -20,7 +19,7 @@ const DEFAULT_CLASSES: Classes = {
   tested: undefined,
   invalid: undefined,
   warning: undefined,
-  untested: undefined
+  untested: undefined,
 }
 
 /**

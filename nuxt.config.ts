@@ -3,29 +3,29 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: ['@vueuse/nuxt'],
   nitro: {
-    esbuild:{
-      options:{
-        target: 'esnext'
-      }
+    esbuild: {
+      options: {
+        target: 'esnext',
+      },
     },
     storage: {
       files: {
         driver: 'fs',
-        base: '.files'
-      }
-    }
+        base: '.files',
+      },
+    },
   },
   routeRules: {
     '*': {
-      ssr: false
-    }
+      ssr: false,
+    },
   },
   experimental: {
-    asyncContext: true
+    asyncContext: true,
   },
   runtimeConfig: {
     public: {
-      csvServiceURL: 'http://localhost:3000/api'
-    }
-  }
+      csvServiceURL: 'http://localhost:3000/api',
+    },
+  },
 })
