@@ -1,13 +1,6 @@
 version: '3'
 
 services:
-  redis:
-    image: redis/redis-stack:latest
-    ports:
-      - "6379:6379"
-      - "8001:8001"
-    volumes:
-      - redis_data:/data
 
   mongodb:
     image: mongo:latest
@@ -17,5 +10,4 @@ services:
       - mongodb_data:/data/db
 
 volumes:
-  redis_data:
   mongodb_data:
