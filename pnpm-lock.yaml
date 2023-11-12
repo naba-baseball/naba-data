@@ -5,15 +5,21 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@fastify/busboy':
+    specifier: ^2.1.0
+    version: 2.1.0
+  graphql:
+    specifier: ^16.8.1
+    version: 16.8.1
   mongodb:
     specifier: ^6.2.0
     version: 6.2.0
   papaparse:
     specifier: ^5.4.1
     version: 5.4.1
-  vest:
-    specifier: ^5.1.2
-    version: 5.1.2
+  valibot:
+    specifier: ^0.20.1
+    version: 0.20.1
 
 devDependencies:
   '@antfu/eslint-config':
@@ -40,9 +46,6 @@ devDependencies:
   typescript:
     specifier: ^5.2.2
     version: 5.2.2
-  vest-utils:
-    specifier: ^1.1.0
-    version: 1.1.0
 
 packages:
 
@@ -892,10 +895,9 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@fastify/busboy@2.0.0:
-    resolution: {integrity: sha512-JUFJad5lv7jxj926GPgymrWQxxjPYuJNiNjNMzqT+HiuP6Vl3dk5xzG+8sTX96np0ZAluvaMzPsjhHZ5rNuNQQ==}
+  /@fastify/busboy@2.1.0:
+    resolution: {integrity: sha512-+KpH+QxZU7O4675t3mnkQKcZZg56u+K/Ct2K+N2AZYNVK8kyeo/bI18tI8aPm3tvNNRyTWfj6s5tnGNlcbQRsA==}
     engines: {node: '>=14'}
-    dev: true
 
   /@humanwhocodes/config-array@0.11.13:
     resolution: {integrity: sha512-JSBDMiDKSzQVngfRjOdFXgFfklaXI4K9nLF49Auh21lmBWRLIK3+xTErTWD4KU54pb6coM6ESE7Awz/FNU3zgQ==}
@@ -2845,12 +2847,6 @@ packages:
     resolution: {integrity: sha512-ty/fTekppD2fIwRvnZAVdeOiGd1c7YXEixbgJTNzqcxJWKQnjJ/V1bNEEE6hygpM3WjwHFUVK6HTjWSzV4a8sQ==}
     dev: true
 
-  /context@3.0.13:
-    resolution: {integrity: sha512-O9h6VbY8DxcSNTvQaZ3PM6Fj1Rxndr5TAwgTQU8bvJdM06jW8UZvg3wWw67JMX/GgngTI9j6NaZ+btk7nqD82A==}
-    dependencies:
-      vest-utils: 1.1.0
-    dev: false
-
   /convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
     dev: true
@@ -4277,6 +4273,11 @@ packages:
     resolution: {integrity: sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==}
     dev: true
 
+  /graphql@16.8.1:
+    resolution: {integrity: sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==}
+    engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
+    dev: false
+
   /gzip-size@7.0.0:
     resolution: {integrity: sha512-O1Ld7Dr+nqPnmGpdhzLmMTQ4vAsD+rHwMm1NLUmoUFFymBOMKxCCrtDxqdBRYXdeEPEi3SyoR4TizJLQrnKBNA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -5365,13 +5366,6 @@ packages:
   /ms@2.1.3:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: true
-
-  /n4s@5.0.7:
-    resolution: {integrity: sha512-sx4fxDohLqkiCDYOLtr/t8IukO2Ocq4WszA9rDjbWo376RFZOUcK91gTbN5BPo5r/RSCuLQWpmSKRC0RG4OUZQ==}
-    dependencies:
-      context: 3.0.13
-      vest-utils: 1.1.0
-    dev: false
 
   /nanoid@3.3.6:
     resolution: {integrity: sha512-BGcqMMJuToF7i1rt+2PWSNVnWIkGCU78jBG3RxO/bZlnZPK2Cmi2QaffxGO/2RvWi9sL+FAiRiXMgsyxQ1DIDA==}
@@ -7411,7 +7405,7 @@ packages:
     resolution: {integrity: sha512-iS857PdOEy/y3wlM3yRp+6SNQQ6xU0mmZcwRSriqk+et/cwWAtwmIGf6WkoDN2EK/AMdCO/dfXzIwi+rFMrjjQ==}
     engines: {node: '>=14.0'}
     dependencies:
-      '@fastify/busboy': 2.0.0
+      '@fastify/busboy': 2.1.0
     dev: true
 
   /unenv@1.7.4:
@@ -7623,6 +7617,10 @@ packages:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
     dev: true
 
+  /valibot@0.20.1:
+    resolution: {integrity: sha512-7lToTLG5wtK76u32gq8dUK0bAw7bknTGbeNSKRJunAC2soGVnNrKngg+38Jjt6FOwH+MshUONHoFz+LgmjeYKQ==}
+    dev: false
+
   /validate-npm-package-license@3.0.4:
     resolution: {integrity: sha512-DpKm2Ui/xN7/HQKCtpZxoRWBhZ9Z0kqtygG8XCgNQ8ZlDnxuQmWhj566j8fN4Cu3/JmbhsDo7fcAJq4s9h27Ew==}
     dependencies:
@@ -7636,32 +7634,6 @@ packages:
     dependencies:
       builtins: 5.0.1
     dev: true
-
-  /vast@1.0.22:
-    resolution: {integrity: sha512-y/Ehqj4dlSxlsoz+3uY3VkK/SvmRfUDKjZOoH3AEo4K60ewPpKfY1+rw4JAN85xjEo6tu5Y2PDYZVCwgEQN+Bw==}
-    dependencies:
-      vest-utils: 1.1.0
-    dev: false
-
-  /vest-utils@1.1.0:
-    resolution: {integrity: sha512-BL2XdKt38c5lugRQFrOsxefo5PWkOiUetnPTT/D51LXGMT83KX4au3x377Y3RpiOBxzrKEJkXJAtcrLSwel54Q==}
-
-  /vest@5.1.2:
-    resolution: {integrity: sha512-RHGCb09BSD6R2aqe6/KXAdrqI5TZRDt5bYslpGaA4BV+UGtI2l3kXS2ZF9uDGv3NRnB1/jik4enWJVGwzg8mKQ==}
-    dependencies:
-      context: 3.0.13
-      n4s: 5.0.7
-      vast: 1.0.22
-      vest-utils: 1.1.0
-      vestjs-runtime: 1.0.4
-    dev: false
-
-  /vestjs-runtime@1.0.4:
-    resolution: {integrity: sha512-FwM2guyYsnUyXQdEOUIqPTjzezSBLYgtDM7fD+y6gCjbR2ye9SoF6LX9B+GFkneXxpqRaTf3n99MyB12txSRmg==}
-    dependencies:
-      context: 3.0.13
-      vest-utils: 1.1.0
-    dev: false
 
   /vite-node@0.33.0:
     resolution: {integrity: sha512-19FpHYbwWWxDr73ruNahC+vtEdza52kA90Qb3La98yZ0xULqV8A5JLNPUff0f5zID4984tW7l3DH2przTJUZSw==}

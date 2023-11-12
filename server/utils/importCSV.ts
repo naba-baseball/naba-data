@@ -1,6 +1,6 @@
 import papa from 'papaparse'
 
-export async function extractRatingsFromCSV(
+export async function importCSV(
   fileName: string,
   collectionName: string,
 ) {

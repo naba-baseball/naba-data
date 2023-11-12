@@ -10,22 +10,25 @@ export default defineNuxtConfig({
     },
     storage: {
       files: {
-        driver: 'fs',
+        driver: 'fsLite',
         base: '.files',
       },
     },
   },
-  routeRules: {
-    '*': {
-      ssr: false,
-    },
-  },
+  ssr: false,
+  // routeRules: {
+  //   '*': {
+  //     ssr: false,
+  //   },
+  // },
   experimental: {
     asyncContext: true,
+    inlineRouteRules: true,
   },
   runtimeConfig: {
     public: {
-      csvServiceURL: 'http://localhost:3000/api',
+      graphqlURL: '',
+      restURL: '',
     },
   },
 })
