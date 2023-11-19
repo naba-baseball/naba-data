@@ -19,15 +19,7 @@ export default defineEventHandler(async (event) => {
   if (position)
     query.position = position
   const db = useDB()
-  const cursor = db.db('ratings').collection('players')
-    .find<Player>(query, { projection:
-        { first_name: 1, last_name: 1, position: 1, role: 1, age: 1, player_id: 1 } })
-    .limit(limit)
-    .skip(skip)
-  setResponseHeader(event, 'X-Total-Count', await db.db('ratings').collection('players').countDocuments(query))
-  const players = []
-  for await (const player of cursor)
-    players.push(player)
-
-  return players
+  const total = await db.players.count()
+  setResponseHeader(event, 'X-Total-Count', total)
+  return await db.players.findMany({ where: { position }, take: limit, skip })
 })

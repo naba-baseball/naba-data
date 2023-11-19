@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 const selectedFiles = ref<any[]>([])
 const { files, open } = useFileDialog({
-  accept: 'text/csv',
+  accept: 'text',
   multiple: true,
 })
 const requiredFiles = [
-  'players_pitching.csv',
-  'players_batting.csv',
-  'players_fielding.csv',
-  'players.csv',
-  'teams.csv',
+  'players_pitching.mysql.sql',
+  'players_batting.mysql.sql',
+  'players_fielding.mysql.sql',
+  'players.mysql.sql',
+  'teams.mysql.sql',
 ]
 watchEffect(() => {
   if (!files.value)
@@ -23,42 +23,23 @@ const missingFiles = computed(() => {
   const missingFiles = requiredFiles.filter(fileName => !selectedFiles.value.find(file => file.name === fileName))
   return missingFiles
 })
-
-function createFormBody(file: File) {
-  const body = new FormData()
-  body.append('file', file)
-  return body
-}
 async function submit() {
-  const playersBatting = selectedFiles.value.find(file => file.name === 'players_batting.csv')
-  const playersPitching = selectedFiles.value.find(file => file.name === 'players_pitching.csv')
-  const playersFielding = selectedFiles.value.find(file => file.name === 'players_fielding.csv')
-  const players = selectedFiles.value.find(file => file.name === 'players.csv')
-  const teams = selectedFiles.value.find(file => file.name === 'teams.csv')
-  const requests = [
-    $fetch('/api/upload', {
-      method: 'POST',
-      body: createFormBody(playersBatting),
-    }),
-    $fetch('/api/upload', {
-      method: 'POST',
-      body: createFormBody(playersPitching),
-    }),
-    $fetch('/api/upload', {
-      method: 'POST',
-      body: createFormBody(playersFielding),
-    }),
-    $fetch('/api/upload', {
-      method: 'POST',
-      body: createFormBody(players),
-    }),
-    $fetch('/api/upload', {
-      method: 'POST',
-      body: createFormBody(teams),
-    }),
-  ]
-  await Promise.all(requests)
-  await $fetch('/api/database', { method: 'PUT' })
+  const playersBatting = selectedFiles.value.find(file => file.name === 'players_batting.mysql.sql')
+  const playersPitching = selectedFiles.value.find(file => file.name === 'players_pitching.mysql.sql')
+  const playersFielding = selectedFiles.value.find(file => file.name === 'players_fielding.mysql.sql')
+  const players = selectedFiles.value.find(file => file.name === 'players.mysql.sql')
+  const teams = selectedFiles.value.find(file => file.name === 'teams.mysql.sql')
+  const body = new FormData()
+  body.append('file', playersBatting)
+  body.append('file', playersPitching)
+  body.append('file', playersFielding)
+  body.append('file', players)
+  body.append('file', teams)
+  await $fetch('/api/upload', {
+    method: 'POST',
+    body,
+  })
+  // await $fetch(`/api/database`, { method: 'PUT' })
 }
 const { execute, status: uploadStatus, error: uploadError } = useAsyncData(submit, { immediate: false })
 </script>

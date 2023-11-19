@@ -72,6 +72,11 @@ const { data: team } = await useFetch(`/api/teams/${useRoute().params.teamId}`)
           <td>{{ player.role }}</td>
           <td>{{ player.player_id }}</td>
           <td>{{ player.team_id }}</td>
+          <td>
+            <NuxtLink :to="`/players/${player.player_id}`">
+              details
+            </nuxtlink>
+          </td>
         </tr>
       </tbody>
       <tfoot>

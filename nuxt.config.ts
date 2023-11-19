@@ -29,6 +29,8 @@ export default defineNuxtConfig({
     public: {
       graphqlURL: '',
       restURL: '',
+      ratingsServiceURL: '',
     },
+    databaseURL: '',
   },
 })

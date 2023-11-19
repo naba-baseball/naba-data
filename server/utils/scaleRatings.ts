@@ -15,3 +15,9 @@ export function scaleRatings(value?: number) {
     return max
   return Math.ceil(result / 5) * 5
 }
+
+export function scaleObject(obj: Record<string, number>) {
+  for (const [key, value] of Object.entries(obj))
+    obj[key] = scaleRatings(value)
+  return obj
+}
