@@ -42,12 +42,19 @@ async function submit() {
   // await $fetch(`/api/database`, { method: 'PUT' })
 }
 const { execute, status: uploadStatus, error: uploadError } = useAsyncData(submit, { immediate: false })
+
+async function extract() {
+  await $fetch('/api/database', { method: 'PUT' })
+}
 </script>
 
 <template>
   <form name="select-files" @submit.prevent="execute">
     <button type="button" @click="open">
       select files
+    </button>
+    <button type="button" @click="extract">
+      extract
     </button>
     <div>
       <ul>

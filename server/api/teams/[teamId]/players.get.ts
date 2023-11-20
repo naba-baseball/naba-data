@@ -1,25 +1,44 @@
-import { coerce, number, object, optional, parse } from 'valibot'
+import { and, eq, sql } from 'drizzle-orm'
+import { coerce, object, optional, parse, union, unknown } from 'valibot'
 
 const Schema = object({
-  ...createPaginationSchema(),
-  position: optional(coerce(number(), Number)),
+  ...paginationSchema,
+  position: optional(
+    union(
+      [coerce(selectPlayersSchema.entries.position, Number), unknown()],
+    ),
+  ),
 })
 
 export default defineEventHandler(async (event) => {
   const teamId = Number(getRouterParam(event, 'teamId'))
-  const query: Record<string, any> = { team_id: teamId, retired: 0 }
+  const query = getQuery(event)
   let params
   try {
-    params = parse(Schema, getQuery(event))
+    params = parse(Schema, query)
   }
   catch (err) {
     return createError({ statusCode: 400, statusMessage: 'Bad Request', data: err })
   }
   const { position, limit, skip } = params
-  if (position)
-    query.position = position
   const db = useDB()
-  const total = await db.players.count()
-  setResponseHeader(event, 'X-Total-Count', total)
-  return await db.players.findMany({ where: { position }, take: limit, skip })
+  const [{ count }] = await db
+    .select({ count: sql<number>`count(${playersSchema.playerId})` })
+    .from(playersSchema)
+    .where(eq(playersSchema.teamId, teamId))
+  setResponseHeader(event, 'X-Total-Count', count)
+  const positionQuery = () => {
+    if (typeof position === 'number')
+      return eq(playersSchema.position, position)
+  }
+  return await db.select()
+    .from(playersSchema)
+    .where(
+      and(
+        eq(playersSchema.teamId, teamId),
+        positionQuery(),
+      ),
+    )
+    .orderBy(playersSchema.position)
+    .limit(limit).offset(skip)
 })

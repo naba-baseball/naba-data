@@ -4,8 +4,8 @@ const { data: teams } = useLazyFetch('/api/teams')
 
 <template>
   <ul>
-    <li v-for="team in teams || []" :key="team.team_id">
-      <NuxtLink :to="`/teams/${team.team_id}`">
+    <li v-for="team in teams || []" :key="team.teamId">
+      <NuxtLink :to="`/teams/${team.teamId}`">
         {{ team.name }} {{ team.nickname }}
       </NuxtLink>
     </li>

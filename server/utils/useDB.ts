@@ -1,8 +1,11 @@
-// import { MongoClient } from 'mongodb'
-import { PrismaClient } from '@prisma/client'
+import { drizzle } from 'drizzle-orm/mysql2'
+import mysql2 from 'mysql2/promise'
 
-// const client = new MongoClient(useRuntimeConfig().databaseURL)
+export const mysql2Connection = mysql2.createPool({
+  uri: useRuntimeConfig().databaseURL,
+})
+
 export function useDB() {
-  const client = new PrismaClient()
+  const client = drizzle(mysql2Connection)
   return client
 }

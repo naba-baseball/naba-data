@@ -2,17 +2,18 @@
 const query = ref({
   skip: 0,
   limit: 20,
+  position: 'all',
 })
 const total = ref(0)
-const { data: players } = await useLazyFetch(`/api/teams/${useRoute().params.teamId}/players`, {
+const { data: players, error } = await useLazyFetch(`/api/teams/${useRoute().params.teamId}/players`, {
   query,
   onResponse(ctx) {
     total.value = Number(ctx.response.headers.get('x-total-count')) ?? 0
   },
 })
-watchEffect(() => players.value = players.value?.toSorted((a, b) => a.position - b.position))
+// watchEffect(() => players.value = players.value?.toSorted((a, b) => a.position - b.position))
 // fetch team details
-const { data: team } = await useFetch(`/api/teams/${useRoute().params.teamId}`)
+const { data: team } = await useLazyFetch(`/api/teams/${useRoute().params.teamId}`, { default: () => ({}) })
 </script>
 
 <template>
@@ -22,7 +23,9 @@ const { data: team } = await useFetch(`/api/teams/${useRoute().params.teamId}`)
     </h1>
     <label for="position">Position</label>
     <select id="position" v-model="query.position">
-      <option selected />
+      <option selected>
+        all
+      </option>
       <option value="1">
         Pitchers
       </option>
@@ -60,20 +63,18 @@ const { data: team } = await useFetch(`/api/teams/${useRoute().params.teamId}`)
           <th>name</th>
           <th>position</th>
           <th>age</th>
-          <th>role</th>
-          <th>id</th>
-          <th>team id</th>
+          <th>team</th>
+          <th>view player</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="player of players" :key="player.player_id">
-          <td>{{ player.last_name }}, {{ player.first_name }}</td>
+        <tr v-for="player of players" :key="player.playerId">
+          <td>{{ player.lastName }}, {{ player.firstName }}</td>
           <td>{{ usePositionDisplay(player).value }}</td>
-          <td>{{ player.role }}</td>
-          <td>{{ player.player_id }}</td>
-          <td>{{ player.team_id }}</td>
+          <td>{{ player.age }}</td>
+          <td>{{ player.teamId }}</td>
           <td>
-            <NuxtLink :to="`/players/${player.player_id}`">
+            <NuxtLink :to="`/players/${player.playerId}`">
               details
             </nuxtlink>
           </td>

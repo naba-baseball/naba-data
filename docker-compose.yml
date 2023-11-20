@@ -10,8 +10,8 @@ services:
       MYSQL_PASSWORD: naba
     volumes:
       - db_data:/var/lib/mysql
+      - ./.files:/var/share/mysql-files
     ports:
       - 3306:3306
-
 volumes:
   db_data:

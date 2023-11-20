@@ -1,42 +1,6 @@
+import { eq } from 'drizzle-orm'
+
 export default eventHandler(async (event) => {
   const playerId = Number(getRouterParam(event, 'playerId'))
-  const data = await useDB().players_pitching.findFirst({ where: { player_id: { equals: playerId } }, select: {
-    pitching_ratings_overall_balk: true,
-    pitching_ratings_overall_control: true,
-    pitching_ratings_overall_hp: true,
-    pitching_ratings_overall_movement: true,
-    pitching_ratings_overall_stuff: true,
-    pitching_ratings_overall_wild_pitch: true,
-    pitching_ratings_pitches_curveball: true,
-    pitching_ratings_pitches_cutter: true,
-    pitching_ratings_pitches_knuckleball: true,
-    pitching_ratings_pitches_fastball: true,
-    pitching_ratings_pitches_changeup: true,
-    pitching_ratings_pitches_circlechange: true,
-    pitching_ratings_pitches_forkball: true,
-    pitching_ratings_pitches_knucklecurve: true,
-    pitching_ratings_pitches_screwball: true,
-    pitching_ratings_pitches_slider: true,
-    pitching_ratings_pitches_splitter: true,
-    pitching_ratings_pitches_sinker: true,
-    position: true,
-    pitching_ratings_vsr_balk: true,
-    pitching_ratings_vsr_control: true,
-    pitching_ratings_vsr_hp: true,
-    pitching_ratings_vsr_movement: true,
-    pitching_ratings_vsr_stuff: true,
-    pitching_ratings_vsr_wild_pitch: true,
-    pitching_ratings_vsl_balk: true,
-    pitching_ratings_vsl_control: true,
-    pitching_ratings_vsl_hp: true,
-    pitching_ratings_vsl_movement: true,
-    pitching_ratings_vsl_stuff: true,
-    pitching_ratings_vsl_wild_pitch: true,
-    pitching_ratings_misc_hold: true,
-    pitching_ratings_misc_stamina: true,
-    pitching_ratings_misc_ground_fly: true,
-    pitching_ratings_misc_arm_slot: true,
-
-  } })
-  return scaleObject(data)
+  return (await useDB().select().from(playersPitchingSchema).where(eq(playersPitchingSchema.playerId, playerId))).map(scaleObject)[0]
 })
