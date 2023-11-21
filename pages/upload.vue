@@ -23,7 +23,9 @@ const missingFiles = computed(() => {
   const missingFiles = requiredFiles.filter(fileName => !selectedFiles.value.find(file => file.name === fileName))
   return missingFiles
 })
+const statusMessage = ref()
 async function submit() {
+  statusMessage.value = 'uploading...'
   const playersBatting = selectedFiles.value.find(file => file.name === 'players_batting.mysql.sql')
   const playersPitching = selectedFiles.value.find(file => file.name === 'players_pitching.mysql.sql')
   const playersFielding = selectedFiles.value.find(file => file.name === 'players_fielding.mysql.sql')
@@ -39,22 +41,21 @@ async function submit() {
     method: 'POST',
     body,
   })
-  // await $fetch(`/api/database`, { method: 'PUT' })
-}
-const { execute, status: uploadStatus, error: uploadError } = useAsyncData(submit, { immediate: false })
-
-async function extract() {
+  statusMessage.value = 'extracting...'
   await $fetch('/api/database', { method: 'PUT' })
+  statusMessage.value = 'done :)'
 }
+const { execute, status, error, pending } = useAsyncData(submit, { immediate: false })
+watchEffect(() => {
+  if (error.value)
+    statusMessage.value = `error! ${error.value}`
+})
 </script>
 
 <template>
   <form name="select-files" @submit.prevent="execute">
     <button type="button" @click="open">
       select files
-    </button>
-    <button type="button" @click="extract">
-      extract
     </button>
     <div>
       <ul>
@@ -70,14 +71,8 @@ async function extract() {
     </template>
     <div>
       <p>
-        <template v-if="uploadStatus === 'pending'">
-          uploading...
-        </template>
-        <template v-if="uploadStatus === 'success'">
-          done!
-        </template>
-        <template v-if="uploadStatus === 'error'">
-          uh oh... {{ uploadError }}
+        <template v-if="pending || error || status === 'success'">
+          {{ statusMessage }}
         </template>
       </p>
     </div>
