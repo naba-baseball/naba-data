@@ -1,5 +1,6 @@
 -- Current sql file was generated after introspecting the database
 -- If you want to run this migration please uncomment this code before executing migrations
+
 CREATE TABLE `players` (
 	`player_id` int,
 	`team_id` int,
