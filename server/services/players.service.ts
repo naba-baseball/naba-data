@@ -1,7 +1,11 @@
 import { and, eq } from 'drizzle-orm'
 import { playersSchema, useDB } from '#imports'
 
-const db: ReturnType<typeof useDB> = useDB()
+const db = useDB()
+
+export function fromPlayers(selection: Parameters<typeof db.select>[0]) {
+  return db.select(selection).from(playersSchema)
+}
 
 export async function findById(playerId: number) {
   return (await db.select().from(playersSchema).where(eq(playersSchema.playerId, playerId))).map(scaleObject)[0]
