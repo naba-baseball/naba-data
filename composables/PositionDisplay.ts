@@ -1,5 +1,5 @@
 export function usePositionDisplay(
-  player: MaybeRefOrGetter<{ position: number; role: number }>,
+  player: MaybeRefOrGetter<{ position: number, role: number }>,
   isAbbreviated: MaybeRefOrGetter<boolean> = true,
 ) {
   const display = ref<string>('')

@@ -1,5 +1,5 @@
 import { date, int, mysqlTable, primaryKey, smallint, tinyint, varchar } from 'drizzle-orm/mysql-core'
-import { createInsertSchema, createSelectSchema } from 'drizzle-valibot'
+import { createSelectSchema } from 'drizzle-valibot'
 
 export const playersSchema = mysqlTable('players', {
   playerId: int('player_id'),

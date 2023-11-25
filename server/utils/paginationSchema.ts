@@ -1,4 +1,4 @@
-import { coerce, number, object, optional } from 'valibot'
+import { coerce, number, optional } from 'valibot'
 
 export const paginationSchema = {
   skip: optional(coerce(number(), Number), 0),

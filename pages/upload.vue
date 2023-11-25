@@ -55,12 +55,12 @@ watchEffect(() => {
     </button>
     <div>
       <ul>
-        <li v-for="file of selectedFiles">
+        <li v-for="file of selectedFiles" :key="file.name">
           {{ file.name }} / {{ file.size / 1000 }} KB / {{ new Date(file.lastModified).toLocaleString('en-us', { timeStyle: 'medium', dateStyle: 'short' }) }}
         </li>
       </ul>
     </div>
-    <template v-for="fileName of missingFiles">
+    <template v-for="fileName of missingFiles" :key="fileName">
       <div>
         missing {{ fileName }}
       </div>

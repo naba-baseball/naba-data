@@ -10,20 +10,17 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@fastify/busboy": "^2.1.0",
     "@pinia/nuxt": "^0.5.1",
     "@vueuse/router": "^10.6.1",
     "drizzle-orm": "^0.29.0",
     "drizzle-valibot": "^0.1.1",
-    "papaparse": "^5.4.1",
     "pinia": "^2.1.7",
-    "valibot": "^0.20.1"
+    "valibot": "^0.21.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.2.1",
+    "@antfu/eslint-config": "^2.1.0",
     "@nuxt/devtools": "^1.0.3",
     "@nuxtjs/hanko": "^0.5.0",
-    "@types/papaparse": "^5.3.13",
     "@vueuse/core": "^10.6.1",
     "@vueuse/nuxt": "^10.6.1",
     "drizzle-kit": "^0.20.4",
