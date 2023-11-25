@@ -1,5 +1,6 @@
-import { and, eq, sql } from 'drizzle-orm'
+import { eq, sql } from 'drizzle-orm'
 import { coerce, object, optional, parse, union, unknown } from 'valibot'
+import { findByTeam } from '@/server/services/players.service.js'
 
 const Schema = object({
   ...paginationSchema,
@@ -26,19 +27,6 @@ export default defineEventHandler(async (event) => {
     .select({ count: sql<number>`count(${playersSchema.playerId})` })
     .from(playersSchema)
     .where(eq(playersSchema.teamId, teamId))
-  const positionQuery = () => {
-    if (typeof position === 'number')
-      return eq(playersSchema.position, position)
-  }
-  const data = await db.select()
-    .from(playersSchema)
-    .where(
-      and(
-        eq(playersSchema.teamId, teamId),
-        positionQuery(),
-      ),
-    )
-    .orderBy(playersSchema.position)
-    .limit(limit).offset(skip)
+  const data = await findByTeam(teamId, { position, limit, skip })
   return { data, meta: { count } }
 })

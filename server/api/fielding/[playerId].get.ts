@@ -1,6 +1,6 @@
-import { eq } from 'drizzle-orm'
+import { findFieldingRatings } from '~/server/services/players.service.js'
 
 export default eventHandler(async (event) => {
   const playerId = Number(getRouterParam(event, 'playerId'))
-  return (await useDB().select().from(playersFieldingSchema).where(eq(playersFieldingSchema.playerId, playerId))).map(scaleObject)[0]
+  return findFieldingRatings(playerId)
 })

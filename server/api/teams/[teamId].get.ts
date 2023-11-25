@@ -1,7 +1,7 @@
-import { eq } from 'drizzle-orm'
+import { findById } from '~/server/services/teams.service.js'
 
 export default defineEventHandler(async (event) => {
   const teamId = Number(getRouterParam(event, 'teamId'))
-  const data = (await useDB().select().from(teamsSchema).where(eq(teamsSchema.teamId, teamId)))[0]
+  const data = await findById(teamId)
   return { data }
 })

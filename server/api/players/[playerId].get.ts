@@ -1,6 +1,6 @@
-import { eq } from 'drizzle-orm'
+import { findById } from '@/server/services/players.service.js'
 
 export default eventHandler(async (event) => {
   const playerId = Number(getRouterParam(event, 'playerId'))
-  return (await useDB().select().from(playersSchema).where(eq(playersSchema.playerId, playerId))).map(scaleObject)[0]
+  return await findById(playerId)
 })

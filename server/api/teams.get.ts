@@ -1,5 +1,5 @@
-import { gt, sql } from 'drizzle-orm'
+import { findAll } from '../services/teams.service.js'
 
-export default defineEventHandler(async (event) => {
-  return await useDB().select().from(teamsSchema).where(gt(teamsSchema.teamId, 0))
+export default defineEventHandler(async () => {
+  return await findAll()
 })
