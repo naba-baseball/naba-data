@@ -1,10 +1,10 @@
 export default eventHandler(async () => {
   await Promise.all([
-    importCSV('players.mysql.sql', 'players'),
-    importCSV('teams.mysql.sql', 'teams'),
-    importCSV('players_batting.mysql.sql', 'players_batting'),
-    importCSV('players_pitching.mysql.sql', 'players_pitching'),
-    importCSV('players_fielding.mysql.sql', 'players_fielding'),
+    setupDB('players.mysql.sql', 'players'),
+    setupDB('teams.mysql.sql', 'teams'),
+    setupDB('players_batting.mysql.sql', 'players_batting'),
+    setupDB('players_pitching.mysql.sql', 'players_pitching'),
+    setupDB('players_fielding.mysql.sql', 'players_fielding'),
   ])
   return 'ok'
 })

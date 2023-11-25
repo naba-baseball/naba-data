@@ -1,25 +1,31 @@
 <script lang="ts" setup>
-const query = ref({
-  skip: 0,
-  limit: 20,
-  position: 'all',
+import { useRouteQuery } from '@vueuse/router'
+
+const query = reactive({
+  skip: useRouteQuery('skip', '0', { transform: Number }),
+  limit: useRouteQuery('limit', '20', { transform: Number }),
+  position: useRouteQuery('position', 'all'),
 })
-const total = ref(0)
-const { data: players, error } = await useLazyFetch(`/api/teams/${useRoute().params.teamId}/players`, {
-  query,
-  onResponse(ctx) {
-    total.value = Number(ctx.response.headers.get('x-total-count')) ?? 0
-  },
-})
-// watchEffect(() => players.value = players.value?.toSorted((a, b) => a.position - b.position))
-// fetch team details
-const { data: team } = await useLazyFetch(`/api/teams/${useRoute().params.teamId}`, { default: () => ({}) })
+const limit = computedEager(() => query.limit)
+const skip = computedEager(() => query.skip)
+const position = computedEager(() => query.position)
+
+const [{ data: players }, { data: team }] = await Promise.all([
+  useFetch(`/api/teams/${useRoute().params.teamId}/players`, {
+    query: {
+      skip,
+      limit,
+      position,
+    },
+  }),
+  useFetch(`/api/teams/${useRoute().params.teamId}`),
+])
 </script>
 
 <template>
   <article>
-    <h1>
-      {{ team.name }}, {{ team.nickname }}
+    <h1 v-if="team">
+      {{ team.data?.name }}, {{ team.data?.nickname }}
     </h1>
     <label for="position">Position</label>
     <select id="position" v-model="query.position">
@@ -68,23 +74,21 @@ const { data: team } = await useLazyFetch(`/api/teams/${useRoute().params.teamId
         </tr>
       </thead>
       <tbody>
-        <tr v-for="player of players" :key="player.playerId">
+        <tr v-for="player of players?.data" :key="player.playerId">
           <td>{{ player.lastName }}, {{ player.firstName }}</td>
           <td>{{ usePositionDisplay(player).value }}</td>
           <td>{{ player.age }}</td>
           <td>{{ player.teamId }}</td>
           <td>
-            <NuxtLink :to="`/players/${player.playerId}`">
+            <nuxt-link :to="`/players/${player.playerId}`">
               details
-            </nuxtlink>
+            </nuxt-link>
           </td>
         </tr>
       </tbody>
       <tfoot>
-        total: {{ total }}
+        total: {{ players?.meta.count }}
       </tfoot>
     </table>
   </article>
 </template>
-
-<style></style>

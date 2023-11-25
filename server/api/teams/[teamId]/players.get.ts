@@ -26,12 +26,11 @@ export default defineEventHandler(async (event) => {
     .select({ count: sql<number>`count(${playersSchema.playerId})` })
     .from(playersSchema)
     .where(eq(playersSchema.teamId, teamId))
-  setResponseHeader(event, 'X-Total-Count', count)
   const positionQuery = () => {
     if (typeof position === 'number')
       return eq(playersSchema.position, position)
   }
-  return await db.select()
+  const data = await db.select()
     .from(playersSchema)
     .where(
       and(
@@ -41,4 +40,5 @@ export default defineEventHandler(async (event) => {
     )
     .orderBy(playersSchema.position)
     .limit(limit).offset(skip)
+  return { data, meta: { count } }
 })

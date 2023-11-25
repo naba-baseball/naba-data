@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@vueuse/nuxt'],
+  modules: ['@vueuse/nuxt', '@nuxtjs/hanko', '@pinia/nuxt'],
   nitro: {
     esbuild: {
       options: {
@@ -24,13 +24,9 @@ export default defineNuxtConfig({
   experimental: {
     asyncContext: true,
     inlineRouteRules: true,
+    headNext: true,
   },
   runtimeConfig: {
-    public: {
-      graphqlURL: '',
-      restURL: '',
-      ratingsServiceURL: '',
-    },
     databaseURL: '',
   },
 })
