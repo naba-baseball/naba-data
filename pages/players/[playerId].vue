@@ -8,20 +8,20 @@ const { data: fielding } = await useLazyFetch(`/api/fielding/${useRoute().params
 <template>
   <div class="player-details">
     <details>
-      <summary>
+      <summary data-exception="asfd">
         Details
       </summary>
       <table>
         <thead>
           <tr>
-            <th v-for="key of Object.keys(details)">
+            <th v-for="key of Object.keys(details)" :key="key">
               {{ key }}
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td v-for="value of Object.values(details)">
+            <td v-for="value of Object.values(details)" :key="value">
               {{ value }}
             </td>
           </tr>
@@ -33,7 +33,7 @@ const { data: fielding } = await useLazyFetch(`/api/fielding/${useRoute().params
         batting
       </summary>
       <dl>
-        <template v-for=" [key, val] of Object.entries(batting)">
+        <template v-for=" [key, val] of Object.entries(batting)" :key="key">
           <dt>
             {{ key }}
           </dt>
@@ -46,7 +46,7 @@ const { data: fielding } = await useLazyFetch(`/api/fielding/${useRoute().params
         pitching
       </summary>
       <dl>
-        <template v-for=" [key, val] of Object.entries(pitching)">
+        <template v-for=" [key, val] of Object.entries(pitching)" :key="key">
           <dt>
             {{ key }}
           </dt>
@@ -59,7 +59,7 @@ const { data: fielding } = await useLazyFetch(`/api/fielding/${useRoute().params
         fielding
       </summary>
       <dl>
-        <template v-for=" [key, val] of Object.entries(fielding)">
+        <template v-for=" [key, val] of Object.entries(fielding)" :key="key">
           <dt>
             {{ key }}
           </dt>

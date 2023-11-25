@@ -34,7 +34,7 @@ userStore.session = hanko.session.get()
           logout
         </button>
       </template>
-      <nuxt-link v-if="!userStore.session" to="/auth">
+      <nuxt-link v-if="!userStore.session" to="/login">
         login
       </nuxt-link>
       <nuxt-link to="/teams">

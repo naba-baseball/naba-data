@@ -1,4 +1,5 @@
-export default eventHandler(async () => {
+export default eventHandler(async (event) => {
+  await verifyHankoEvent(event)
   await Promise.all([
     setupDB('players.mysql.sql', 'players'),
     setupDB('teams.mysql.sql', 'teams'),

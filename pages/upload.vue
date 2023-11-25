@@ -1,5 +1,7 @@
 <script lang="ts" setup>
-const selectedFiles = ref<any[]>([])
+definePageMeta({
+  middleware: ['hanko-logged-in'],
+})
 const { files, open } = useFileDialog({
   accept: 'text',
   multiple: true,
@@ -11,13 +13,15 @@ const requiredFiles = [
   'players.mysql.sql',
   'teams.mysql.sql',
 ]
-watchEffect(() => {
+const selectedFiles = computed(() => {
+  const selectedFiles: File[] = []
   if (!files.value)
-    return
+    return selectedFiles
   for (const file of files.value) {
     if (requiredFiles.includes(file.name))
-      selectedFiles.value.push(file)
+      selectedFiles.push(file)
   }
+  return selectedFiles
 })
 const missingFiles = computed(() => {
   const missingFiles = requiredFiles.filter(fileName => !selectedFiles.value.find(file => file.name === fileName))
@@ -26,17 +30,9 @@ const missingFiles = computed(() => {
 const statusMessage = ref()
 async function submit() {
   statusMessage.value = 'uploading...'
-  const playersBatting = selectedFiles.value.find(file => file.name === 'players_batting.mysql.sql')
-  const playersPitching = selectedFiles.value.find(file => file.name === 'players_pitching.mysql.sql')
-  const playersFielding = selectedFiles.value.find(file => file.name === 'players_fielding.mysql.sql')
-  const players = selectedFiles.value.find(file => file.name === 'players.mysql.sql')
-  const teams = selectedFiles.value.find(file => file.name === 'teams.mysql.sql')
   const body = new FormData()
-  body.append('file', playersBatting)
-  body.append('file', playersPitching)
-  body.append('file', playersFielding)
-  body.append('file', players)
-  body.append('file', teams)
+  for (const file of selectedFiles.value)
+    body.append('file', file)
   await $fetch('/api/upload', {
     method: 'POST',
     body,

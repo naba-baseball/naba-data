@@ -3,7 +3,7 @@ import { useRouteQuery } from '@vueuse/router'
 
 const query = reactive({
   skip: useRouteQuery('skip', '0', { transform: Number }),
-  limit: useRouteQuery('limit', '20', { transform: Number }),
+  limit: useRouteQuery('limit', '0', { transform: Number }),
   position: useRouteQuery('position', 'all'),
 })
 const limit = computedEager(() => query.limit)
@@ -60,9 +60,9 @@ const [{ data: players }, { data: team }] = await Promise.all([
         Right Fielders
       </option>
     </select>
-    <button @click="() => { query.skip += 20 }">
+    <!-- <button @click="() => { query.skip += 20 }">
       fetch next
-    </button>
+    </button> -->
     <table>
       <thead>
         <tr>

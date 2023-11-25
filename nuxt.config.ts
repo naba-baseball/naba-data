@@ -29,4 +29,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     databaseURL: '',
   },
+  hanko: {
+    augmentContext: false,
+  },
 })
