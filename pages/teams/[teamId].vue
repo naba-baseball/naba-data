@@ -17,8 +17,9 @@ const [{ data: players }, { data: team }] = await Promise.all([
       limit,
       position,
     },
+    deep: false,
   }),
-  useFetch(`/api/teams/${useRoute().params.teamId}`),
+  useFetch(`/api/teams/${useRoute().params.teamId}`, { deep: false }),
 ])
 </script>
 
@@ -71,6 +72,11 @@ const [{ data: players }, { data: team }] = await Promise.all([
           <th>age</th>
           <th>team</th>
           <th>view player</th>
+          <th> contact </th>
+          <th> power </th>
+          <th> gap</th>
+          <th> eye </th>
+          <th> Avoid Ks </th>
         </tr>
       </thead>
       <tbody>
@@ -83,6 +89,21 @@ const [{ data: players }, { data: team }] = await Promise.all([
             <nuxt-link :to="`/players/${player.playerId}`">
               details
             </nuxt-link>
+          </td>
+          <td>
+            {{ player.batting.battingRatingsOverallContact }}
+          </td>
+          <td>
+            {{ player.batting.battingRatingsOverallPower }}
+          </td>
+          <td>
+            {{ player.batting.battingRatingsOverallGap }}
+          </td>
+          <td>
+            {{ player.batting.battingRatingsOverallEye }}
+          </td>
+          <td>
+            {{ player.batting.battingRatingsOverallStrikeouts }}
           </td>
         </tr>
       </tbody>
