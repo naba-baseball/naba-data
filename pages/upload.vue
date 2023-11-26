@@ -7,11 +7,13 @@ const { files, open } = useFileDialog({
   multiple: true,
 })
 const requiredFiles = [
-  'players_pitching.mysql.sql',
-  'players_batting.mysql.sql',
-  'players_fielding.mysql.sql',
-  'players.mysql.sql',
-  'teams.mysql.sql',
+  'teams.csv',
+  'team_roster.csv',
+  'players.csv',
+  'players_pitching.csv',
+  'players_batting.csv',
+  'players_fielding.csv',
+  'players_contract.csv',
 ]
 const selectedFiles = computed(() => {
   const selectedFiles: File[] = []

@@ -4,8 +4,8 @@ const { data: teams } = await useFetch('/api/teams')
 
 <template>
   <ul>
-    <li v-for="team in teams || []" :key="team.teamId">
-      <nuxt-link prefetch :to="`/teams/${team.teamId}`">
+    <li v-for="team in teams || []" :key="team.team_id">
+      <nuxt-link prefetch :to="`/teams/${team.team_id}`">
         {{ team.name }} {{ team.nickname }}
       </nuxt-link>
     </li>

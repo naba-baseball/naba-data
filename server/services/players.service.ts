@@ -1,14 +1,12 @@
-import { and, eq } from 'drizzle-orm'
-import { playersSchema, useDB } from '#imports'
+import { useDB } from '#imports'
 
-const db = useDB()
+const db = useDB().db('ratings')
 
-export function fromPlayers(selection: Parameters<typeof db.select>[0]) {
-  return db.select(selection).from(playersSchema)
+export function fromPlayers() {
+  return db.collection('players')
 }
-
 export async function findById(playerId: number) {
-  return (await db.select().from(playersSchema).where(eq(playersSchema.playerId, playerId))).map(scaleObject)[0]
+  return await fromPlayers().findOne({ player_id: playerId })
 }
 
 interface findByTeamOptions {
@@ -17,41 +15,9 @@ interface findByTeamOptions {
   skip?: number
 }
 export async function findByTeam(teamId: number, options: findByTeamOptions) {
-  const positionQuery = () => {
-    if (typeof options.position === 'number')
-      return eq(playersSchema.position, options.position)
-  }
-
-  const data = await db.select()
-    .from(playersSchema)
-    .where(
-      and(
-        eq(playersSchema.teamId, teamId),
-        positionQuery(),
-      ),
-    )
-    .orderBy(playersSchema.position)
-    .limit(options.limit || 0).offset(options.skip || 0)
+  const data = await fromPlayers().find({
+    team_id: teamId,
+    position: Number(options.position) || undefined,
+  }).sort({ position: 1 }).limit(options.limit || 0).skip(options.skip || 0).toArray()
   return data
-}
-
-export async function findPitchingRatings(playerId: number) {
-  const data = await db.select()
-    .from(playersPitchingSchema)
-    .where(eq(playersPitchingSchema.playerId, playerId))
-  return data.map(scaleObject)[0]
-}
-
-export async function findBattingRatings(playerId: number) {
-  const data = await db.select()
-    .from(playersBattingSchema)
-    .where(eq(playersBattingSchema.playerId, playerId))
-  return data.map(scaleObject)[0]
-}
-
-export async function findFieldingRatings(playerId: number) {
-  const data = await db.select()
-    .from(playersFieldingSchema)
-    .where(eq(playersFieldingSchema.playerId, playerId))
-  return data.map(scaleObject)[0]
 }

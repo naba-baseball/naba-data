@@ -1,10 +1,9 @@
-import { eq, gt } from 'drizzle-orm'
-import { teamsSchema, useDB } from '#imports'
+import { useDB } from '#imports'
 
-const db = useDB()
+const db = useDB().db('ratings')
 export async function findAll() {
-  return await db.select().from(teamsSchema).where(gt(teamsSchema.teamId, 0))
+  return await db.collection('teams').find({ team_id: { $gt: 0 } }).toArray()
 }
 export async function findById(teamId: number) {
-  return (await db.select().from(teamsSchema).where(eq(teamsSchema.teamId, teamId)))[0]
+  return await db.collection('teams').findOne({ team_id: teamId })
 }

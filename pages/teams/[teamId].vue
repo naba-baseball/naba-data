@@ -80,30 +80,30 @@ const [{ data: players }, { data: team }] = await Promise.all([
         </tr>
       </thead>
       <tbody>
-        <tr v-for="player of players?.data" :key="player.playerId">
-          <td>{{ player.lastName }}, {{ player.firstName }}</td>
+        <tr v-for="player of players?.data" :key="player.player_id">
+          <td>{{ player.last_name }}, {{ player.first_name }}</td>
           <td>{{ usePositionDisplay(player).value }}</td>
           <td>{{ player.age }}</td>
           <td>{{ player.teamId }}</td>
           <td>
-            <nuxt-link :to="`/players/${player.playerId}`">
+            <nuxt-link :to="`/players/${player.player_id}`">
               details
             </nuxt-link>
           </td>
           <td>
-            {{ player.batting.battingRatingsOverallContact }}
+            {{ player.batting.batting_ratings_overall_contact }}
           </td>
           <td>
-            {{ player.batting.battingRatingsOverallPower }}
+            {{ player.batting.batting_ratings_overall_power }}
           </td>
           <td>
-            {{ player.batting.battingRatingsOverallGap }}
+            {{ player.batting.batting_ratings_overall_gap }}
           </td>
           <td>
-            {{ player.batting.battingRatingsOverallEye }}
+            {{ player.batting.batting_ratings_overall_eye }}
           </td>
           <td>
-            {{ player.batting.battingRatingsOverallStrikeouts }}
+            {{ player.batting.batting_ratings_overall_strikeouts }}
           </td>
         </tr>
       </tbody>

@@ -1,8 +1,5 @@
 <script lang="ts" setup>
-const { data: details } = await useLazyFetch(`/api/players/${useRoute().params.playerId}`, { default: () => ({}) })
-const { data: batting } = await useLazyFetch(`/api/batting/${useRoute().params.playerId}`, { default: () => ({}) })
-const { data: pitching } = await useLazyFetch(`/api/pitching/${useRoute().params.playerId}`, { default: () => ({}) })
-const { data: fielding } = await useLazyFetch(`/api/fielding/${useRoute().params.playerId}`, { default: () => ({}) })
+const { data: player } = await useFetch(`/api/players/${useRoute().params.playerId}`, { default: () => ({}) })
 </script>
 
 <template>
@@ -14,14 +11,14 @@ const { data: fielding } = await useLazyFetch(`/api/fielding/${useRoute().params
       <table>
         <thead>
           <tr>
-            <th v-for="key of Object.keys(details)" :key="key">
+            <th v-for="key of Object.keys(player)" :key="key">
               {{ key }}
             </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td v-for="value of Object.values(details)" :key="value">
+            <td v-for="value of Object.values(player)" :key="value">
               {{ value }}
             </td>
           </tr>
@@ -33,7 +30,7 @@ const { data: fielding } = await useLazyFetch(`/api/fielding/${useRoute().params
         batting
       </summary>
       <dl>
-        <template v-for=" [key, val] of Object.entries(batting)" :key="key">
+        <template v-for=" [key, val] of Object.entries(player.batting)" :key="key">
           <dt>
             {{ key }}
           </dt>
@@ -46,7 +43,7 @@ const { data: fielding } = await useLazyFetch(`/api/fielding/${useRoute().params
         pitching
       </summary>
       <dl>
-        <template v-for=" [key, val] of Object.entries(pitching)" :key="key">
+        <template v-for=" [key, val] of Object.entries(player.pitching)" :key="key">
           <dt>
             {{ key }}
           </dt>
@@ -59,7 +56,7 @@ const { data: fielding } = await useLazyFetch(`/api/fielding/${useRoute().params
         fielding
       </summary>
       <dl>
-        <template v-for=" [key, val] of Object.entries(fielding)" :key="key">
+        <template v-for=" [key, val] of Object.entries(player.fielding)" :key="key">
           <dt>
             {{ key }}
           </dt>
