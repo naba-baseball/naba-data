@@ -1,17 +1,12 @@
-version: '3'
+version: '3.8'
 services:
-  db:
-    image: mariadb:latest
+  mongodb:
+    image: mongo:latest
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: naba
-      MYSQL_USER: naba
-      MYSQL_PASSWORD: naba
     volumes:
-      - db_data:/var/lib/mysql
-      - ./.files:/var/share/mysql-files
+      - mongodb_data:/data/db
     ports:
-      - 3306:3306
+      - 27017:27017
+
 volumes:
-  db_data:
+  mongodb_data:
