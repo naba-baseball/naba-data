@@ -5,6 +5,7 @@ const query = reactive({
   skip: useRouteQuery('skip', '0', { transform: Number }),
   limit: useRouteQuery('limit', '0', { transform: Number }),
   position: useRouteQuery('position', 'all'),
+  split: useRouteQuery('split', 'batting_overall'),
 })
 const limit = computedEager(() => query.limit)
 const skip = computedEager(() => query.skip)
@@ -21,6 +22,76 @@ const [{ data: players }, { data: team }] = await Promise.all([
   }),
   useFetch(`/api/teams/${useRoute().params.teamId}`, { deep: false }),
 ])
+
+const positionOptions = [
+  { value: '1', label: 'Pitchers' },
+  { value: '2', label: 'Catchers' },
+  { value: '3', label: 'First Basemen' },
+  { value: '4', label: 'Second Basemen' },
+  { value: '5', label: 'Third Basemen' },
+  { value: '6', label: 'Shortstops' },
+  { value: '7', label: 'Left Fielders' },
+  { value: '8', label: 'Center Fielders' },
+  { value: '9', label: 'Right Fielders' },
+]
+const splitOptions = [
+  { value: 'vsl', label: 'vs. Left' },
+  { value: 'vsr', label: 'vs. Right' },
+]
+const rosterType = ref(2)
+const filteredPlayers = computed(() => {
+  const primaryRoster = team.value.data.roster.filter(entry => entry.list_id === rosterType.value).map(entry => entry.player_id)
+  return players.value.data?.filter(player => primaryRoster.includes(player.player_id)) ?? []
+})
+
+const ratingsLabels = [
+  'babip',
+  'contact',
+  'eye',
+  'gap',
+  'hp',
+  'power',
+  'strikeouts',
+]
+
+const ratingsKeys = {
+  batting: {
+    overall: [
+      'batting_ratings_overall_babip',
+      'batting_ratings_overall_contact',
+      'batting_ratings_overall_eye',
+      'batting_ratings_overall_gap',
+      'batting_ratings_overall_hp',
+      'batting_ratings_overall_power',
+      'batting_ratings_overall_strikeouts',
+    ],
+    vsl: [
+      'batting_ratings_vsl_babip',
+      'batting_ratings_vsl_contact',
+      'batting_ratings_vsl_eye',
+      'batting_ratings_vsl_gap',
+      'batting_ratings_vsl_hp',
+      'batting_ratings_vsl_power',
+      'batting_ratings_vsl_strikeouts',
+    ],
+    vsr: [
+      'batting_ratings_vsr_babip',
+      'batting_ratings_vsr_contact',
+      'batting_ratings_vsr_eye',
+      'batting_ratings_vsr_gap',
+      'batting_ratings_vsr_hp',
+      'batting_ratings_vsr_power',
+      'batting_ratings_vsr_strikeouts',
+    ],
+  },
+}
+
+const splits = computed(() => {
+  return filteredPlayers.value?.map((player) => {
+    const [rating, split] = query.split.split('_')
+    return ratingsKeys[rating][split].map(key => player[rating][key])
+  }) ?? []
+})
 </script>
 
 <template>
@@ -28,42 +99,48 @@ const [{ data: players }, { data: team }] = await Promise.all([
     <h1 v-if="team">
       {{ team.data?.name }}, {{ team.data?.nickname }}
     </h1>
-    <label for="position">Position</label>
-    <select id="position" v-model="query.position">
-      <option selected>
-        all
-      </option>
-      <option value="1">
-        Pitchers
-      </option>
-      <option value="2">
-        Catchers
-      </option>
-      <option value="3">
-        First Basemen
-      </option>
-      <option value="4">
-        Second Basemen
-      </option>
-      <option value="5">
-        Third Basemen
-      </option>
-      <option value="6">
-        Shortstops
-      </option>
-      <option value="7">
-        Left Fielders
-      </option>
-      <option value="8">
-        Center Fielders
-      </option>
-      <option value="9">
-        Right Fielders
-      </option>
-    </select>
-    <!-- <button @click="() => { query.skip += 20 }">
-      fetch next
-    </button> -->
+    <fieldset>
+      <legend> Roster</legend>
+      <label>
+        Primary
+        <input v-model.number="rosterType" :value="2" type="radio" name="roster">
+      </label> <br>
+      <label>
+        Reserve
+        <input v-model.number="rosterType" :value="1" type="radio" name="roster">
+      </label>
+    </fieldset>
+    <fieldset>
+      <legend> filters </legend>
+      <label for="position">Position</label>
+      <select id="position" v-model="query.position" name="position">
+        <option selected>
+          all
+        </option>
+        <option v-for="option of positionOptions" :key="option.value" :value="option.value">
+          {{ option.label }}
+        </option>
+      </select>
+      <label name="split" for="split">Split</label>
+      <select id="split" v-model="query.split">
+        <optgroup label="Batting">
+          <option value="batting_overall" selected>
+            overall
+          </option>
+          <option v-for="option of splitOptions" :key="`batting_${option.value}`" :value="`batting_${option.value}`">
+            {{ option.label }}
+          </option>
+        </optgroup>
+        <optgroup label="Pitching">
+          <option value="pitching_overall" selected>
+            overall
+          </option>
+          <option v-for="option of splitOptions" :key="`pitching_${option.value}`" :value="`pitching_${option.value}`">
+            {{ option.label }}
+          </option>
+        </optgroup>
+      </select>
+    </fieldset>
     <table>
       <thead>
         <tr>
@@ -72,15 +149,13 @@ const [{ data: players }, { data: team }] = await Promise.all([
           <th>age</th>
           <th>team</th>
           <th>view player</th>
-          <th> contact </th>
-          <th> power </th>
-          <th> gap</th>
-          <th> eye </th>
-          <th> Avoid Ks </th>
+          <th v-for="label of ratingsLabels" :key="label">
+            {{ label }}
+          </th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="player of players?.data" :key="player.player_id">
+        <tr v-for="(player, i) of filteredPlayers" :key="player._id">
           <td>{{ player.last_name }}, {{ player.first_name }}</td>
           <td>{{ usePositionDisplay(player).value }}</td>
           <td>{{ player.age }}</td>
@@ -90,25 +165,14 @@ const [{ data: players }, { data: team }] = await Promise.all([
               details
             </nuxt-link>
           </td>
-          <td>
-            {{ player.batting.batting_ratings_overall_contact }}
-          </td>
-          <td>
-            {{ player.batting.batting_ratings_overall_power }}
-          </td>
-          <td>
-            {{ player.batting.batting_ratings_overall_gap }}
-          </td>
-          <td>
-            {{ player.batting.batting_ratings_overall_eye }}
-          </td>
-          <td>
-            {{ player.batting.batting_ratings_overall_strikeouts }}
+          <!-- eslint-disable-next-line vue/require-v-for-key -->
+          <td v-for="split of splits[i]">
+            {{ split }}
           </td>
         </tr>
       </tbody>
       <tfoot>
-        total: {{ players?.meta.count }}
+        total: {{ filteredPlayers.length }}
       </tfoot>
     </table>
   </article>
