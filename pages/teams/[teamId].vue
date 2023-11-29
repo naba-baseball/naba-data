@@ -37,6 +37,8 @@ const positionOptions = [
 const splitOptions = [
   { value: 'vsl', label: 'vs. Left' },
   { value: 'vsr', label: 'vs. Right' },
+  { value: 'talent', label: 'Potential' },
+
 ]
 const rosterType = ref(2)
 const filteredPlayers = computed(() => {
@@ -44,7 +46,7 @@ const filteredPlayers = computed(() => {
   return players.value.data?.filter(player => primaryRoster.includes(player.player_id)) ?? []
 })
 
-const ratingsLabels = [
+const battingLabels = [
   'babip',
   'contact',
   'eye',
@@ -53,6 +55,41 @@ const ratingsLabels = [
   'power',
   'strikeouts',
 ]
+const pitchingLabels = [
+  'balk',
+  'control',
+  'hp',
+  'movement',
+  'stuff',
+  'wild_pitch',
+]
+const pitchesLabels = [
+  'changeup',
+  'circlechange',
+  'curveball',
+  'cutter',
+  'fastball',
+  'forkball',
+  'knuckleball',
+  'knucklecurve',
+  'screwball',
+  'sinker',
+  'slider',
+  'splitter',
+]
+const ratingsLabels = computed(() => {
+  const [rating, split] = query.split.split('_')
+  if (rating === 'batting')
+    return battingLabels
+  if (rating === 'pitching') {
+    if (split === 'talent')
+      return [...pitchesLabels, ...pitchingLabels]
+    if (split === 'pitches')
+      return pitchesLabels
+    return pitchingLabels
+  }
+  return []
+})
 
 const ratingsKeys = {
   batting: {
@@ -82,6 +119,75 @@ const ratingsKeys = {
       'batting_ratings_vsr_hp',
       'batting_ratings_vsr_power',
       'batting_ratings_vsr_strikeouts',
+    ],
+    talent: [
+      'batting_ratings_talent_babip',
+      'batting_ratings_talent_contact',
+      'batting_ratings_talent_eye',
+      'batting_ratings_talent_gap',
+      'batting_ratings_talent_hp',
+      'batting_ratings_talent_power',
+      'batting_ratings_talent_strikeouts',
+    ],
+  },
+  pitching: {
+    overall: [
+      'pitching_ratings_overall_balk',
+      'pitching_ratings_overall_control',
+      'pitching_ratings_overall_hp',
+      'pitching_ratings_overall_movement',
+      'pitching_ratings_overall_stuff',
+      'pitching_ratings_overall_wild_pitch',
+    ],
+    vsl: [
+      'pitching_ratings_vsl_balk',
+      'pitching_ratings_vsl_control',
+      'pitching_ratings_vsl_hp',
+      'pitching_ratings_vsl_movement',
+      'pitching_ratings_vsl_stuff',
+      'pitching_ratings_vsl_wild_pitch',
+    ],
+    vsr: [
+      'pitching_ratings_vsr_balk',
+      'pitching_ratings_vsr_control',
+      'pitching_ratings_vsr_hp',
+      'pitching_ratings_vsr_movement',
+      'pitching_ratings_vsr_stuff',
+      'pitching_ratings_vsr_wild_pitch',
+    ],
+    pitches: [
+      'pitching_ratings_pitches_changeup',
+      'pitching_ratings_pitches_circlechange',
+      'pitching_ratings_pitches_curveball',
+      'pitching_ratings_pitches_cutter',
+      'pitching_ratings_pitches_fastball',
+      'pitching_ratings_pitches_forkball',
+      'pitching_ratings_pitches_knuckleball',
+      'pitching_ratings_pitches_knucklecurve',
+      'pitching_ratings_pitches_screwball',
+      'pitching_ratings_pitches_sinker',
+      'pitching_ratings_pitches_slider',
+      'pitching_ratings_pitches_splitter',
+    ],
+    talent: [
+      'pitching_ratings_pitches_talent_changeup',
+      'pitching_ratings_pitches_talent_circlechange',
+      'pitching_ratings_pitches_talent_curveball',
+      'pitching_ratings_pitches_talent_cutter',
+      'pitching_ratings_pitches_talent_fastball',
+      'pitching_ratings_pitches_talent_forkball',
+      'pitching_ratings_pitches_talent_knuckleball',
+      'pitching_ratings_pitches_talent_knucklecurve',
+      'pitching_ratings_pitches_talent_screwball',
+      'pitching_ratings_pitches_talent_sinker',
+      'pitching_ratings_pitches_talent_slider',
+      'pitching_ratings_pitches_talent_splitter',
+      'pitching_ratings_talent_balk',
+      'pitching_ratings_talent_control',
+      'pitching_ratings_talent_hp',
+      'pitching_ratings_talent_movement',
+      'pitching_ratings_talent_stuff',
+      'pitching_ratings_talent_wild_pitch',
     ],
   },
 }
@@ -114,11 +220,14 @@ const splits = computed(() => {
       <legend> filters </legend>
       <label for="position">Position</label>
       <select id="position" v-model="query.position" name="position">
-        <option selected>
+        <option value="all" selected>
           all
         </option>
-        <option v-for="option of positionOptions" :key="option.value" :value="option.value">
-          {{ option.label }}
+        <option value="batters">
+          Batters
+        </option>
+        <option value="pitchers">
+          Pitchers
         </option>
       </select>
       <label name="split" for="split">Split</label>
