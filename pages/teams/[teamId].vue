@@ -49,35 +49,35 @@ const filteredPlayers = computed(() => {
 })
 
 const battingLabels = [
-  'babip',
-  'contact',
-  'eye',
-  'gap',
-  'hp',
-  'power',
-  'strikeouts',
+  { label: 'babip', value: 'babip' },
+  { label: 'contact', value: 'contact' },
+  { label: 'eye', value: 'eye' },
+  { label: 'gap', value: 'gap' },
+  { label: 'hp', value: 'hp' },
+  { label: 'power', value: 'power' },
+  { label: 'strikeouts', value: 'strikeouts' },
 ]
 const pitchingLabels = [
-  'balk',
-  'control',
-  'hp',
-  'movement',
-  'stuff',
-  'wild_pitch',
+  { label: 'balk', value: 'balk' },
+  { label: 'control', value: 'control' },
+  { label: 'hp', value: 'hp' },
+  { label: 'movement', value: 'movement' },
+  { label: 'stuff', value: 'stuff' },
+  { label: 'wild_pitch', value: 'wild_pitch' },
 ]
 const pitchesLabels = [
-  'changeup',
-  'circlechange',
-  'curveball',
-  'cutter',
-  'fastball',
-  'forkball',
-  'knuckleball',
-  'knucklecurve',
-  'screwball',
-  'sinker',
-  'slider',
-  'splitter',
+  { label: 'changeup', value: 'changeup' },
+  { label: 'circlechange', value: 'circlechange' },
+  { label: 'curveball', value: 'curveball' },
+  { label: 'cutter', value: 'cutter' },
+  { label: 'fastball', value: 'fastball' },
+  { label: 'forkball', value: 'forkball' },
+  { label: 'knuckleball', value: 'knuckleball' },
+  { label: 'knucklecurve', value: 'knucklecurve' },
+  { label: 'screwball', value: 'screwball' },
+  { label: 'sinker', value: 'sinker' },
+  { label: 'slider', value: 'slider' },
+  { label: 'splitter', value: 'splitter' },
 ]
 const ratingsLabels = computed(() => {
   const [rating, split] = query.split.split('_')
@@ -164,8 +164,8 @@ const splits = computed(() => {
           <th @click="sortBy = 'age'">
             age
           </th>
-          <th v-for="label of ratingsLabels" :key="label">
-            {{ label }}
+          <th v-for="label of ratingsLabels" :key="label.value">
+            {{ label.label }}
           </th>
         </tr>
       </thead>
