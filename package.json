@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@pinia/nuxt": "^0.5.1",
+    "@unocss/nuxt": "^0.57.7",
     "@vueuse/router": "^10.6.1",
     "pinia": "^2.1.7",
     "valibot": "^0.21.0"

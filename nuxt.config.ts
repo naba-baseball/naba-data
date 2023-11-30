@@ -1,7 +1,8 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@vueuse/nuxt', '@nuxtjs/hanko', '@pinia/nuxt'],
+  modules: ['@vueuse/nuxt', '@nuxtjs/hanko', '@pinia/nuxt', '@unocss/nuxt'],
+  css: ['~/assets/reset.css'],
   nitro: {
     esbuild: {
       options: {
@@ -14,6 +15,9 @@ export default defineNuxtConfig({
         base: '.files',
       },
     },
+  },
+  vue: {
+    defineModel: true,
   },
   ssr: false,
   // routeRules: {
