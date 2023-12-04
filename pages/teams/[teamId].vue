@@ -49,12 +49,10 @@ const filteredPlayers = computed(() => {
 })
 
 const battingLabels = [
-  { label: 'babip', value: 'babip' },
   { label: 'contact', value: 'contact' },
-  { label: 'eye', value: 'eye' },
   { label: 'gap', value: 'gap' },
-  { label: 'hp', value: 'hp' },
   { label: 'power', value: 'power' },
+  { label: 'eye', value: 'eye' },
   { label: 'strikeouts', value: 'strikeouts' },
 ]
 const pitchingLabels = [
