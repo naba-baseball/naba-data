@@ -103,5 +103,24 @@ export default defineConfig({
     }
     `,
     },
+    {
+      getCSS: ({ theme }) => `
+      [data-rating="20"],[data-rating="25"]{
+        color: ${theme.colors.red[600]};
+      }
+      [data-rating="30"],[data-rating="35"],[data-rating="40"]{
+        color: ${theme.colors.orange[600]};
+      }
+      [data-rating="45"],[data-rating="50"]{
+        color: ${theme.colors.yellow[600]};
+      }
+      [data-rating="55"],[data-rating="60"],[data-rating="65"]{
+        color: ${theme.colors.green[600]};
+      }
+      [data-rating="70"],[data-rating="75"],[data-rating="80"]{
+        color: ${theme.colors.blue[600]};
+      }
+      `,
+    },
   ],
 })

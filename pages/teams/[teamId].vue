@@ -178,7 +178,7 @@ const splits = computed(() => {
           <td>{{ usePositionDisplay(player).value }}</td>
           <td>{{ player.age }}</td>
           <!-- eslint-disable-next-line vue/require-v-for-key -->
-          <td v-for="split of splits[i]">
+          <td v-for="split of splits[i]" :data-rating="split">
             {{ split }}
           </td>
         </tr>
