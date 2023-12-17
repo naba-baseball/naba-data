@@ -1,7 +1,6 @@
 import papa from 'papaparse'
 
 export default eventHandler(async (event) => {
-  await verifyHankoEvent(event)
   await useDB().db('ratings').dropDatabase()
   const db = useDB().db('ratings')
   const [teams, roster, players, batting, pitching, fielding, contract] = await Promise.all([

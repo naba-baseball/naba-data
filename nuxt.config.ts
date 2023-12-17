@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@vueuse/nuxt', '@nuxtjs/hanko', '@pinia/nuxt', '@unocss/nuxt'],
+  modules: ['@vueuse/nuxt', '@pinia/nuxt', '@unocss/nuxt'],
   css: ['~/assets/reset.css'],
   nitro: {
     esbuild: {
@@ -32,8 +32,5 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     databaseURL: '',
-  },
-  hanko: {
-    augmentContext: false,
   },
 })

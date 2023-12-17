@@ -1,7 +1,4 @@
 <script lang="ts" setup>
-definePageMeta({
-  middleware: ['hanko-logged-in'],
-})
 const { files, open } = useFileDialog({
   accept: 'text',
   multiple: true,
