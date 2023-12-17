@@ -19,17 +19,6 @@ export default defineNuxtConfig({
   vue: {
     defineModel: true,
   },
-  ssr: false,
-  // routeRules: {
-  //   '*': {
-  //     ssr: false,
-  //   },
-  // },
-  experimental: {
-    asyncContext: true,
-    inlineRouteRules: true,
-    headNext: true,
-  },
   runtimeConfig: {
     databaseURL: '',
   },

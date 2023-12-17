@@ -1,6 +1,11 @@
-import { defineConfig } from 'unocss'
+import { presetForms } from '@julr/unocss-preset-forms'
+import { defineConfig, presetUno } from 'unocss'
 
 export default defineConfig({
+  presets: [
+    presetUno(),
+    presetForms(),
+  ],
   content: {
     pipeline: {
       include: [
@@ -12,6 +17,17 @@ export default defineConfig({
     },
   },
   theme: {
+    colors: {
+      'primary': '#124E78',
+      'accent': '#F2BB05',
+      'red': '#6E0E0A',
+      'tertiary': '#d74e09',
+      'surface': '#EDF6FC',
+      'surface-contrast': '#DCEDFA',
+      'text': '#030B12',
+      'text-contrast': '#25415A',
+      'white': '#ffffff',
+    },
     fontSize: {
       'xs': 'clamp(0.6075rem, 0.5987rem + 0.0441vw, 0.64rem)',
       'sm': 'clamp(0.7294rem, 0.7102rem + 0.0958vw, 0.8rem)',
@@ -53,6 +69,8 @@ export default defineConfig({
   shortcuts: {
     'u-container': 'max-w-grid-max mx-auto px-grid-gutter',
     'u-grid': 'grid gap-grid-gutter',
+    'select': 'block rounded py-2xs ps-2xs pe-lg border-primary/30 shadow-sm border border-solid',
+    'tab-trigger': 'data-[active=false]:text-text-contrast cursor-pointer bg-transparent  p-2xs border-none',
   },
   preflights: [
     { getCSS: ({ theme }) => `
@@ -100,13 +118,14 @@ export default defineConfig({
       getCSS: ({ theme }) => `
     *,*::after,*::before {
       font-family: ${theme.fontFamily.sans};
+      color: ${theme.colors.text}
     }
     `,
     },
     {
       getCSS: ({ theme }) => `
       [data-rating="20"],[data-rating="25"]{
-        color: ${theme.colors.red[600]};
+        color: ${theme.colors.red};
       }
       [data-rating="30"],[data-rating="35"],[data-rating="40"]{
         color: ${theme.colors.orange[600]};

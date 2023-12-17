@@ -70,3 +70,9 @@ textarea:not([rows]) {
 :target {
   scroll-margin-block: 5ex;
 }
+
+table,td,th{
+  padding: 0;
+  border-spacing: 0;
+  font-weight: normal;
+}

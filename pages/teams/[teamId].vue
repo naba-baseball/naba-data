@@ -49,11 +49,13 @@ const filteredPlayers = computed(() => {
 })
 
 const battingLabels = [
-  { label: 'contact', value: 'contact' },
-  { label: 'gap', value: 'gap' },
-  { label: 'power', value: 'power' },
-  { label: 'eye', value: 'eye' },
-  { label: 'strikeouts', value: 'strikeouts' },
+  { label: 'BABIP', value: 'batting_ratings_overall_babip' },
+  { label: 'Contact', value: 'batting_ratings_overall_contact' },
+  { label: 'Eye', value: 'batting_ratings_overall_eye' },
+  { label: 'Gap', value: 'batting_ratings_overall_gap' },
+  { label: 'HP', value: 'batting_ratings_overall_hp' },
+  { label: 'Power', value: 'batting_ratings_overall_power' },
+  { label: 'Strikeouts', value: 'batting_ratings_overall_strikeouts' },
 ]
 const pitchingLabels = [
   { label: 'balk', value: 'balk' },
@@ -90,6 +92,13 @@ const ratingsLabels = computed(() => {
   }
   return []
 })
+
+const headers = computed(() => [
+  { label: 'Name', value: item => `${item.last_name}, ${item.first_name}` },
+  { label: 'Position', value: 'position' },
+  { label: 'Age', value: 'age' },
+  ...ratingsLabels.value,
+])
 
 const splits = computed(() => {
   return filteredPlayers.value?.map((player) => {
@@ -183,9 +192,6 @@ const splits = computed(() => {
           </td>
         </tr>
       </tbody>
-      <tfoot>
-        total: {{ filteredPlayers.length }}
-      </tfoot>
     </table>
   </article>
 </template>
