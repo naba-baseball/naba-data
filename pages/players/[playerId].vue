@@ -1,13 +1,14 @@
 <script lang="ts" setup>
-const { data: player } = await useFetch(`/api/players/${useRoute().params.playerId}`, { default: () => ({}) })
+const { data: player } = await useFetch(
+  `/api/players/${useRoute().params.playerId}`,
+  { default: () => ({}) },
+);
 </script>
 
 <template>
   <div class="player-details">
     <details>
-      <summary data-exception="asfd">
-        Details
-      </summary>
+      <summary data-exception="asfd">Details</summary>
       <table>
         <thead>
           <tr>
@@ -26,11 +27,12 @@ const { data: player } = await useFetch(`/api/players/${useRoute().params.player
       </table>
     </details>
     <details>
-      <summary>
-        batting
-      </summary>
+      <summary>batting</summary>
       <dl>
-        <template v-for=" [key, val] of Object.entries(player.batting)" :key="key">
+        <template
+          v-for="[key, val] of Object.entries(player.batting)"
+          :key="key"
+        >
           <dt>
             {{ key }}
           </dt>
@@ -39,11 +41,12 @@ const { data: player } = await useFetch(`/api/players/${useRoute().params.player
       </dl>
     </details>
     <details>
-      <summary>
-        pitching
-      </summary>
+      <summary>pitching</summary>
       <dl>
-        <template v-for=" [key, val] of Object.entries(player.pitching)" :key="key">
+        <template
+          v-for="[key, val] of Object.entries(player.pitching)"
+          :key="key"
+        >
           <dt>
             {{ key }}
           </dt>
@@ -52,11 +55,12 @@ const { data: player } = await useFetch(`/api/players/${useRoute().params.player
       </dl>
     </details>
     <details>
-      <summary>
-        fielding
-      </summary>
+      <summary>fielding</summary>
       <dl>
-        <template v-for=" [key, val] of Object.entries(player.fielding)" :key="key">
+        <template
+          v-for="[key, val] of Object.entries(player.fielding)"
+          :key="key"
+        >
           <dt>
             {{ key }}
           </dt>

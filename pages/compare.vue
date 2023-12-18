@@ -1,6 +1,4 @@
-<script lang="ts" setup>
-
-</script>
+<script lang="ts" setup></script>
 
 <template>
   <article>
@@ -8,6 +6,4 @@
   </article>
 </template>
 
-<style>
-
-</style>
+<style></style>

@@ -7,21 +7,19 @@ export function scaleRatings(value: number) {
   // THIS IS WHAT WAS FIGURED OUT ON THE FORUMS https://forums.ootpdevelopments.com/showthread.php?t=150501. Kinda old post
   // const result = (5 * Math.round(value / (50 / 3))) + 20
   // THIS SEEMS TO BE MORE ACCURATE
-  const result = 5 * Math.round(Math.ceil((5 * (value / (50 / 3))) + 20) / 5)
-  const max = 80
-  const min = 20
-  if (result < min)
-    return min
-  if (result > max)
-    return max
-  return result
+  const result = 5 * Math.round(Math.ceil(5 * (value / (50 / 3)) + 20) / 5);
+  const max = 80;
+  const min = 20;
+  if (result < min) return min;
+  if (result > max) return max;
+  return result;
   // return Math.ceil(result / 5) * 5
 }
 
 export function scaleObject(obj: Record<string, unknown>) {
   for (const [key, value] of Object.entries(obj)) {
-    if (typeof value === 'number' && key.toLowerCase().includes('rating'))
-      obj[key] = scaleRatings(value)
+    if (typeof value === "number" && key.toLowerCase().includes("rating"))
+      obj[key] = scaleRatings(value);
   }
-  return obj
+  return obj;
 }

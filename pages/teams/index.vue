@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { data: teams } = await useFetch('/api/teams')
+const { data: teams } = await useFetch("/api/teams");
 </script>
 
 <template>
@@ -12,6 +12,4 @@ const { data: teams } = await useFetch('/api/teams')
   </ul>
 </template>
 
-<style>
-
-</style>
+<style></style>

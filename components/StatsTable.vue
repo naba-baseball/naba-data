@@ -1,21 +1,17 @@
 <script lang="ts" setup generic="TData, TValue">
-import type { ColumnDef } from '@tanstack/vue-table'
-import {
-  FlexRender,
-  getCoreRowModel,
-  useVueTable,
-} from '@tanstack/vue-table'
+import type { ColumnDef } from "@tanstack/vue-table";
+import { FlexRender, getCoreRowModel, useVueTable } from "@tanstack/vue-table";
 
 const props = defineProps<{
-  data: TData[]
-  columns: ColumnDef<TData, TValue>[]
-}>()
+  data: TData[];
+  columns: ColumnDef<TData, TValue>[];
+}>();
 
 const table = useVueTable({
   data: props.data,
   columns: props.columns,
   getCoreRowModel: getCoreRowModel(),
-})
+});
 </script>
 
 <template>
@@ -27,7 +23,8 @@ const table = useVueTable({
           <slot name="header" :header="header">
             <th>
               <FlexRender
-                v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
+                v-if="!header.isPlaceholder"
+                :render="header.column.columnDef.header"
                 :props="header.getContext()"
               />
             </th>
@@ -39,14 +36,18 @@ const table = useVueTable({
     <tbody class="[&>tr:nth-child(even)]:bg-surface/70 [&_td]:p-2">
       <template v-if="table.getRowModel().rows?.length">
         <tr
-          v-for="row in table.getRowModel().rows" :key="row.id"
+          v-for="row in table.getRowModel().rows"
+          :key="row.id"
           :data-state="row.getIsSelected() ? 'selected' : undefined"
         >
           <template v-for="cell in row.getVisibleCells()" :key="cell.id">
             <slot name="start-row" :cell="cell" />
             <slot name="row" :cell="cell">
               <td>
-                <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+                <FlexRender
+                  :render="cell.column.columnDef.cell"
+                  :props="cell.getContext()"
+                />
               </td>
             </slot>
             <slot name="end-row" :cell="cell" />
@@ -68,7 +69,7 @@ const table = useVueTable({
 .base-table {
   & tr th {
     min-width: 10ch;
-    color: theme('colors.text-contrast');
+    color: theme("colors.text-contrast");
   }
 }
 </style>

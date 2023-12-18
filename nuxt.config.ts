@@ -1,18 +1,18 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@vueuse/nuxt', '@pinia/nuxt', '@unocss/nuxt'],
-  css: ['~/assets/reset.css'],
+  modules: ["@vueuse/nuxt", "@pinia/nuxt", "@unocss/nuxt"],
+  css: ["~/assets/reset.css"],
   nitro: {
     esbuild: {
       options: {
-        target: 'esnext',
+        target: "esnext",
       },
     },
     storage: {
       files: {
-        driver: 'fsLite',
-        base: '.files',
+        driver: "fsLite",
+        base: ".files",
       },
     },
   },
@@ -20,6 +20,6 @@ export default defineNuxtConfig({
     defineModel: true,
   },
   runtimeConfig: {
-    databaseURL: '',
+    databaseURL: "",
   },
-})
+});
