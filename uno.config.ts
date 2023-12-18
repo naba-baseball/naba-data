@@ -1,11 +1,12 @@
 import { presetForms } from '@julr/unocss-preset-forms'
-import { defineConfig, presetUno } from 'unocss'
+import { defineConfig, presetUno, transformerDirectives } from 'unocss'
 
 export default defineConfig({
   presets: [
     presetUno(),
     presetForms(),
   ],
+  transformers: [transformerDirectives()],
   content: {
     pipeline: {
       include: [

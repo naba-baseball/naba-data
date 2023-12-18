@@ -1,45 +1,74 @@
-<script lang="ts" setup generic="T">
+<script lang="ts" setup generic="TData, TValue">
+import type { ColumnDef } from '@tanstack/vue-table'
+import {
+  FlexRender,
+  getCoreRowModel,
+  useVueTable,
+} from '@tanstack/vue-table'
+
 const props = defineProps<{
-  sortBy?: string
-  items: T[]
-  itemId: string
-  headers: { label: string, value: string | ((item: T) => string) }[]
+  data: TData[]
+  columns: ColumnDef<TData, TValue>[]
 }>()
-const emit = defineEmits<{ 'update:sortBy': [val: string] }>()
-const sortBy = useVModel(props, 'sortBy', emit)
+
+const table = useVueTable({
+  data: props.data,
+  columns: props.columns,
+  getCoreRowModel: getCoreRowModel(),
+})
 </script>
 
 <template>
-  <table>
+  <table class="base-table">
     <thead>
-      <tr class="[&>th]:(text-text-contrast min-w-[10ch])">
-        <slot name="start-headers" />
-        <slot name="headers" :sort-by="props.sortBy">
-          <th v-for="header of props.headers" :key="header.value" :data-header="header.value">
-            <button @click="sortBy = header.value">
-              {{ header.label }}
-            </button>
-          </th>
-        </slot>
-        <slot name="end-headers" />
+      <tr v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
+        <template v-for="header in headerGroup.headers" :key="header.id">
+          <slot name="start-headers" :header="header" />
+          <slot name="header" :header="header">
+            <th>
+              <FlexRender
+                v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
+                :props="header.getContext()"
+              />
+            </th>
+          </slot>
+          <slot name="end-headers" :header="header" />
+        </template>
       </tr>
     </thead>
     <tbody class="[&>tr:nth-child(even)]:bg-surface/70 [&_td]:p-2">
-      <tr v-for="(item, i) of props.items" :key="item[props.itemId]">
-        <slot name="start-rows" />
-        <slot name="rows" :item="item">
-          <slot v-for="header of props.headers" :key="header.value">
-            <td :data-cell="header.value">
-              {{ item[header.value] }}
-            </td>
-          </slot>
-        </slot>
-        <slot name="end-rows" />
-      </tr>
+      <template v-if="table.getRowModel().rows?.length">
+        <tr
+          v-for="row in table.getRowModel().rows" :key="row.id"
+          :data-state="row.getIsSelected() ? 'selected' : undefined"
+        >
+          <template v-for="cell in row.getVisibleCells()" :key="cell.id">
+            <slot name="start-row" :cell="cell" />
+            <slot name="row" :cell="cell">
+              <td>
+                <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
+              </td>
+            </slot>
+            <slot name="end-row" :cell="cell" />
+          </template>
+        </tr>
+      </template>
+      <template v-else>
+        <tr>
+          <td :col-span="columns.length" class="h-24 text-center">
+            No results.
+          </td>
+        </tr>
+      </template>
     </tbody>
   </table>
 </template>
 
 <style>
-
+.base-table {
+  & tr th {
+    min-width: 10ch;
+    color: theme('colors.text-contrast');
+  }
+}
 </style>

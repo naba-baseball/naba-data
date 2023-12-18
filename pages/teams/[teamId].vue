@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { useRouteQuery } from '@vueuse/router'
+import type { ColumnDef } from '@tanstack/vue-table'
 
 const query = reactive({
   skip: useRouteQuery('skip', '0', { transform: Number }),
@@ -48,36 +49,36 @@ const filteredPlayers = computed(() => {
     .toSorted((a, b) => a[sortBy.value] - b[sortBy.value]) ?? []
 })
 
-const battingLabels = [
-  { label: 'BABIP', value: 'batting_ratings_overall_babip' },
-  { label: 'Contact', value: 'batting_ratings_overall_contact' },
-  { label: 'Eye', value: 'batting_ratings_overall_eye' },
-  { label: 'Gap', value: 'batting_ratings_overall_gap' },
-  { label: 'HP', value: 'batting_ratings_overall_hp' },
-  { label: 'Power', value: 'batting_ratings_overall_power' },
-  { label: 'Strikeouts', value: 'batting_ratings_overall_strikeouts' },
+const battingLabels: ColumnDef<any>[] = [
+  { header: () => h('div', { class: 'text-right' }, 'BAPIP'), accessorKey: 'batting.batting_ratings_overall_babip', cell: ({ cell }) => h('div', { 'class': 'text-right', 'data-rating': cell.getValue() }, cell.getValue() as number) },
+  { header: () => h('div', { class: 'text-right' }, 'Contact'), accessorKey: 'batting.batting_ratings_overall_contact', cell: ({ cell }) => h('div', { 'class': 'text-right', 'data-rating': cell.getValue() }, cell.getValue() as number) },
+  { header: () => h('div', { class: 'text-right' }, 'Eye'), accessorKey: 'batting.batting_ratings_overall_eye', cell: ({ cell }) => h('div', { 'class': 'text-right', 'data-rating': cell.getValue() }, cell.getValue() as number) },
+  { header: () => h('div', { class: 'text-right' }, 'Gap'), accessorKey: 'batting.batting_ratings_overall_gap', cell: ({ cell }) => h('div', { 'class': 'text-right', 'data-rating': cell.getValue() }, cell.getValue() as number) },
+  { header: () => h('div', { class: 'text-right' }, 'HP'), accessorKey: 'batting.batting_ratings_overall_hp', cell: ({ cell }) => h('div', { 'class': 'text-right', 'data-rating': cell.getValue() }, cell.getValue() as number) },
+  { header: () => h('div', { class: 'text-right' }, 'Power'), accessorKey: 'batting.batting_ratings_overall_power', cell: ({ cell }) => h('div', { 'class': 'text-right', 'data-rating': cell.getValue() }, cell.getValue() as number) },
+  { header: () => h('div', { class: 'text-right' }, 'Strikeouts'), accessorKey: 'batting.batting_ratings_overall_strikeouts', cell: ({ cell }) => h('div', { 'class': 'text-right', 'data-rating': cell.getValue() }, cell.getValue() as number) },
 ]
 const pitchingLabels = [
-  { label: 'balk', value: 'balk' },
-  { label: 'control', value: 'control' },
-  { label: 'hp', value: 'hp' },
-  { label: 'movement', value: 'movement' },
-  { label: 'stuff', value: 'stuff' },
-  { label: 'wild_pitch', value: 'wild_pitch' },
+  { header: 'balk', accessorKey: 'balk' },
+  { header: 'control', accessorKey: 'control' },
+  { header: 'hp', accessorKey: 'hp' },
+  { header: 'movement', accessorKey: 'movement' },
+  { header: 'stuff', accessorKey: 'stuff' },
+  { header: 'wild_pitch', accessorKey: 'wild_pitch' },
 ]
 const pitchesLabels = [
-  { label: 'changeup', value: 'changeup' },
-  { label: 'circlechange', value: 'circlechange' },
-  { label: 'curveball', value: 'curveball' },
-  { label: 'cutter', value: 'cutter' },
-  { label: 'fastball', value: 'fastball' },
-  { label: 'forkball', value: 'forkball' },
-  { label: 'knuckleball', value: 'knuckleball' },
-  { label: 'knucklecurve', value: 'knucklecurve' },
-  { label: 'screwball', value: 'screwball' },
-  { label: 'sinker', value: 'sinker' },
-  { label: 'slider', value: 'slider' },
-  { label: 'splitter', value: 'splitter' },
+  { header: 'changeup', accessorKey: 'changeup' },
+  { header: 'circlechange', accessorKey: 'circlechange' },
+  { header: 'curveball', accessorKey: 'curveball' },
+  { header: 'cutter', accessorKey: 'cutter' },
+  { header: 'fastball', accessorKey: 'fastball' },
+  { header: 'forkball', accessorKey: 'forkball' },
+  { header: 'knuckleball', accessorKey: 'knuckleball' },
+  { header: 'knucklecurve', accessorKey: 'knucklecurve' },
+  { header: 'screwball', accessorKey: 'screwball' },
+  { header: 'sinker', accessorKey: 'sinker' },
+  { header: 'slider', accessorKey: 'slider' },
+  { header: 'splitter', accessorKey: 'splitter' },
 ]
 const ratingsLabels = computed(() => {
   const [rating, split] = query.split.split('_')
@@ -93,10 +94,10 @@ const ratingsLabels = computed(() => {
   return []
 })
 
-const headers = computed(() => [
-  { label: 'Name', value: item => `${item.last_name}, ${item.first_name}` },
-  { label: 'Position', value: 'position' },
-  { label: 'Age', value: 'age' },
+const headers = computed<ColumnDef<{ player_id: string, first_name: string, last_name: string, age: number }>>(() => [
+  { header: 'Name', accessorFn: item => `${item.last_name}, ${item.first_name}` },
+  { header: 'Position', accessorKey: 'position' },
+  { header: 'Age', accessorKey: 'age' },
   ...ratingsLabels.value,
 ])
 
@@ -158,40 +159,6 @@ const splits = computed(() => {
         </optgroup>
       </select>
     </fieldset>
-    <table>
-      <thead>
-        <tr>
-          <th />
-          <th @click="sortBy = 'name'">
-            name
-          </th>
-          <th @click="sortBy = 'position'">
-            position
-          </th>
-          <th @click="sortBy = 'age'">
-            age
-          </th>
-          <th v-for="label of ratingsLabels" :key="label.value">
-            {{ label.label }}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(player, i) of filteredPlayers" :key="player._id">
-          <td>
-            <nuxt-link :to="`/players/${player.player_id}`">
-              details
-            </nuxt-link>
-          </td>
-          <td>{{ player.last_name }}, {{ player.first_name }}</td>
-          <td>{{ usePositionDisplay(player).value }}</td>
-          <td>{{ player.age }}</td>
-          <!-- eslint-disable-next-line vue/require-v-for-key -->
-          <td v-for="split of splits[i]" :data-rating="split">
-            {{ split }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <stats-table :columns="headers" :data="filteredPlayers" />
   </article>
 </template>
