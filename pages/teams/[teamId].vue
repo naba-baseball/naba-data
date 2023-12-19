@@ -187,41 +187,44 @@ const splits = computed(() => {
 
 <template>
   <article>
-    <h1 v-if="team">{{ team.data?.name }}, {{ team.data?.nickname }}</h1>
-    <fieldset>
-      <legend>Roster</legend>
-      <label>
-        Primary
-        <input
-          v-model.number="rosterType"
-          :value="2"
-          type="radio"
-          name="roster"
-        />
-      </label>
-      <br />
-      <label>
-        Reserve
-        <input
-          v-model.number="rosterType"
-          :value="1"
-          type="radio"
-          name="roster"
-        />
-      </label>
-    </fieldset>
+    <h1 v-if="team">
+      {{ team.data?.name }}, {{ team.data?.nickname }}
+    </h1>
+    <tabs-root v-model="rosterType">
+      <tabs-list class="relative flex shrink-0 border-b">
+        <client-only>
+          <tabs-indicator class="absolute px-8 left-0 h-[2px] bottom-0 w-[--radix-tabs-indicator-size] translate-x-[--radix-tabs-indicator-position] rounded-full transition-width,transform duration-300">
+            <div class="bg-accent w-full h-full" />
+          </tabs-indicator>
+        </client-only>
+        <tabs-trigger class="bg-transparent border-none whitespace-nowrap py-sm px-2xs text-sm font-medium" :value="2">
+          Primary
+        </tabs-trigger>
+        <tabs-trigger class="bg-transparent border-none whitespace-nowrap py-sm px-2xs text-sm font-medium" :value="1">
+          Reserve
+        </tabs-trigger>
+      </tabs-list>
+    </tabs-root>
     <fieldset>
       <legend>filters</legend>
       <label for="position">Position</label>
       <select id="position" v-model="query.position" name="position">
-        <option value="all" selected>all</option>
-        <option value="batters">Batters</option>
-        <option value="pitchers">Pitchers</option>
+        <option value="all" selected>
+          all
+        </option>
+        <option value="batters">
+          Batters
+        </option>
+        <option value="pitchers">
+          Pitchers
+        </option>
       </select>
       <label name="split" for="split">Split</label>
       <select id="split" v-model="query.split">
         <optgroup label="Batting">
-          <option value="batting_overall" selected>overall</option>
+          <option value="batting_overall" selected>
+            overall
+          </option>
           <option
             v-for="option of splitOptions"
             :key="`batting_${option.value}`"
@@ -231,7 +234,9 @@ const splits = computed(() => {
           </option>
         </optgroup>
         <optgroup label="Pitching">
-          <option value="pitching_overall" selected>overall</option>
+          <option value="pitching_overall" selected>
+            overall
+          </option>
           <option
             v-for="option of splitOptions"
             :key="`pitching_${option.value}`"

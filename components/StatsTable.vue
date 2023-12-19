@@ -7,11 +7,11 @@ const props = defineProps<{
   columns: ColumnDef<TData, TValue>[];
 }>();
 
-const table = useVueTable({
+const table = computed(() => useVueTable({
   data: props.data,
   columns: props.columns,
   getCoreRowModel: getCoreRowModel(),
-});
+}))
 </script>
 
 <template>
