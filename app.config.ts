@@ -1,7 +1,7 @@
 export default defineAppConfig({
   ui: {
-    primary: "primary",
-    gray: "gray",
+    primary: "blueish",
+    gray: "surface",
     table: {
       wrapper: "relative overflow-x-auto",
       base: "min-w-full table-fixed",

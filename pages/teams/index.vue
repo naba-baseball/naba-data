@@ -3,11 +3,11 @@ const { data: teams } = await useFetch("/api/teams");
 </script>
 
 <template>
-  <ul>
-    <li v-for="team in teams || []" :key="team.team_id">
-      <nuxt-link prefetch :to="`/teams/${team.team_id}`">
+  <ul class="mx-auto w-[90ch]">
+    <li v-for="team in teams || []" :key="team.team_id" class="hover:bg-gray-50 transition-colors p-1 rounded-lg">
+      <u-link class="border p-2 rounded-lg bg-white shadow w-full block" prefetch :to="`/teams/${team.team_id}`">
         {{ team.name }} {{ team.nickname }}
-      </nuxt-link>
+      </u-link>
     </li>
   </ul>
 </template>

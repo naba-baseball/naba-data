@@ -4,7 +4,8 @@ const db = useDB().db("ratings");
 export async function findAll() {
   return await db
     .collection("teams")
-    .find({ team_id: { $gt: 0 } })
+    .find({ team_id: { $gt: 0 }, allstar_team: 0 })
+    .sort({ name: "asc" })
     .toArray();
 }
 export async function findById(teamId: number) {

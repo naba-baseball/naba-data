@@ -7,7 +7,7 @@ import {
   union,
   unknown,
 } from "valibot";
-import { findByTeam, fromPlayers } from "@/server/services/players.service.js";
+import { findByTeam } from "@/server/services/players.service.js";
 
 const Schema = object({
   ...paginationSchema,
@@ -28,9 +28,6 @@ export default defineEventHandler(async (event) => {
     });
   }
   const { position, limit, skip } = params;
-  const [{ count }] = await fromPlayers()
-    .aggregate([{ $match: { team_id: { $eq: teamId } } }, { $count: "count" }])
-    .toArray();
   const data = await findByTeam(teamId, { position, limit, skip });
-  return { data, meta: { count } };
+  return data;
 });

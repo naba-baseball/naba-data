@@ -1,57 +1,4 @@
 <script lang="ts" setup>
-import { useRouteQuery } from "@vueuse/router";
-import type { ColumnDef } from "@tanstack/vue-table";
-const query = reactive({
-  skip: useRouteQuery("skip", "0", { transform: Number }),
-  limit: useRouteQuery("limit", "0", { transform: Number }),
-  position: useRouteQuery("position", "all"),
-  split: useRouteQuery("split", "batting_overall"),
-});
-const limit = computedEager(() => query.limit);
-const skip = computedEager(() => query.skip);
-const position = computedEager(() => query.position);
-
-const [{ data: players }, { data: team }] = await Promise.all([
-  useFetch(`/api/teams/${useRoute().params.teamId}/players`, {
-    query: {
-      skip,
-      limit,
-      position,
-    },
-    deep: false,
-  }),
-  useFetch(`/api/teams/${useRoute().params.teamId}`, { deep: false }),
-]);
-
-const positionOptions = [
-  { value: "1", label: "Pitchers" },
-  { value: "2", label: "Catchers" },
-  { value: "3", label: "First Basemen" },
-  { value: "4", label: "Second Basemen" },
-  { value: "5", label: "Third Basemen" },
-  { value: "6", label: "Shortstops" },
-  { value: "7", label: "Left Fielders" },
-  { value: "8", label: "Center Fielders" },
-  { value: "9", label: "Right Fielders" },
-];
-const splitOptions = [
-  { value: "vsl", label: "vs. Left" },
-  { value: "vsr", label: "vs. Right" },
-  { value: "talent", label: "Potential" },
-];
-const rosterType = ref(2);
-const sortBy = ref("position");
-const filteredPlayers = computed(() => {
-  const primaryRoster = team.value.data.roster
-    .filter((entry) => entry.list_id === rosterType.value)
-    .map((entry) => entry.player_id);
-  return (
-    players.value.data
-      ?.filter((player) => primaryRoster.includes(player.player_id))
-      .toSorted((a, b) => a[sortBy.value] - b[sortBy.value]) ?? []
-  );
-});
-
 const battingLabels = [
   {
     key: "batting.batting_ratings_overall_babip",
@@ -104,82 +51,39 @@ const pitchesLabels = [
   { label: "slider", key: "slider" },
   { label: "splitter", key: "splitter" },
 ];
-const ratingsLabels = computed(() => {
-  const [rating, split] = query.split.split("_");
-  if (rating === "batting") return battingLabels;
-  if (rating === "pitching") {
-    if (split === "talent") return [...pitchesLabels, ...pitchingLabels];
-    if (split === "pitches") return pitchesLabels;
-    return pitchingLabels;
-  }
-  return [];
-});
-
-const headers = computed(() => [
-  {key: 'name', label: 'Name'},
-  {key: 'position', label: 'Position'},
-  {key: 'age', label: 'Age'},
-  ...ratingsLabels.value
-])
-
-const splits = computed(() => {
-  return (
-    filteredPlayers.value?.map((player) => {
-      const [rating, split] = query.split.split("_");
-      return ratingsKeys[rating][split].map((key) => player[rating][key]);
-    }) ?? []
-  );
-});
+const route = useRoute()
+const {data: team} = await useFetch(`/api/teams/${route.params.teamId}`, { deep: false, key: 'team' })
 </script>
 
 <template>
-  <article>
-    <h1 v-if="team">
-      {{ team.data?.name }}, {{ team.data?.nickname }}
-    </h1>
-    <u-tabs :items="[{label: 'Main'}, {label: 'Reserve'}]" />
-    <fieldset>
-      <legend>filters</legend>
-      <label for="position">Position</label>
-      <select id="position" v-model="query.position" name="position">
-        <option value="all" selected>
-          all
-        </option>
-        <option value="batters">
-          Batters
-        </option>
-        <option value="pitchers">
-          Pitchers
-        </option>
-      </select>
-      <label name="split" for="split">Split</label>
-      <select id="split" v-model="query.split">
-        <optgroup label="Batting">
-          <option value="batting_overall" selected>
-            overall
-          </option>
-          <option
-            v-for="option of splitOptions"
-            :key="`batting_${option.value}`"
-            :value="`batting_${option.value}`"
-          >
-            {{ option.label }}
-          </option>
-        </optgroup>
-        <optgroup label="Pitching">
-          <option value="pitching_overall" selected>
-            overall
-          </option>
-          <option
-            v-for="option of splitOptions"
-            :key="`pitching_${option.value}`"
-            :value="`pitching_${option.value}`"
-          >
-            {{ option.label }}
-          </option>
-        </optgroup>
-      </select>
-    </fieldset>
-    <stats-table :columns="headers" :data="filteredPlayers" />
+  <article data-team class="p-md">
+    <div class=" max-w-md relative">
+      <div class="flex shadow-lg shadow-gray-100 dark:shadow-gray-800 p-md justify-between rounded-lg bg-[--team-bg] gap-md">
+        <h1 class="text-2xl font-bold uppercase tracking-wider text-[--team-text]">
+          {{ team.name }}, {{ team.nickname }}
+        </h1>
+        <img class="block absolute w-[12ch]  -right-[15%] bottom-[15%] rounded border-4 border-[--team-jersey-visor] bg-white" :src="`https://nabaleague.com/images/team_logos/${team.logo_file_name}`">
+      </div>
+    </div>
+    <div>
+      <u-link class="text-xl" :to="`/teams/${team.team_id}/batters`">
+        Batters
+      </u-link>
+    </div>
+    <div>
+      <NuxtPage />
+    </div>
   </article>
 </template>
+<style scoped>
+[data-team] {
+  --team-bg: color-mix(in srgb, v-bind('team.background_color_id'), #fff 60%);
+  --team-text: color-mix(in srgb, v-bind('team.text_color_id'), v-bind('team.background_color_id'), #000 5%);
+  --team-jersey-away: v-bind('team.jersey_away_color_id');
+  --team-jersey-main: v-bind('team.jersey_main_color_id');
+  --team-jersey-secondary: v-bind('team.jersey_secondary_color_id');
+  --team-jersey-stripes: v-bind('team.jersey_pin_stripes_color_id');
+  --team-jersey-ballcap: v-bind('team.ballcaps_main_color_id');
+  --team-jersey-visor: v-bind('team.ballcaps_visor_color_id');
+}
+</style>

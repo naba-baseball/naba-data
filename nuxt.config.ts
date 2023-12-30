@@ -15,10 +15,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  vue: {
-    defineModel: true,
-  },
   runtimeConfig: {
     databaseURL: "",
-  },
+  }
 });
