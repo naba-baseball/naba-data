@@ -1,8 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@vueuse/nuxt", "@pinia/nuxt", "@unocss/nuxt", 'radix-vue/nuxt'],
-  css: ["~/assets/reset.css"],
+  modules: ["@vueuse/nuxt", "radix-vue/nuxt", "@nuxt/ui"],
   nitro: {
     esbuild: {
       options: {

@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useRouteQuery } from "@vueuse/router";
 import type { ColumnDef } from "@tanstack/vue-table";
-
 const query = reactive({
   skip: useRouteQuery("skip", "0", { transform: Number }),
   limit: useRouteQuery("limit", "0", { transform: Number }),
@@ -53,99 +52,57 @@ const filteredPlayers = computed(() => {
   );
 });
 
-const battingLabels: ColumnDef<any>[] = [
+const battingLabels = [
   {
-    header: () => h("div", { class: "text-right" }, "BAPIP"),
-    accessorKey: "batting.batting_ratings_overall_babip",
-    cell: ({ cell }) =>
-      h(
-        "div",
-        { class: "text-right", "data-rating": cell.getValue() },
-        cell.getValue() as number,
-      ),
+    key: "batting.batting_ratings_overall_babip",
+    label: 'BABIP'
   },
   {
-    header: () => h("div", { class: "text-right" }, "Contact"),
-    accessorKey: "batting.batting_ratings_overall_contact",
-    cell: ({ cell }) =>
-      h(
-        "div",
-        { class: "text-right", "data-rating": cell.getValue() },
-        cell.getValue() as number,
-      ),
+    key: "batting.batting_ratings_overall_contact",
+    label: 'Contact'
   },
   {
-    header: () => h("div", { class: "text-right" }, "Eye"),
-    accessorKey: "batting.batting_ratings_overall_eye",
-    cell: ({ cell }) =>
-      h(
-        "div",
-        { class: "text-right", "data-rating": cell.getValue() },
-        cell.getValue() as number,
-      ),
+    key: "batting.batting_ratings_overall_eye",
+    label: 'Eye'
   },
   {
-    header: () => h("div", { class: "text-right" }, "Gap"),
-    accessorKey: "batting.batting_ratings_overall_gap",
-    cell: ({ cell }) =>
-      h(
-        "div",
-        { class: "text-right", "data-rating": cell.getValue() },
-        cell.getValue() as number,
-      ),
+    key: "batting.batting_ratings_overall_gap",
+    label: 'Gap'
   },
   {
-    header: () => h("div", { class: "text-right" }, "HP"),
-    accessorKey: "batting.batting_ratings_overall_hp",
-    cell: ({ cell }) =>
-      h(
-        "div",
-        { class: "text-right", "data-rating": cell.getValue() },
-        cell.getValue() as number,
-      ),
+    key: "batting.batting_ratings_overall_hp",
+    label: 'HP'
   },
   {
-    header: () => h("div", { class: "text-right" }, "Power"),
-    accessorKey: "batting.batting_ratings_overall_power",
-    cell: ({ cell }) =>
-      h(
-        "div",
-        { class: "text-right", "data-rating": cell.getValue() },
-        cell.getValue() as number,
-      ),
+    key: "batting.batting_ratings_overall_power",
+    label: 'Power'
   },
   {
-    header: () => h("div", { class: "text-right" }, "Strikeouts"),
-    accessorKey: "batting.batting_ratings_overall_strikeouts",
-    cell: ({ cell }) =>
-      h(
-        "div",
-        { class: "text-right", "data-rating": cell.getValue() },
-        cell.getValue() as number,
-      ),
+    key: "batting.batting_ratings_overall_strikeouts",
+    label: 'Ks'
   },
 ];
 const pitchingLabels = [
-  { header: "balk", accessorKey: "balk" },
-  { header: "control", accessorKey: "control" },
-  { header: "hp", accessorKey: "hp" },
-  { header: "movement", accessorKey: "movement" },
-  { header: "stuff", accessorKey: "stuff" },
-  { header: "wild_pitch", accessorKey: "wild_pitch" },
+  { label: "balk", key: "balk" },
+  { label: "control", key: "control" },
+  { label: "hp", key: "hp" },
+  { label: "movement", key: "movement" },
+  { label: "stuff", key: "stuff" },
+  { label: "wild_pitch", key: "wild_pitch" },
 ];
 const pitchesLabels = [
-  { header: "changeup", accessorKey: "changeup" },
-  { header: "circlechange", accessorKey: "circlechange" },
-  { header: "curveball", accessorKey: "curveball" },
-  { header: "cutter", accessorKey: "cutter" },
-  { header: "fastball", accessorKey: "fastball" },
-  { header: "forkball", accessorKey: "forkball" },
-  { header: "knuckleball", accessorKey: "knuckleball" },
-  { header: "knucklecurve", accessorKey: "knucklecurve" },
-  { header: "screwball", accessorKey: "screwball" },
-  { header: "sinker", accessorKey: "sinker" },
-  { header: "slider", accessorKey: "slider" },
-  { header: "splitter", accessorKey: "splitter" },
+  { label: "changeup", key: "changeup" },
+  { label: "circlechange", key: "circlechange" },
+  { label: "curveball", key: "curveball" },
+  { label: "cutter", key: "cutter" },
+  { label: "fastball", key: "fastball" },
+  { label: "forkball", key: "forkball" },
+  { label: "knuckleball", key: "knuckleball" },
+  { label: "knucklecurve", key: "knucklecurve" },
+  { label: "screwball", key: "screwball" },
+  { label: "sinker", key: "sinker" },
+  { label: "slider", key: "slider" },
+  { label: "splitter", key: "splitter" },
 ];
 const ratingsLabels = computed(() => {
   const [rating, split] = query.split.split("_");
@@ -158,22 +115,12 @@ const ratingsLabels = computed(() => {
   return [];
 });
 
-const headers = computed<
-  ColumnDef<{
-    player_id: string;
-    first_name: string;
-    last_name: string;
-    age: number;
-  }>
->(() => [
-  {
-    header: "Name",
-    accessorFn: (item) => `${item.last_name}, ${item.first_name}`,
-  },
-  { header: "Position", accessorKey: "position" },
-  { header: "Age", accessorKey: "age" },
-  ...ratingsLabels.value,
-]);
+const headers = computed(() => [
+  {key: 'name', label: 'Name'},
+  {key: 'position', label: 'Position'},
+  {key: 'age', label: 'Age'},
+  ...ratingsLabels.value
+])
 
 const splits = computed(() => {
   return (
@@ -190,21 +137,7 @@ const splits = computed(() => {
     <h1 v-if="team">
       {{ team.data?.name }}, {{ team.data?.nickname }}
     </h1>
-    <tabs-root v-model="rosterType">
-      <tabs-list class="relative flex shrink-0 border-b">
-        <client-only>
-          <tabs-indicator class="absolute px-8 left-0 h-[2px] bottom-0 w-[--radix-tabs-indicator-size] translate-x-[--radix-tabs-indicator-position] rounded-full transition-width,transform duration-300">
-            <div class="bg-accent w-full h-full" />
-          </tabs-indicator>
-        </client-only>
-        <tabs-trigger class="bg-transparent border-none whitespace-nowrap py-sm px-2xs text-sm font-medium" :value="2">
-          Primary
-        </tabs-trigger>
-        <tabs-trigger class="bg-transparent border-none whitespace-nowrap py-sm px-2xs text-sm font-medium" :value="1">
-          Reserve
-        </tabs-trigger>
-      </tabs-list>
-    </tabs-root>
+    <u-tabs :items="[{label: 'Main'}, {label: 'Reserve'}]" />
     <fieldset>
       <legend>filters</legend>
       <label for="position">Position</label>
