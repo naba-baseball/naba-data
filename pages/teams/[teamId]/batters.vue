@@ -1,11 +1,13 @@
 <script setup>
 import { useRouteQuery } from "@vueuse/router";
-
+const { split, getSplit } = useBattingSplits();
 const query = reactive({
   split: useRouteQuery("split", "batting_ratings_overall"),
   roster: useRouteQuery("roster", 2, { transform: Number }),
 });
-
+watchEffect(() => {
+  split.value = query.split;
+});
 const positionOptions = [
   { value: "1", label: "Pitchers" },
   { value: "2", label: "Catchers" },
@@ -17,12 +19,6 @@ const positionOptions = [
   { value: "8", label: "Center Fielders" },
   { value: "9", label: "Right Fielders" },
 ];
-
-const bats = {
-  1: "R",
-  2: "L",
-  3: "S",
-};
 
 const columns = [
   { key: "player_id", label: "ID" },
@@ -69,7 +65,7 @@ const filteredPlayers = computed(() => {
       tablePlayer.player_id = player.player_id;
       tablePlayer.age = player.age;
       tablePlayer.name = `${player.first_name} ${player.last_name}`;
-      tablePlayer.bats = bats[player.bats];
+      tablePlayer.bats = useBatsAbbreviation(player).value;
       tablePlayer.position = getAbbreviatedPosition(player.position);
       tablePlayer.contact = getSplit(player, "contact");
       tablePlayer.eye = getSplit(player, "eye");
@@ -78,38 +74,13 @@ const filteredPlayers = computed(() => {
       tablePlayer.strikeouts = getSplit(player, "strikeouts");
       return tablePlayer;
     });
-  // if(query.roster === 2) {
-  //   return primaryRoster.value.map((id) => players.value.find((player) => player.player_id === id))
-  // } else {
-  //   return reserveRoster.value.map((id) => players.value.find((player) => player.player_id === id))
-  // }
 });
-
-function getSplit(player, rating) {
-  return player.batting[`${query.split}_${rating}`];
-}
-const splitOptions = [
-  { value: "batting_ratings_overall", label: "Overall" },
-  { value: "batting_ratings_vsl", label: "vs. Left" },
-  { value: "batting_ratings_vsr", label: "vs. Right" },
-  { value: "batting_ratings_talent", label: "Potential" },
-];
-const getColKey = (col) => {
-  return col.key;
-};
 </script>
 
 <template>
   <div class="flex flex-col gap-6">
     <div class="flex gap-3">
-      <u-form-group label="Split">
-        <u-select
-          id="split"
-          v-model="query.split"
-          name="split"
-          :options="splitOptions"
-        />
-      </u-form-group>
+      <batting-split v-model="query.split" />
       <u-form-group label="Roster">
         <u-select
           id="roster"

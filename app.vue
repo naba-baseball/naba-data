@@ -3,8 +3,8 @@ const color = useColorMode()
 color.preference = 'light'
 </script>
 <template>
-  <div>
-    <nav>
+  <div class="mx-lg">
+    <nav class="my-sm">
       <u-link to="/">
         home
       </u-link>

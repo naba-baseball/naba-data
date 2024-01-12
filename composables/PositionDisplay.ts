@@ -15,5 +15,5 @@ export function usePositionDisplay(
       return (display.value = getFullRole(playerValue.role));
     return (display.value = getFullPosition(playerValue.position));
   });
-  return display;
+  return readonly(display);
 }

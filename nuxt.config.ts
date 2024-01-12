@@ -17,5 +17,8 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     databaseURL: "",
+  },
+  experimental:{
+    inlineRouteRules: true
   }
 });

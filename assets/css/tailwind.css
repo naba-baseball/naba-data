@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .flow-flex {
+    gap: var(--flow-space, theme('spacing.sm'));
+    display: flex;
+  }
+  .flow-grid {
+    gap: var(--flow-space, theme('spacing.sm'));
+    display: grid;
+  }
+}
 
 [data-rating="20"],
 [data-rating="25"] {
@@ -25,4 +35,8 @@
 [data-rating="75"],
 [data-rating="80"] {
   color: theme(colors.rating.blue);
+}
+
+* {
+  color: theme(colors.surface.900);
 }

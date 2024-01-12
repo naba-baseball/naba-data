@@ -63,5 +63,16 @@ export default defineAppConfig({
         },
       },
     },
+    card: {
+      header: {
+        padding: "px-2xs py-2xs",
+      },
+      base: {
+        padding: "px-2xs py-2xs",
+      },
+      footer:{
+        padding: "px-2xs py-2xs",
+      }
+    },
   },
 });
