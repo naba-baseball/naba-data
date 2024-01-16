@@ -1,0 +1,24 @@
+[data-rating="20"],
+[data-rating="25"] {
+  /* color: theme(colors.rating.red); */
+  @apply text-rating-red;
+}
+[data-rating="30"],
+[data-rating="35"],
+[data-rating="40"] {
+  @apply text-rating-orange;
+}
+[data-rating="45"],
+[data-rating="50"] {
+  @apply text-rating-yellow;
+}
+[data-rating="55"],
+[data-rating="60"],
+[data-rating="65"] {
+  @apply text-rating-green;
+}
+[data-rating="70"],
+[data-rating="75"],
+[data-rating="80"] {
+  @apply text-rating-blue;
+}

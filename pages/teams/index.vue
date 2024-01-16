@@ -1,21 +1,16 @@
 <script lang="ts" setup>
-const { data: teams } = await useFetch("/api/teams", { key: "teams" });
+const { data: teams } = useTeamsStore();
 </script>
 
 <template>
-  <ul class="mx-auto w-[90ch]">
-    <li
-      v-for="team in teams || []"
-      :key="team.team_id"
-      class="hover:bg-gray-50 transition-colors p-1 rounded-lg"
-    >
-      <u-link
-        class="border p-2 rounded-lg bg-white shadow w-full block"
-        prefetch
-        :to="`/teams/${team.team_id}`"
-      >
-        {{ team.name }} {{ team.nickname }}
-      </u-link>
+  <ul class="mx-auto w-[90ch]" flex="~ col" gap-4>
+    <li v-for="team in teams || []" :key="team.team_id">
+      <NuxtLink prefetch :to="`/teams/${team.team_id}`">
+        <VSheet class="p-4 !flex justify-between" rounded border>
+          <span> {{ team.name }} {{ team.nickname }} </span>
+          <v-icon>mdi-arrow-right</v-icon>
+        </VSheet>
+      </NuxtLink>
     </li>
   </ul>
 </template>

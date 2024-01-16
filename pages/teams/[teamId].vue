@@ -66,9 +66,9 @@ const {data: team} = await useFetch(`/api/teams/${route.params.teamId}`, { deep:
       </div>
     </div>
     <div>
-      <u-link class="text-xl" :to="`/teams/${team.team_id}/batters`">
+      <nuxt-link class="text-xl" :to="`/teams/${team.team_id}/batters`">
         Batters
-      </u-link>
+      </nuxt-link>
     </div>
     <div>
       <NuxtPage />

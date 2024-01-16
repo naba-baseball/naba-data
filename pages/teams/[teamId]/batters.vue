@@ -21,16 +21,16 @@ const positionOptions = [
 ];
 
 const columns = [
-  { key: "player_id", label: "ID" },
-  { key: "name", label: "Name" },
-  { key: "bats", label: "Bats" },
-  { key: "age", label: "Age" },
-  { key: "position", label: "Position" },
-  { key: "contact", label: "Contact" },
-  { key: "eye", label: "Eye" },
-  { key: "gap", label: "Gap" },
-  { key: "power", label: "Power" },
-  { key: "strikeouts", label: "Ks" },
+  { value: "player_id", label: "ID" },
+  { value: "name", label: "Name" },
+  { value: "bats", label: "Bats" },
+  { value: "age", label: "Age" },
+  { value: "position", label: "Position" },
+  { value: "contact", label: "Contact" },
+  { value: "eye", label: "Eye" },
+  { value: "gap", label: "Gap" },
+  { value: "power", label: "Power" },
+  { value: "strikeouts", label: "Ks" },
 ];
 const { data: team } = useNuxtData("team");
 
@@ -80,35 +80,33 @@ const filteredPlayers = computed(() => {
 <template>
   <div class="flex flex-col gap-6">
     <div class="flex gap-3">
-      <batting-split v-model="query.split" />
-      <u-form-group label="Roster">
-        <u-select
-          id="roster"
-          v-model="query.roster"
-          name="roster"
-          :options="[
-            { label: 'Primary', value: 2 },
-            { label: 'Reserve', value: 1 },
-          ]"
-        />
-      </u-form-group>
+      <BattingSplitSelect v-model="query.split" />
+      <VSelect
+        label="Roster"
+        id="roster"
+        v-model="query.roster"
+        name="roster"
+        :items="[
+          { title: 'Primary', value: 2 },
+          { title: 'Reserve', value: 1 },
+        ]"
+      />
     </div>
-    <u-table
+    <VDataTable
       v-if="players"
       class="w-[120ch]"
       :columns="columns"
-      :rows="filteredPlayers"
-      :ui="{ td: { padding: 'py-1 px-3' }, th: { padding: 'py-1 px-3' } }"
+      :items="filteredPlayers"
     >
       <template
         v-for="rating of ['contact', 'eye', 'gap', 'power', 'strikeouts']"
         :key="rating"
-        #[`${rating}-data`]="{ row }"
+        #[`item.${rating}`]="{ item }"
       >
-        <div :data-rating="row[rating]">
-          {{ row[rating] }}
+        <div :data-rating="item[rating]">
+          {{ item[rating] }}
         </div>
       </template>
-    </u-table>
+    </VDataTable>
   </div>
 </template>

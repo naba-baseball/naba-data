@@ -4,15 +4,15 @@
   <article>
     <h1>NABA Data</h1>
     <p>
-      Find a <u-link to="/teams">
+      Find a <nuxt-link to="/teams">
         team
-      </u-link>,
-      <u-link to="/players">
+      </nuxt-link>,
+      <nuxt-link to="/players">
         player
-      </u-link>, or
-      <u-link to="/compare">
+      </nuxt-link>, or
+      <nuxt-link to="/compare">
         compare stats
-      </u-link>
+      </nuxt-link>
     </p>
   </article>
 </template>
