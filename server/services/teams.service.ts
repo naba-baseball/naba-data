@@ -11,3 +11,4 @@ export async function findAll() {
 export async function findById(teamId: number) {
   return await db.collection("teams").findOne({ team_id: teamId });
 }
+

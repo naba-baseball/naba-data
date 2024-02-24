@@ -10,7 +10,7 @@ const { split, roster, team } = toRefs(lineupsStore);
 <template>
   <fieldset class="flex gap-sm">
     <TeamSelect color="primary" v-model="team" />
-    <BattingSplitSelect v-model="split" />
+    <SplitSelect v-model="split" />
     <VSelect label="Roster" v-model="roster" :items="rosterOptions" />
   </fieldset>
 </template>

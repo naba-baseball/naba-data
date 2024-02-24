@@ -1,34 +1,65 @@
-import { findByTeam } from "@/server/services/players.service.js";
-import type { BattingRating, BattingSplit } from "~/composables/BattingSplits.js";
-
+import {
+  literal,
+  number,
+  object,
+  optional,
+  parse,
+  string,
+  transform,
+  union,
+} from "valibot";
+import { parseNumeric } from "~/server/utils/parsers.js";
 export default defineEventHandler(async (event) => {
-  const team_id = Number(getRouterParam(event, "teamId"));
-  // const data = await findByTeam(teamId, { position: 'batters' });
+  const { teamId: team_id } = await getValidatedRouterParams(
+    event,
+    parseNumeric("teamId"),
+  );
+
+  const { split, roster } = await getValidatedQuery(event, (data) =>
+    parse(
+      object({
+        roster: optional(
+          union([literal("primary"), literal("reserve")]),
+          "primary",
+        ),
+        split: optional(
+          union([
+            literal("overall"),
+            literal("talent"),
+            literal("vsl"),
+            literal("vsr"),
+          ]),
+          "overall",
+        ),
+      }),
+      data,
+    ),
+  );
   const db = useDB().db("ratings");
-  return (await db
+  return db
     .collection("players")
-    .find({ team_id, position: { $gte: 2, $lte: 8 } })
+    .find({
+      team_id,
+      position: { $gte: 2, $lte: 8 },
+      roster
+    })
     .sort({ position: 1 })
-    .project({
+    .project<Player & { bats: number; batting: BattingRatingSplits }>({
       _id: 1,
       player_id: 1,
       first_name: 1,
       last_name: 1,
       position: 1,
+      team_id: 1,
       age: 1,
-      bats: 1,
-      batting: 1,
       role: 1,
+      bats: 1,
+      batting: {
+        [split]: 1,
+      },
+      roster: {
+        [roster]: 1,
+      },
     })
-    .toArray()) as {
-    _id: number;
-    player_id: number;
-    first_name: string;
-    last_name: string;
-    position: number;
-    age: number;
-    bats: number;
-    batting: Record<`${BattingSplit}_${BattingRating}`, number>;
-    role: number;
-  }[];
+    .toArray();
 });

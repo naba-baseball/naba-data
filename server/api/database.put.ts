@@ -13,31 +13,55 @@ export default eventHandler(async (event) => {
       setupDB("players_fielding.csv"),
       setupDB("players_contract.csv"),
     ]);
+  const finishedPlayers = players.map((player) => {
+    player.pitching = scaleObject(
+      pitching.find((p) => p.player_id === player.player_id),
+    );
 
+    player.batting = scaleObject(
+      batting.find((p) => p.player_id === player.player_id),
+    );
+    const splits: Split[] = ["overall", "vsl", "vsr", "talent"] as const;
+    splits.forEach((split) => {
+      player.batting[split] = {};
+    });
+    Object.keys(player.batting).forEach((key) => {
+      splits.forEach((split) => {
+        if (key.includes(`${split}_`)) {
+          player.batting[split][key.replace(`${split}_`, "")] =
+            player.batting[key];
+          delete player.batting[key];
+        }
+      });
+    });
+
+    player.fielding = scaleObject(
+      fielding.find((p) => p.player_id === player.player_id),
+    );
+
+    player.contract = contract.find((c) => c.player_id === player.player_id);
+    player.roster = "reserve";
+    if (
+      roster.find((r) => r.player_id === player.player_id && r.list_id === 2)
+    ) {
+      player.roster = "primary";
+    }
+
+    return player;
+  });
+  await db.collection("players").insertMany(finishedPlayers);
   await db.collection("teams").insertMany(
-    teams.map((team) => {
-      team.roster = roster.filter((r) => r.team_id === team.team_id);
-      return team;
-    }),
-  );
-  await db.collection("players").insertMany(
-    players.map((player) => {
-      player.pitching = scaleObject(
-        pitching.find((p) => p.player_id === player.player_id),
-      );
-
-      player.batting = scaleObject(
-        batting.find((p) => p.player_id === player.player_id),
-      );
-
-      player.fielding = scaleObject(
-        fielding.find((p) => p.player_id === player.player_id),
-      );
-
-      player.contract = contract.find((c) => c.player_id === player.player_id);
-
-      return player;
-    }),
+    teams,
+    // teams.map((team) => {
+    //   team.roster = { primary: [], reserve: [] };
+    //   team.roster.primary = roster
+    //     .filter((r) => r.team_id === team.team_id && r.list_id === 2)
+    //     .map((r) => finishedPlayers.find((p) => p.player_id === r.player_id));
+    //   team.roster.reserve = roster
+    //     .filter((r) => r.team_id === team.team_id && r.list_id === 1)
+    //     .map((r) => finishedPlayers.find((p) => p.player_id === r.player_id));
+    //   return team;
+    // }),
   );
   return "ok";
 });

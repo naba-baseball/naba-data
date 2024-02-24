@@ -1,5 +1,6 @@
 <script lang="ts" setup>
-const { data: teams } = useTeamsStore();
+// const { data: teams } = useTeamsStore();
+const { data: teams } = await useFetch("/api/teams");
 </script>
 
 <template>

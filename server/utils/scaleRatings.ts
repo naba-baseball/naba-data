@@ -5,7 +5,7 @@ export function scaleRatings(value: number) {
   // THIS IS FOR A LINEAR SCALE, WHICH OOTP DOES NOT USE
   // const result = ((value - 1) / (250 - 1)) * (80 - 20) + 20
   // THIS IS WHAT WAS FIGURED OUT ON THE FORUMS https://forums.ootpdevelopments.com/showthread.php?t=150501. Kinda old post
-  const result = (5 * Math.round(value / (50 / 3))) + 20
+  const result = 5 * Math.round(value / (50 / 3)) + 20;
   // THIS SEEMS TO BE MORE ACCURATE
   // const result = 5 * Math.round(Math.ceil(5 * (value / (50 / 3)) + 20) / 5);
   const max = 80;
@@ -13,13 +13,16 @@ export function scaleRatings(value: number) {
   if (result < min) return min;
   if (result > max) return max;
   return result;
-  // return Math.ceil(result / 5) * 5
 }
 
 export function scaleObject(obj: Record<string, unknown>) {
-  for (const [key, value] of Object.entries(obj)) {
-    if (typeof value === "number" && key.toLowerCase().includes("rating"))
-      obj[key] = scaleRatings(value);
+  for (let [key, value] of Object.entries(obj)) {
+
+    if (typeof value === "number" && key.toLowerCase().includes("ratings")) {
+      let simplifiedKey = key.toLowerCase().replace(/.*ratings_/, "");
+      obj[simplifiedKey] = scaleRatings(value);
+      delete obj[key];
+    }
   }
   return obj;
 }

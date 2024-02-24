@@ -1,6 +1,4 @@
 <script setup>
-//preload teams
-await useTeamsStore().execute();
 </script>
 <template>
   <v-app>
@@ -13,12 +11,12 @@ await useTeamsStore().execute();
           <nuxt-link to="/"> home </nuxt-link>
           <nuxt-link to="/upload"> upload </nuxt-link>
           <nuxt-link to="/teams"> teams </nuxt-link>
-          <nuxt-link to="/lineups"> lineups </nuxt-link>
-          <app-favorite-team />
         </span>
       </v-app-bar>
       <v-main>
-        <nuxt-page />
+        <client-only>
+          <nuxt-page />
+        </client-only>
       </v-main>
     </v-layout>
   </v-app>
