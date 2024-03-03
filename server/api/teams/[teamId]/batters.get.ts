@@ -1,14 +1,4 @@
-import {
-  literal,
-  number,
-  object,
-  optional,
-  parse,
-  string,
-  transform,
-  union,
-} from "valibot";
-import { parseNumeric } from "~/server/utils/parsers.js";
+import { object, parse } from "valibot";
 export default defineEventHandler(async (event) => {
   const { teamId: team_id } = await getValidatedRouterParams(
     event,
@@ -18,19 +8,8 @@ export default defineEventHandler(async (event) => {
   const { split, roster } = await getValidatedQuery(event, (data) =>
     parse(
       object({
-        roster: optional(
-          union([literal("primary"), literal("reserve")]),
-          "primary",
-        ),
-        split: optional(
-          union([
-            literal("overall"),
-            literal("talent"),
-            literal("vsl"),
-            literal("vsr"),
-          ]),
-          "overall",
-        ),
+        roster: parseRoster(),
+        split: parseSplit(),
       }),
       data,
     ),
@@ -41,7 +20,7 @@ export default defineEventHandler(async (event) => {
     .find({
       team_id,
       position: { $gte: 2, $lte: 8 },
-      roster
+      roster,
     })
     .sort({ position: 1 })
     .project<Player & { bats: number; batting: BattingRatingSplits }>({

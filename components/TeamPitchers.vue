@@ -2,23 +2,21 @@
 import { useRouteQuery } from "@vueuse/router";
 const split = useRouteQuery<Split>("split", "overall");
 const roster = useRouteQuery<"primary" | "reserve">("roster", "primary");
-
+const pitchingRatings = ["stuff", "control", "movement"] as const;
 const columns = [
   { value: "name", title: "Name" },
-  { value: "bats", title: "Bats" },
+  { value: "throws", title: "Throws" },
   { value: "age", title: "Age" },
-  { value: "position", title: "Position" },
-  { value: "contact", title: "Contact" },
-  { value: "eye", title: "Eye" },
-  { value: "gap", title: "Gap" },
-  { value: "power", title: "Power" },
-  { value: "strikeouts", title: "Ks" },
+  { value: "role", title: "Role" },
+  { value: "stuff", title: "stuff" },
+  { value: "control", title: "control" },
+  { value: "movement", title: "movement" }
 ];
 
 const { data: players } = await useFetch(
   computed(
     () =>
-      `/api/teams/${useRoute().params.teamId}/batters?${new URLSearchParams({
+      `/api/teams/${useRoute().params.teamId}/pitchers?${new URLSearchParams({
         split: split.value,
         roster: roster.value,
       }).toString()}`,
@@ -35,21 +33,19 @@ watch(
     filteredPlayers.value = players.map((player) => {
       const tablePlayer: Player & {
         name: string;
-        bats: string;
+        throws: string;
         position: string;
       } & {
-        [key in BattingRating]: number;
+        [key in PitchingRating]: number;
       } = {};
       tablePlayer.player_id = player.player_id;
       tablePlayer.age = player.age;
       tablePlayer.name = `${player.first_name} ${player.last_name}`;
-      tablePlayer.bats = useHandAbbreviation(player).value;
-      tablePlayer.position = getAbbreviatedPosition(player.position);
-      tablePlayer.contact = player.batting[split.value].contact;
-      tablePlayer.eye = player.batting[split.value].eye;
-      tablePlayer.gap = player.batting[split.value].gap;
-      tablePlayer.power = player.batting[split.value].power;
-      tablePlayer.strikeouts = player.batting[split.value].strikeouts;
+      tablePlayer.throws = useHandAbbreviation(player).value;
+      tablePlayer.role = getAbbreviatedRole(player.role);
+      tablePlayer.stuff = player.pitching.stuff
+      tablePlayer.control = player.pitching.control
+      tablePlayer.movement = player.pitching.movement
       return tablePlayer;
     });
   },
@@ -80,7 +76,7 @@ watch(
       density="compact"
     >
       <template
-        v-for="rating of ['contact', 'eye', 'gap', 'power', 'strikeouts']"
+        v-for="rating of pitchingRatings"
         #[`item.${rating}`]="{ item }"
       >
         <div :data-rating="item[rating]">

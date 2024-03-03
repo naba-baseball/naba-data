@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 const model = defineModel<number>();
-const { data: teams } = useTeamsStore();
+const { data: teams } = await useFetch("/api/teams");
 </script>
 s
 <template>

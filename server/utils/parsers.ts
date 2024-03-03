@@ -1,4 +1,13 @@
-import { number, object, parse, string, transform, variant } from "valibot";
+import {
+  literal,
+  number,
+  object,
+  optional,
+  parse,
+  string,
+  transform,
+  union,
+} from "valibot";
 
 export const parseNumeric = (key: string) => (data: unknown) =>
   parse(
@@ -7,3 +16,18 @@ export const parseNumeric = (key: string) => (data: unknown) =>
     }),
     data,
   );
+
+export const parseSplit  = () => optional(
+  union([
+    literal("overall"),
+    literal("talent"),
+    literal("vsl"),
+    literal("vsr"),
+  ]),
+  "overall",
+);
+
+export const parseRoster =  () => optional(
+  union([literal("primary"), literal("reserve")]),
+  "primary",
+)

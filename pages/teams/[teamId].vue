@@ -1,60 +1,7 @@
 <script lang="ts" setup>
-const battingLabels = [
-  {
-    key: "batting.batting_ratings_overall_babip",
-    label: "BABIP",
-  },
-  {
-    key: "batting.batting_ratings_overall_contact",
-    label: "Contact",
-  },
-  {
-    key: "batting.batting_ratings_overall_eye",
-    label: "Eye",
-  },
-  {
-    key: "batting.batting_ratings_overall_gap",
-    label: "Gap",
-  },
-  {
-    key: "batting.batting_ratings_overall_hp",
-    label: "HP",
-  },
-  {
-    key: "batting.batting_ratings_overall_power",
-    label: "Power",
-  },
-  {
-    key: "batting.batting_ratings_overall_strikeouts",
-    label: "Ks",
-  },
-];
-const pitchingLabels = [
-  { label: "balk", key: "balk" },
-  { label: "control", key: "control" },
-  { label: "hp", key: "hp" },
-  { label: "movement", key: "movement" },
-  { label: "stuff", key: "stuff" },
-  { label: "wild_pitch", key: "wild_pitch" },
-];
-const pitchesLabels = [
-  { label: "changeup", key: "changeup" },
-  { label: "circlechange", key: "circlechange" },
-  { label: "curveball", key: "curveball" },
-  { label: "cutter", key: "cutter" },
-  { label: "fastball", key: "fastball" },
-  { label: "forkball", key: "forkball" },
-  { label: "knuckleball", key: "knuckleball" },
-  { label: "knucklecurve", key: "knucklecurve" },
-  { label: "screwball", key: "screwball" },
-  { label: "sinker", key: "sinker" },
-  { label: "slider", key: "slider" },
-  { label: "splitter", key: "splitter" },
-];
 const route = useRoute();
 const { data: team } = await useFetch(`/api/teams/${route.params.teamId}`, {
   deep: false,
-  key: "team",
 });
 </script>
 
@@ -72,15 +19,12 @@ const { data: team } = await useFetch(`/api/teams/${route.params.teamId}`, {
       </div>
     </div>
     <div>
-      <h2>
-        Pitching Staff
-      </h2>
+      <h2>Pitching Staff</h2>
     </div>
     <div>
-      <h2>
-        Batting Staff
-      </h2>
+      <h2>Batting Staff</h2>
       <TeamBatters />
+      <TeamPitchers />
     </div>
   </article>
 </template>

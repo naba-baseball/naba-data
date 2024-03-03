@@ -24,8 +24,5 @@ declare global {
     | "stuff"
     | "control"
     | "movement"
-    | "balk"
-    | "hp"
-    | "wild_pitch";
 }
 export {};

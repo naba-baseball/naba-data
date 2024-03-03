@@ -21,7 +21,7 @@ export const useLineupsState = () => {
           player_id: player.player_id,
           first_name: player.first_name,
           last_name: player.last_name,
-          bats: useBatsAbbreviation(player),
+          bats: useHandAbbreviation(player),
           age: player.age,
           position: usePositionDisplay(player),
           contact: computed(() => getSplit(player, "contact")),

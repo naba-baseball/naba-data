@@ -12,7 +12,7 @@ export default defineNuxtConfig({
       });
     },
     "@vueuse/nuxt",
-    "@pinia/nuxt"
+    "@pinia/nuxt",
   ],
   build: {
     transpile: ["vuetify"],
@@ -38,10 +38,20 @@ export default defineNuxtConfig({
       },
     },
   },
+  routeRules: {
+    "/*": {
+      swr: true,
+    },
+    "/api/**": {
+      // swr: true,
+      cache: {
+        headersOnly: true,
+        maxAge: 60*60*24,
+      },
+      headers: { xtest: "asdf" },
+    },
+  },
   runtimeConfig: {
     databaseURL: "",
-  },
-  experimental: {
-    inlineRouteRules: true,
   },
 });
