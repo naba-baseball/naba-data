@@ -15,31 +15,34 @@ const columns = [
   { value: "strikeouts", title: "Ks" },
 ];
 
-const { data: players } = await useFetch(
-  computed(
-    () =>
-      `/api/teams/${useRoute().params.teamId}/batters?${new URLSearchParams({
-        split: split.value,
-        roster: roster.value,
-      }).toString()}`,
-  ),
+const { data: players } = await useFetch<
+  (Player & { bats: number; batting: BattingRatingSplits })[]
+>(
+  computed(() => `/api/teams/${useRoute().params.teamId}/batters`),
   {
     deep: false,
+    query: {
+      split: split,
+      roster: roster,
+    },
+    default: () => [],
   },
 );
-//primary players should never show on the reserve roster
-const filteredPlayers = shallowRef([]);
+
+type FilteredPlayer = {
+  [key in BattingRating]: number;
+} & Omit<Player, "position"> & {
+    [key: string]: string | number;
+    name: string;
+    bats: string;
+    position: string;
+  };
+const filteredPlayers = shallowRef<FilteredPlayer[]>([]);
 watch(
   players,
   (players) => {
     filteredPlayers.value = players.map((player) => {
-      const tablePlayer: Player & {
-        name: string;
-        bats: string;
-        position: string;
-      } & {
-        [key in BattingRating]: number;
-      } = {};
+      const tablePlayer = {} as FilteredPlayer;
       tablePlayer.player_id = player.player_id;
       tablePlayer.age = player.age;
       tablePlayer.name = `${player.first_name} ${player.last_name}`;
@@ -61,32 +64,17 @@ watch(
   <div class="flex flex-col gap-6">
     <div class="flex gap-3">
       <SplitSelect v-model="split" />
-      <VSelect
-        label="Roster"
-        id="roster"
-        v-model="roster"
-        name="roster"
-        :items="[
-          { title: 'Primary', value: 'primary' },
-          { title: 'Reserve', value: 'reserve' },
-        ]"
-      />
+      <RosterSelect v-model="roster" />
     </div>
-    <VDataTable
-      v-if="players"
-      class="w-[120ch]"
-      :headers="columns"
-      :items="filteredPlayers"
-      density="compact"
-    >
+    <BaseTable :columns :items="filteredPlayers" item-id="player_id">
       <template
         v-for="rating of ['contact', 'eye', 'gap', 'power', 'strikeouts']"
-        #[`item.${rating}`]="{ item }"
+        #[rating]="{ item, column }"
       >
-        <div :data-rating="item[rating]">
-          {{ item[rating] }}
+        <div :data-rating="item[column.value]">
+          {{ item[column.value] }}
         </div>
       </template>
-    </VDataTable>
+    </BaseTable>
   </div>
 </template>

@@ -14,9 +14,6 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@pinia/nuxt",
   ],
-  build: {
-    transpile: ["vuetify"],
-  },
   css: [
     "@/assets/styles.scss",
     "@unocss/reset/tailwind-compat.css",
@@ -46,7 +43,7 @@ export default defineNuxtConfig({
       // swr: true,
       cache: {
         headersOnly: true,
-        maxAge: 60*60*24,
+        maxAge: 60 * 60 * 24,
       },
       headers: { xtest: "asdf" },
     },

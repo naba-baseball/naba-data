@@ -4,7 +4,7 @@ await lineupsStore.playersApi.execute();
 </script>
 
 <template>
-  <v-container fluid>
+  <div fluid>
     <article class="flex flex-col gap-sm">
       <LineupsFilters />
       <div class="grid grid-cols-2 gap-sm">
@@ -12,5 +12,5 @@ await lineupsStore.playersApi.execute();
         <lineups-lineup />
       </div>
     </article>
-  </v-container>
+  </div>
 </template>

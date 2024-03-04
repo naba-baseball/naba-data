@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@mdi/font": "^7.4.47",
+    "@nuxt/ui": "^2.14.1",
     "@vueuse/core": "^10.9.0",
     "@vueuse/router": "^10.9.0",
     "mongodb": "^6.4.0",
