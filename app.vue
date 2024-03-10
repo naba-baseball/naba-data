@@ -1,26 +1,26 @@
-<script setup></script>
+<script setup>
+import { ConfigProvider } from "radix-vue";
+const idProvider = () => useId()
+</script>
 <template>
-  <main class="grid bg-surface-50 h-[100dvh]">
-    <nav class="grid grid-flow-col gap-$flow-space p-6">
-      <div class="items-center">
-        <nuxt-link class="me-sm" to="/"> OOTP Lineup Builder </nuxt-link>
-      </div>
-      <span class="justify-end flex px-4 gap-sm items-center capitalize">
-        <nuxt-link to="/"> home </nuxt-link>
-        <nuxt-link to="/upload"> upload </nuxt-link>
-        <nuxt-link to="/teams"> teams </nuxt-link>
-      </span>
-    </nav>
-    <div class="grid">
-      <client-only>
+  <Html class="text-surface-950" />
+  <ConfigProvider :use-id="idProvider">
+    <main class="grid font-sans grid-cols-1 grid-rows-[3rem_1fr] min-h-[100dvh]">
+      <nav class="grid grid-flow-col gap-$flow-space">
+        <div class="grid items-center">
+          <NuxtLink class="me-sm" to="/"> OOTP Lineup Builder </NuxtLink>
+        </div>
+        <span class="justify-end flex px-4 gap-sm items-center capitalize">
+          <NuxtLink to="/"> home </NuxtLink>
+          <NuxtLink to="/upload"> upload </NuxtLink>
+          <NuxtLink to="/teams"> teams </NuxtLink>
+        </span>
+      </nav>
+      <div class="grid">
+        <!-- <client-only> -->
         <nuxt-page />
-      </client-only>
-    </div>
-  </main>
+        <!-- </client-only> -->
+      </div>
+    </main>
+  </ConfigProvider>
 </template>
-
-<style>
-main {
-  --flow-space: theme('spacing.4');
-}
-</style>

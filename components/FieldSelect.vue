@@ -1,27 +1,23 @@
-<script
-  lang="ts"
-  setup
-  generic="
-    M,
-    T extends string,
-    V extends string,
-    I extends { [key in V]: M } & { [key in T]: string }
-  "
->
-const props = withDefaults(
+<script lang="ts" setup generic="M, T extends string, V extends string">
+import type { F } from "ts-toolbelt";
+type TItem = { [key in T]: string } | { text?: string };
+type VItem = { [key in V]: F.NoInfer<M> } | { value?: F.NoInfer<M> };
+
+type Item = TItem & VItem;
+withDefaults(
   defineProps<{
-    label: string;
-    items: I[];
     itemText?: T;
     itemValue?: V;
+    items: Item[];
+    label: string;
   }>(),
   {
     items: () => [],
+    label: "",
     itemText: "text",
     itemValue: "value",
   },
 );
-props.itemText
 const model = defineModel<M>();
 </script>
 
@@ -29,8 +25,12 @@ const model = defineModel<M>();
   <label class="field-container">
     <div class="text-label">{{ label }}</div>
     <select name="split" class="field-input" v-model="model">
-      <option v-for="item of items" :value="item[itemValue]" :key="value">
-        {{ item[itemText] }}
+      <option
+        v-for="item of items"
+        :value="item[itemValue as V]"
+        :key="item[itemValue as V]"
+      >
+        {{ item[itemText as T] }}
       </option>
     </select>
   </label>

@@ -10,60 +10,58 @@ const { ratingKeys, lineup } = toRefs(lineupsStore);
       <span>{{ lineup.length }} / 9 players</span>
     </div>
     <div>
-      <VSelect
+      <FieldSelect
         :items="['vs RHP', 'vs LHP']"
         model-value="vs RHP"
         label="Lineup"
       />
     </div>
     <div class="grid gap-sm">
-      <VSlideYTransition group>
-        <template v-for="(player, index) of lineup" :key="player.player_id">
-          <VCard>
-            <div class="grid grid-cols-[1fr_auto]">
-              <VCardTitle
-                class="!grid grid-cols-subgrid grid-col-start-1 grid-col-end-[-1]"
-              >
+      <template v-for="(player, index) of lineup" :key="player.player_id">
+        <BaseCard>
+          <div class="grid grid-cols-[1fr_auto]">
+            <BaseCardTitle
+              class="!grid grid-cols-subgrid grid-col-start-1 grid-col-end-[-1]"
+            >
+              <div>
                 <div>
+                  {{ player.position }} {{ player.first_name }}
+                  {{ player.last_name }}
+                </div>
+                <div class="flex gap-sm text-surface-700 text-xs uppercase">
+                  <div>Age {{ player.age }}</div>
+                  <div>Bats {{ player.bats }}</div>
+                </div>
+              </div>
+              <div class="">
+                <BaseButton variant="flat" icon="mdi-minus" />
+                <BaseButton
+                  :disabled="index == 0"
+                  variant="flat"
+                  icon="mdi-arrow-up"
+                />
+                <BaseButton
+                  :disabled="index == lineup.length - 1"
+                  variant="flat"
+                  icon="mdi-arrow-down"
+                />
+              </div>
+            </BaseCardTitle>
+            <BaseCardText>
+              <ul class="flex gap-sm">
+                <li v-for="option of ratingKeys">
                   <div>
-                    {{ player.position }} {{ player.first_name }}
-                    {{ player.last_name }}
+                    {{ option.label }}:
+                    <span :data-rating="player[option.key]">
+                      {{ player[option.key] }}
+                    </span>
                   </div>
-                  <div class="flex gap-sm text-surface-700 text-xs uppercase">
-                    <div>Age {{ player.age }}</div>
-                    <div>Bats {{ player.bats }}</div>
-                  </div>
-                </div>
-                <div class="">
-                  <v-btn variant="flat" icon="mdi-minus" />
-                  <v-btn
-                    :disabled="index == 0"
-                    variant="flat"
-                    icon="mdi-arrow-up"
-                  />
-                  <v-btn
-                    :disabled="index == lineup.length - 1"
-                    variant="flat"
-                    icon="mdi-arrow-down"
-                  />
-                </div>
-              </VCardTitle>
-              <VCardText>
-                <ul class="flex gap-sm">
-                  <li v-for="option of ratingKeys">
-                    <div>
-                      {{ option.label }}:
-                      <span :data-rating="player[option.key]">
-                        {{ player[option.key] }}
-                      </span>
-                    </div>
-                  </li>
-                </ul>
-              </VCardText>
-            </div>
-          </VCard>
-        </template>
-      </VSlideYTransition>
+                </li>
+              </ul>
+            </BaseCardText>
+          </div>
+        </BaseCard>
+      </template>
     </div>
   </section>
 </template>

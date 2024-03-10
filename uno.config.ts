@@ -1,8 +1,8 @@
 import {
   defineConfig,
   presetAttributify,
+  presetIcons,
   presetUno,
-  presetWind,
   transformerDirectives,
 } from "unocss";
 
@@ -30,6 +30,8 @@ const sizing = {
 export default defineConfig({
   presets: [
     presetUno(),
+    presetIcons(),
+    presetAttributify(),
   ],
   transformers: [transformerDirectives()],
   theme: {
@@ -94,6 +96,10 @@ export default defineConfig({
         "950": "#202b31",
       },
     },
+    fontFamily: {
+      sans: 'Fira Sans, sans-serif',
+      serif: 'Baskerville, serif'
+    },
     fontSize: {
       xs: "clamp(0.6075rem, 0.5754rem + 0.1607vw, 0.72rem)",
       sm: "clamp(0.7294rem, 0.6806rem + 0.2438vw, 0.9rem)",
@@ -152,9 +158,9 @@ export default defineConfig({
   shortcuts: {
     "flow-flex": "gap-$flow-space",
     "text-label":
-      "text-xs font-semibold text-gray-500 uppercase tracking-wider",
+      "text-xs font-semibold text-surface-800 uppercase tracking-wider",
     "field-container": "grid gap-2xs",
     "field-input":
-      "h-10 bg-surface-100 border border-solid border-surface-300 rounded",
+      "h-10 bg-surface-100 border border-solid border-surface-300 text-surface-950 rounded px-2",
   },
 });

@@ -47,7 +47,7 @@ watch(
       tablePlayer.age = player.age;
       tablePlayer.name = `${player.first_name} ${player.last_name}`;
       tablePlayer.bats = useHandAbbreviation(player).value;
-      tablePlayer.position = getAbbreviatedPosition(player.position);
+      tablePlayer.position = player.position;
       tablePlayer.contact = player.batting[split.value].contact;
       tablePlayer.eye = player.batting[split.value].eye;
       tablePlayer.gap = player.batting[split.value].gap;
@@ -66,7 +66,14 @@ watch(
       <SplitSelect v-model="split" />
       <RosterSelect v-model="roster" />
     </div>
-    <BaseTable :columns :items="filteredPlayers" item-id="player_id">
+    <BaseTable
+      column-value="value"
+      column-text="title"
+      sort="position"
+      :columns
+      :items="filteredPlayers"
+      item-id="player_id"
+    >
       <template
         v-for="rating of ['contact', 'eye', 'gap', 'power', 'strikeouts']"
         #[rating]="{ item, column }"
@@ -74,6 +81,9 @@ watch(
         <div :data-rating="item[column.value]">
           {{ item[column.value] }}
         </div>
+      </template>
+      <template #position="{ item, column }">
+        {{ getAbbreviatedPosition(item[column.value]) }}
       </template>
     </BaseTable>
   </div>

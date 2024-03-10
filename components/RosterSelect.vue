@@ -2,12 +2,16 @@
 const items = [
   { value: "primary", text: "Primary" },
   { value: "reserve", text: "Reserve" },
-] as const
-const model = defineModel<(typeof items)[number]['value']>("primary");
+]
+const model = defineModel<(typeof items)[number]["value"]>();
 </script>
 
 <template>
-  <FieldSelect v-model="model" label="Roster" :items />
+  <FieldSelect
+    v-model="model"
+    label="Roster"
+    :items
+  />
 </template>
 
 <style></style>
