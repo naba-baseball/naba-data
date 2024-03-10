@@ -2,7 +2,6 @@
 import { useRouteQuery } from "@vueuse/router";
 const split = useRouteQuery<Split>("split", "overall");
 const roster = useRouteQuery<"primary" | "reserve">("roster", "primary");
-const pitchingRatings = ["stuff", "control", "movement"] as const;
 const columns = [
   { value: "name", title: "Name" },
   { value: "throws", title: "Throws" },
@@ -10,7 +9,7 @@ const columns = [
   { value: "role", title: "Role" },
   { value: "stuff", title: "stuff" },
   { value: "control", title: "control" },
-  { value: "movement", title: "movement" }
+  { value: "movement", title: "movement" },
 ];
 
 const { data: players } = await useFetch(
@@ -34,7 +33,6 @@ watch(
       const tablePlayer: Player & {
         name: string;
         throws: string;
-        position: string;
       } & {
         [key in PitchingRating]: number;
       } = {};
@@ -42,10 +40,10 @@ watch(
       tablePlayer.age = player.age;
       tablePlayer.name = `${player.first_name} ${player.last_name}`;
       tablePlayer.throws = useHandAbbreviation(player).value;
-      tablePlayer.role = getAbbreviatedRole(player.role);
-      tablePlayer.stuff = player.pitching.stuff
-      tablePlayer.control = player.pitching.control
-      tablePlayer.movement = player.pitching.movement
+      tablePlayer.role = player.role;
+      tablePlayer.stuff = player.pitching.stuff;
+      tablePlayer.control = player.pitching.control;
+      tablePlayer.movement = player.pitching.movement;
       return tablePlayer;
     });
   },
@@ -57,32 +55,20 @@ watch(
   <div class="flex flex-col gap-6">
     <div class="flex gap-3">
       <SplitSelect v-model="split" />
-      <VSelect
-        label="Roster"
-        id="roster"
-        v-model="roster"
-        name="roster"
-        :items="[
-          { title: 'Primary', value: 'primary' },
-          { title: 'Reserve', value: 'reserve' },
-        ]"
-      />
+      <RosterSelect v-model="roster" />
     </div>
-    <VDataTable
-      v-if="players"
-      class="w-[120ch]"
-      :headers="columns"
-      :items="filteredPlayers"
-      density="compact"
-    >
+    <BaseTable sort="role" :columns :items="filteredPlayers" columnText="title" columnValue="value" item-id="player_id">
       <template
-        v-for="rating of pitchingRatings"
-        #[`item.${rating}`]="{ item }"
+        v-for="rating of ['stuff', 'control', 'movement']"
+        #[rating]="{ column, item }"
       >
-        <div :data-rating="item[rating]">
-          {{ item[rating] }}
+        <div :data-rating="item[column.value]">
+          {{ item[column.value] }}
         </div>
       </template>
-    </VDataTable>
+      <template #role="{ item, column }">
+        {{ getAbbreviatedRole(item[column.value]) }}
+      </template>
+    </BaseTable>
   </div>
 </template>

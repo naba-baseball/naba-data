@@ -1,14 +1,11 @@
 <script lang="ts" setup>
 const model = defineModel<number>();
-const { data: teams } = await useFetch("/api/teams");
+const { data: teams } = await useFetch("/api/teams", {
+  transform: (data) =>
+    data.map((team) => ({ text: team.name, value: team.team_id })),
+  default: () => []
+});
 </script>
-s
 <template>
-  <v-select
-    v-model="model"
-    label="Team"
-    :items="teams"
-    item-value="team_id"
-    item-title="name"
-  />
+  <FieldSelect v-model="model" :items="teams" />
 </template>

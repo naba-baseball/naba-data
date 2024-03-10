@@ -2,7 +2,7 @@ export const useLineupsStore = defineStore("lineups", () => {
   const team = ref();
   // console.log("I SHOULD RUN ONCE");
   const { getSplit, split } = useBattingSplits();
-  const roster = ref(2);
+  const roster = ref<1 | 2>(2);
   team.value ??= useUserTeam().value;
   const ratingKeys = [
     { key: "contact", label: "Contact" },
@@ -40,8 +40,9 @@ export const useLineupsStore = defineStore("lineups", () => {
     if (
       playerIndex < 0 ||
       lineup.value.find((p) => p.player_id == player.player_id)
-    )
+    ) {
       return;
+    }
     lineup.value.push(playersApi.data.value[playerIndex]);
     playersApi.data.value = playersApi.data.value?.toSpliced(playerIndex, 1);
   }

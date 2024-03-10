@@ -12,8 +12,7 @@ export default defineEventHandler(async (event) => {
         split: parseSplit(),
       }),
       data,
-    ),
-  );
+    ));
   const db = useDB().db("ratings");
   return db
     .collection("players")

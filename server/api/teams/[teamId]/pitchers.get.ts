@@ -19,10 +19,10 @@ export default defineEventHandler(async (event) => {
     .collection("players")
     .find({
       team_id,
-      position: { $in: [1, 2] },
+      position: { $in: [1] },
       roster,
     })
-    .sort({ position: 1 })
+    .sort({ role: 1 })
     .project<Player & { bats: number; batting: BattingRatingSplits }>({
       _id: 1,
       player_id: 1,

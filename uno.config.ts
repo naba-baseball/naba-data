@@ -1,13 +1,37 @@
 import {
   defineConfig,
-  presetUno,
   presetAttributify,
+  presetIcons,
+  presetUno,
   transformerDirectives,
-  presetWind,
 } from "unocss";
+
+const sizing = {
+  1: "clamp(0.25rem, 0.163rem + 0.4348vw, 0.5rem)",
+  2: "clamp(0.5rem, 0.413rem + 0.4348vw, 0.75rem)",
+  3: "clamp(0.75rem, 0.663rem + 0.4348vw, 1rem)",
+  4: "clamp(1rem, 0.913rem + 0.4348vw, 1.25rem)",
+  5: "clamp(1.25rem, 1.163rem + 0.4348vw, 1.5rem)",
+  6: "clamp(1.5rem, 1.413rem + 0.4348vw, 1.75rem)",
+  7: "clamp(1.75rem, 1.663rem + 0.4348vw, 2rem)",
+  8: "clamp(2rem, 1.913rem + 0.4348vw, 2.25rem)",
+  9: "clamp(2.25rem, 2.163rem + 0.4348vw, 2.5rem)",
+  10: "clamp(2.5rem, 2.413rem + 0.4348vw, 2.75rem)",
+  11: "clamp(2.75rem, 2.663rem + 0.4348vw, 3rem)",
+  12: "clamp(3rem, 2.913rem + 0.4348vw, 3.25rem)",
+  13: "clamp(3.25rem, 3.163rem + 0.4348vw, 3.5rem)",
+  14: "clamp(3.5rem, 3.413rem + 0.4348vw, 3.75rem)",
+  15: "clamp(3.75rem, 3.663rem + 0.4348vw, 4rem)",
+  "grid-max": "62.00rem",
+  "grid-gutter": "clamp(0.875rem, 0.3393rem + 2.6786vw, 2rem)",
+  "grid-columns": "12",
+};
+
 export default defineConfig({
   presets: [
     presetUno(),
+    presetIcons(),
+    presetAttributify(),
   ],
   transformers: [transformerDirectives()],
   theme: {
@@ -72,6 +96,10 @@ export default defineConfig({
         "950": "#202b31",
       },
     },
+    fontFamily: {
+      sans: 'Fira Sans, sans-serif',
+      serif: 'Baskerville, serif'
+    },
     fontSize: {
       xs: "clamp(0.6075rem, 0.5754rem + 0.1607vw, 0.72rem)",
       sm: "clamp(0.7294rem, 0.6806rem + 0.2438vw, 0.9rem)",
@@ -124,28 +152,15 @@ export default defineConfig({
       // Custom pairs
       "s-l": "clamp(0.875rem, 0.5699rem + 1.5254vw, 2rem)",
     },
-    width: {
-      1: "clamp(0.25rem, 0.163rem + 0.4348vw, 0.5rem)",
-      2: "clamp(0.5rem, 0.413rem + 0.4348vw, 0.75rem)",
-      3: "clamp(0.75rem, 0.663rem + 0.4348vw, 1rem)",
-      4: "clamp(1rem, 0.913rem + 0.4348vw, 1.25rem)",
-      5: "clamp(1.25rem, 1.163rem + 0.4348vw, 1.5rem)",
-      6: "clamp(1.5rem, 1.413rem + 0.4348vw, 1.75rem)",
-      7: "clamp(1.75rem, 1.663rem + 0.4348vw, 2rem)",
-      8: "clamp(2rem, 1.913rem + 0.4348vw, 2.25rem)",
-      9: "clamp(2.25rem, 2.163rem + 0.4348vw, 2.5rem)",
-      10: "clamp(2.5rem, 2.413rem + 0.4348vw, 2.75rem)",
-      11: "clamp(2.75rem, 2.663rem + 0.4348vw, 3rem)",
-      12: "clamp(3rem, 2.913rem + 0.4348vw, 3.25rem)",
-      13: "clamp(3.25rem, 3.163rem + 0.4348vw, 3.5rem)",
-      14: "clamp(3.5rem, 3.413rem + 0.4348vw, 3.75rem)",
-      15: "clamp(3.75rem, 3.663rem + 0.4348vw, 4rem)",
-      "grid-max": "62.00rem",
-      "grid-gutter": "clamp(0.875rem, 0.3393rem + 2.6786vw, 2rem)",
-      "grid-columns": "12",
-    },
+    width: sizing,
+    height: sizing,
   },
   shortcuts: {
     "flow-flex": "gap-$flow-space",
+    "text-label":
+      "text-xs font-semibold text-surface-800 uppercase tracking-wider",
+    "field-container": "grid gap-2xs",
+    "field-input":
+      "h-10 bg-surface-100 border border-solid border-surface-300 text-surface-950 rounded px-2",
   },
 });
