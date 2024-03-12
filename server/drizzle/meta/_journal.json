@@ -1,0 +1,27 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1710119501073,
+      "tag": "0000_mute_russian",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1710120363521,
+      "tag": "0001_rapid_bloodstrike",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1710130127470,
+      "tag": "0002_tidy_iron_fist",
+      "breakpoints": true
+    }
+  ]
+}

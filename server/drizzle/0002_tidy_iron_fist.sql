@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `batting_rating_player_id_idx` ON `players_batting` (`player_id`);

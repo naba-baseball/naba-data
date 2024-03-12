@@ -6,7 +6,7 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@pinia/nuxt",
     "radix-vue/nuxt",
-    "@nuxt/fonts"
+    "@nuxt/fonts",
   ],
   css: [
     "@unocss/reset/tailwind.css",
@@ -21,6 +21,9 @@ export default defineNuxtConfig({
         driver: "fsLite",
         base: ".files",
       },
+    },
+    experimental: {
+      tasks: true,
     },
   },
   routeRules: {
@@ -38,5 +41,6 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     databaseURL: "",
+    tursoAuthToken: import.meta.env.NUXT_TURSO_AUTH_TOKEN,
   },
 });

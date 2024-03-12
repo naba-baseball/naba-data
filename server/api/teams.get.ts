@@ -1,14 +1,12 @@
+import { eq } from "drizzle-orm";
+import { teams } from "../drizzle/schema.js";
+
 export default defineEventHandler(async () => {
-  const db = useDB().db("ratings");
-  return db
-    .collection("teams")
-    .find({ team_id: { $gt: 0 }, allstar_team: 0 })
-    .project<{ team_id: number; name: string; nickname: string }>({
-      team_id: 1,
-      name: 1,
-      nickname: 1,
-      logo_file_name: 1
-    })
-    .sort({ name: "asc" })
-    .toArray();
+  const db = useSQLite();
+  return db.select({
+    team_id: teams.team_id,
+    name: teams.name,
+    nickname: teams.nickname,
+    logo_file_name: teams.logo_file_name,
+  }).from(teams).where(eq(teams.allstar_team, 0)).orderBy(teams.name);
 });

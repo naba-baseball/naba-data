@@ -6,5 +6,5 @@ export default eventHandler(async (event) => {
     const storage = useStorage("files");
     await storage.setItemRaw(file.name, file.stream());
   }
-  return "ok";
+  return sendRedirect(event, '/')
 });

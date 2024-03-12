@@ -1,4 +1,6 @@
+import { eq } from "drizzle-orm";
 import { object, parse } from "valibot";
+import { players, playersBatting } from "~/server/drizzle/schema.js";
 export default defineEventHandler(async (event) => {
   const { teamId: team_id } = await getValidatedRouterParams(
     event,
@@ -13,31 +15,28 @@ export default defineEventHandler(async (event) => {
       }),
       data,
     ));
-  const db = useDB().db("ratings");
-  return db
-    .collection("players")
-    .find({
-      team_id,
-      position: { $gte: 2, $lte: 8 },
-      roster,
-    })
-    .sort({ position: 1 })
-    .project<Player & { bats: number; batting: BattingRatingSplits }>({
-      _id: 1,
-      player_id: 1,
-      first_name: 1,
-      last_name: 1,
-      position: 1,
-      team_id: 1,
-      age: 1,
-      role: 1,
-      bats: 1,
-      batting: {
-        [split]: 1,
+  const db = useSQLite();
+  const batting = db.select().from(playersBatting).where(
+    eq(playersBatting.team_id, team_id),
+  ).as("batting");
+  return await db.select({
+    player_id: players.player_id,
+    first_name: players.first_name,
+    last_name: players.last_name,
+    position: players.position,
+    team_id: players.team_id,
+    age: players.age,
+    role: players.role,
+    bats: players.bats,
+    batting: {
+      [split]: {
+        eye: batting[`batting_ratings_${split}_eye`],
+        power: batting[`batting_ratings_${split}_power`],
+        contact: batting[`batting_ratings_${split}_contact`],
+        gap: batting[`batting_ratings_${split}_gap`],
+        strikeouts: batting[`batting_ratings_${split}_strikeouts`],
       },
-      roster: {
-        [roster]: 1,
-      },
-    })
-    .toArray();
+    },
+  }).from(players).where(eq(players.team_id, team_id))
+    .leftJoin(batting, eq(batting.player_id, players.player_id));
 });
