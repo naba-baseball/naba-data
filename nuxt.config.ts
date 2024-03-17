@@ -13,6 +13,7 @@ export default defineNuxtConfig({
     "@/assets/css/reset.css",
     "@/assets/css/ratings.css",
     "@/assets/css/variables.css",
+    '@/assets/css/main.css'
   ],
   nitro: {
     storage: {

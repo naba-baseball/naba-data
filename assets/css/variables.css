@@ -2,4 +2,5 @@
   --table-header-height: 2rem;
   --table-row-height: 2.5rem;
   --flow-space: theme("spacing.4");
+  --page-margin: 1rem;
 }

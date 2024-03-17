@@ -1,0 +1,19 @@
+.page {
+  display: grid;
+  grid-template-columns: [full-width-start] var(--page-margin) [content-start] auto [content-end full-width-end] var(--page-margin);
+  grid-template-rows:
+    [full-height-start] var(--page-margin)
+    [nav-start] 56px
+    [nav-end content-start] auto
+    [content-end full-height-end] var(--page-margin);
+  min-height: 100dvh;
+  gap: theme('spacing.sm');
+  .nav {
+    grid-column: content-start / content-end;
+    grid-row: nav;
+  }
+  .content {
+    grid-column: content-start/ content-end;
+    grid-row: content-start;
+  }
+}

@@ -1,26 +1,26 @@
 <script setup>
 import { ConfigProvider } from "radix-vue";
-const idProvider = () => useId()
+const idProvider = () => useId();
 </script>
 <template>
   <Html class="text-surface-950" />
   <ConfigProvider :use-id="idProvider">
-    <main class="grid font-sans grid-cols-1 grid-rows-[3rem_1fr] min-h-[100dvh]">
-      <nav class="grid grid-flow-col gap-$flow-space">
+    <nuxt-loading-indicator />
+    <main
+      class="page font-sans"
+    >
+      <nav class="nav grid grid-flow-col gap-sm px-2 bg-primary-900 text-white rounded">
         <div class="grid items-center">
-          <NuxtLink class="me-sm" to="/"> OOTP Lineup Builder </NuxtLink>
+          <NuxtLink class="me-sm" to="/"> OOTP Tools </NuxtLink>
         </div>
         <span class="justify-end flex px-4 gap-sm items-center capitalize">
           <NuxtLink to="/"> home </NuxtLink>
           <NuxtLink to="/upload"> upload </NuxtLink>
-          <NuxtLink to="/teams"> teams </NuxtLink>
         </span>
       </nav>
-      <div class="grid">
-        <!-- <client-only> -->
+      <section class="content grid">
         <nuxt-page />
-        <!-- </client-only> -->
-      </div>
+      </section>
     </main>
   </ConfigProvider>
 </template>

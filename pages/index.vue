@@ -1,8 +1,22 @@
-<script setup lang="ts"></script>
+<script lang="ts" setup>
+const { data: teams } = await useFetch("/api/teams", { default: () => [] });
+</script>
 
 <template>
-  <article>
-    <h1>NABA Data</h1>
-    <p>Find a <NuxtLink to="/teams"> team </NuxtLink></p>
-  </article>
+  <ul class="gap-sm" grid="~ cols-1 sm:cols-3 auto-rows-[minmax(48px,auto)]">
+    <li class="block" v-for="team in teams || []" :key="team.team_id">
+      <nuxt-link
+        class="p-2 gap-2 bg-white border items-center flex rounded-lg h-full"
+        :to="`/teams/${team.team_id}`"
+      >
+        <img
+          :src="`https://nabaleague.com/images/team_logos/${team.logo_file_name}`"
+          class="size-6"
+        />
+        <span> {{ team.name }} {{ team.nickname }} </span>
+      </nuxt-link>
+    </li>
+  </ul>
 </template>
+
+<style></style>
