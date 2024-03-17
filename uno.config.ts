@@ -1,9 +1,11 @@
+import { presetForms } from "@julr/unocss-preset-forms";
 import {
   defineConfig,
   presetAttributify,
   presetIcons,
   presetUno,
   transformerDirectives,
+  transformerVariantGroup,
 } from "unocss";
 
 const sizing = {
@@ -32,9 +34,34 @@ export default defineConfig({
     presetUno(),
     presetIcons(),
     presetAttributify(),
+    presetForms(),
   ],
-  transformers: [transformerDirectives()],
+  transformers: [transformerDirectives(), transformerVariantGroup()],
   theme: {
+    animation: {
+      keyframes: {
+        "slide-down-and-fade":
+          `{from{opacity:0;transform:translateY(-2px);}to{opacity:1;transform:translateY(0);}}`,
+        "slide-left-and-fade":
+          `{from{opacity:0;transform:translateX(2px);}to{opacity:1;transform:translateX(0);}}`,
+        "slide-up-and-fade":
+          `{from{opacity:0;transform:translateY(2px);}to{opacity:1;transform:translateY(0);}}`,
+        "slide-right-and-fade":
+          `{from{opacity:0;transform:translateX(-2px);}to{opacity:1;transform:translateX(0);}}`,
+      },
+      durations: {
+        "slide-down-and-fade": "400ms",
+        "slide-left-and-fade": "400ms",
+        "slide-up-and-fade": "400ms",
+        "slide-right-and-fade": "400ms",
+      },
+      timingFns: {
+        "slide-down-and-fade": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "slide-left-and-fade": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "slide-up-and-fade": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "slide-right-and-fade": "cubic-bezier(0.16, 1, 0.3, 1)",
+      },
+    },
     colors: {
       rating: {
         red: "#dc2626",
@@ -43,7 +70,7 @@ export default defineConfig({
         green: "#16a34a",
         blue: "#2563eb",
       },
-      blueish: {
+      primary: {
         "50": "#f1f8fe",
         "100": "#e3effb",
         "200": "#c0e1f7",
@@ -97,8 +124,8 @@ export default defineConfig({
       },
     },
     fontFamily: {
-      sans: 'Fira Sans, sans-serif',
-      serif: 'Baskerville, serif'
+      sans: "Fira Sans, sans-serif",
+      serif: "Baskerville, serif",
     },
     fontSize: {
       xs: "clamp(0.6075rem, 0.5754rem + 0.1607vw, 0.72rem)",
@@ -160,7 +187,8 @@ export default defineConfig({
     "text-label":
       "text-xs font-semibold text-surface-800 uppercase tracking-wider",
     "field-container": "grid gap-2xs",
-    "field-input":
-      "h-10 bg-surface-100 border border-solid border-surface-300 text-surface-950 rounded px-2",
+    "field-input": "bg-surface-50 border-surface-300 shadow shadow-sm text-surface-950 rounded min-h-9",
+    "bg-primary": "bg-primary-700 text-white font-normal",
+    "btn": "rounded p-2 disabled:(opacity-80 cursor-not-allowed)",
   },
 });

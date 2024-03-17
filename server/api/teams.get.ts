@@ -7,6 +7,7 @@ export default defineEventHandler(async () => {
       team_id: 1,
       name: 1,
       nickname: 1,
+      logo_file_name: 1
     })
     .sort({ name: "asc" })
     .toArray();

@@ -7,7 +7,7 @@ const model = defineModel<(typeof items)[number]["value"]>();
 </script>
 
 <template>
-  <FieldSelect
+  <FieldSelect name="roster"
     v-model="model"
     label="Roster"
     :items

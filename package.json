@@ -10,29 +10,29 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@iconify-json/lucide": "^1.1.172",
-    "@mdi/font": "^7.4.47",
+    "@iconify-json/lucide": "^1.1.174",
     "@vueuse/core": "^10.9.0",
     "@vueuse/router": "^10.9.0",
-    "mongodb": "^6.4.0",
+    "mongodb": "^6.5.0",
     "papaparse": "^5.4.1",
     "vue": "^3.4.21"
   },
   "devDependencies": {
+    "@julr/unocss-preset-forms": "^0.1.0",
     "@nuxt/devtools": "^1.0.8",
     "@nuxt/eslint-config": "^0.2.0",
     "@nuxt/fonts": "^0.1.0",
     "@pinia/nuxt": "^0.5.1",
-    "@unocss/nuxt": "^0.58.5",
+    "@unocss/nuxt": "^0.58.6",
     "@vueuse/nuxt": "^10.9.0",
     "eslint": "^8.57.0",
     "nuxt": "^3.10.3",
     "pinia": "^2.1.7",
     "prettier": "^3.2.5",
-    "radix-vue": "^1.5.1",
+    "radix-vue": "^1.5.2",
     "ts-toolbelt": "^9.6.0",
     "typescript": "^5.4.2",
-    "unocss": "^0.58.5",
+    "unocss": "^0.58.6",
     "valibot": "^0.22.0"
   }
 }

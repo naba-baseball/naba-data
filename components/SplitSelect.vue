@@ -9,5 +9,5 @@ const model = defineModel<Split>({ default: "overall" });
 </script>
 
 <template>
-  <FieldSelect v-model="model" label="Split" :items />
+  <FieldSelect v-model="model" name="split" label="Split" :items />
 </template>

@@ -19,12 +19,14 @@ withDefaults(
   },
 );
 const model = defineModel<M>();
+
+defineOptions({ inheritAttrs: false });
 </script>
 
 <template>
   <label class="field-container">
     <div class="text-label">{{ label }}</div>
-    <select name="split" class="field-input" v-model="model">
+    <select v-bind="$attrs" class="field-input" v-model="model">
       <option
         v-for="item of items"
         :value="item[itemValue as V]"
