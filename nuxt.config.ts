@@ -4,7 +4,6 @@ export default defineNuxtConfig({
   modules: [
     "@unocss/nuxt",
     "@vueuse/nuxt",
-    "@pinia/nuxt",
     "radix-vue/nuxt",
     "@nuxt/fonts",
   ],
@@ -21,6 +20,10 @@ export default defineNuxtConfig({
         driver: "fsLite",
         base: ".files",
       },
+      sqliteDB:{
+        driver: 'fsLite',
+        base: '.db'
+      }
     },
     experimental: {
       tasks: true,
@@ -40,7 +43,7 @@ export default defineNuxtConfig({
     // },
   },
   runtimeConfig: {
-    databaseURL: "",
+    databaseURL: import.meta.env.NUXT_DATABASE_URL,
     tursoAuthToken: import.meta.env.NUXT_TURSO_AUTH_TOKEN,
   },
 });

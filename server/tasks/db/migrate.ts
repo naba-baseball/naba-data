@@ -5,10 +5,10 @@ export default defineTask({
     name: "db:migrate",
     description: "run migrations",
   },
-  run() {
+  async run() {
     console.log("running migration");
     const db = useSQLite();
-    migrate(db, { migrationsFolder: "./server/drizzle" });
-    return { result: "success" };
+    await migrate(db, { migrationsFolder: "./server/drizzle" });
+    return { result: "migrations applied" };
   },
 });

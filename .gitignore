@@ -25,3 +25,5 @@ logs
 
 # Temporary files
 .files
+
+.db

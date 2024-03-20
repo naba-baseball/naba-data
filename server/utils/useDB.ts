@@ -1,8 +1,14 @@
-import { MongoClient } from "mongodb";
+import { drizzle, LibSQLDatabase } from "drizzle-orm/libsql";
+import { createClient } from "@libsql/client";
+import * as schema from "../drizzle/schema.js";
+let _db: LibSQLDatabase<typeof schema>;
 
-const mongo = new MongoClient(useRuntimeConfig().databaseURL, {
-  ignoreUndefined: true,
-});
-export function useDB() {
-  return mongo;
+export function useSQLite() {
+  if (_db) return _db;
+  const connection = createClient({
+    url: useRuntimeConfig().databaseURL,
+  });
+
+  _db = drizzle(connection, { schema });
+  return _db;
 }

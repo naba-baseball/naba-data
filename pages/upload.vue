@@ -35,8 +35,8 @@ async function submit() {
     method: "POST",
     body,
   });
-  // statusMessage.value = "extracting...";
-  // await $fetch("/api/database", { method: "PUT" });
+  statusMessage.value = "extracting...";
+  await $fetch("/api/database", { method: "PUT" });
   statusMessage.value = "done :)";
 }
 const { execute, status, error, pending } = useAsyncData(submit, {
