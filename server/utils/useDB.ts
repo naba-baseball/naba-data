@@ -7,6 +7,7 @@ export function useSQLite() {
   if (_db) return _db;
   const connection = createClient({
     url: useRuntimeConfig().databaseURL,
+    authToken: useRuntimeConfig().tursoAuthToken,
   });
 
   _db = drizzle(connection, { schema });
