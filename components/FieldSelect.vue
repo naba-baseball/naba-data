@@ -1,7 +1,6 @@
 <script lang="ts" setup generic="M, T extends string, V extends string">
-import type { F } from "ts-toolbelt";
 type TItem = { [key in T]: string } | { text?: string };
-type VItem = { [key in V]: F.NoInfer<M> } | { value?: F.NoInfer<M> };
+type VItem = { [key in V]: M } | { value?: M };
 
 type Item = TItem & VItem;
 withDefaults(
