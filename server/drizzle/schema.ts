@@ -1,5 +1,4 @@
-import { sqliteTable, AnySQLiteColumn, numeric, text, integer, uniqueIndex } from "drizzle-orm/sqlite-core"
-import { sql } from "drizzle-orm"
+import { sqliteTable, text, integer, uniqueIndex, index } from "drizzle-orm/sqlite-core"
 
 export const players = sqliteTable("players", {
 	player_id: integer("player_id"),
@@ -119,6 +118,11 @@ export const players = sqliteTable("players", {
 	on_loan: integer("on_loan"),
 	loan_league_id: integer("loan_league_id"),
 	loan_team_id: integer("loan_team_id"),
+}, table => {
+	return {
+		id_idx: uniqueIndex("id_idx").on(table.player_id),
+		team_id_idx: index("team_id_idx").on(table.team_id),
+	}
 });
 
 export const cities = sqliteTable("cities", {
@@ -1283,7 +1287,8 @@ export const playersBatting = sqliteTable("players_batting", {
 	batting_ratings_misc_fb_hitter_type: integer("batting_ratings_misc_fb_hitter_type"),
 }, table => {
 	return {
-		batting_rating_player_id_idx: uniqueIndex("batting_rating_player_id_idx").on(table.playerId)
+		batting_rating_player_id_idx: uniqueIndex("batting_rating_player_id_idx").on(table.player_id),
+		batting_rating_team_id_idx: index("batting_rating_team_id_idx").on(table.team_id)
 	}
 });
 
@@ -1739,6 +1744,11 @@ export const playersPitching = sqliteTable("players_pitching", {
 	pitching_ratings_misc_ground_fly: integer("pitching_ratings_misc_ground_fly"),
 	pitching_ratings_misc_hold: integer("pitching_ratings_misc_hold"),
 	pitching_ratings_babip: integer("pitching_ratings_babip"),
+}, table => {
+	return {
+		pitching_rating_player_id_idx: uniqueIndex("pitching_rating_player_id_idx").on(table.player_id),
+		pitching_rating_team_id_idx: index("pitching_rating_team_id_idx").on(table.team_id)
+	}
 });
 
 export const playersRosterStatus = sqliteTable("players_roster_status", {
@@ -2440,6 +2450,13 @@ export const teamRoster = sqliteTable("team_roster", {
 	team_id: integer("team_id"),
 	player_id: integer("player_id"),
 	list_id: integer("list_id"),
+},table => {
+	return {
+		team_roster_player_id_idx: index("team_roster_player_id_idx").on(table.player_id),
+		team_roster_team_id_idx: index("team_roster_team_id_idx").on(table.team_id),
+		team_roster_list_id_idx: index("team_roster_list_id_idx").on(table.list_id)
+
+	}
 });
 
 export const teamRosterStaff = sqliteTable("team_roster_staff", {
