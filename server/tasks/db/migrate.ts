@@ -9,7 +9,7 @@ export default defineTask({
     console.log("running migration");
     const db = useSQLite();
 
-    await migrate(db, { migrationsFolder: "server/assets/drizzle" });
+    await migrate(db, { migrationsFolder: ".drizzle" });
     return { result: "migrations applied" };
   },
 });

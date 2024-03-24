@@ -3,7 +3,7 @@ import * as dotenv from "dotenv";
 dotenv.config();
 export default {
   schema: "./server/drizzle/schema.ts",
-  out: "./server/assets/drizzle",
+  out: ".drizzle",
   driver: "libsql",
   dbCredentials: {
     url: process.env.NUXT_DATABASE_URL,
