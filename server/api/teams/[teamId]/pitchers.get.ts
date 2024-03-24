@@ -34,6 +34,7 @@ export default defineEventHandler(async (event) => {
     team_id: players.team_id,
     age: players.age,
     role: players.role,
+    throws: players.throws,
     pitching: {
       stuff: pitching[`pitching_ratings_${split}_stuff`],
       control: pitching[`pitching_ratings_${split}_control`],

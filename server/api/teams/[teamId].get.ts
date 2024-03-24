@@ -11,6 +11,6 @@ export default defineEventHandler(async (event) => {
     team_id: teams.team_id,
     name: teams.name,
     nickname: teams.nickname,
-  }).from(teams).where(eq(teams.team_id, teamId)).get()
-  
+    logo_file_name: teams.logo_file_name,
+  }).from(teams).where(eq(teams.team_id, teamId)).get();
 });

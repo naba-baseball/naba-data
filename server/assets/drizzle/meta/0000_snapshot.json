@@ -1,0 +1,2075 @@
+{
+  "version": "5",
+  "dialect": "sqlite",
+  "id": "1adf09c1-f5a5-4bc3-b822-2642fb26f4b7",
+  "prevId": "00000000-0000-0000-0000-000000000000",
+  "tables": {
+    "players": {
+      "name": "players",
+      "columns": {
+        "player_id": {
+          "name": "player_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "team_id": {
+          "name": "team_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "league_id": {
+          "name": "league_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "first_name": {
+          "name": "first_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "last_name": {
+          "name": "last_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "nick_name": {
+          "name": "nick_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "age": {
+          "name": "age",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "date_of_birth": {
+          "name": "date_of_birth",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "city_of_birth_id": {
+          "name": "city_of_birth_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "nation_id": {
+          "name": "nation_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "second_nation_id": {
+          "name": "second_nation_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "weight": {
+          "name": "weight",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "height": {
+          "name": "height",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "retired": {
+          "name": "retired",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "free_agent": {
+          "name": "free_agent",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "last_league_id": {
+          "name": "last_league_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "last_team_id": {
+          "name": "last_team_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "organization_id": {
+          "name": "organization_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "last_organization_id": {
+          "name": "last_organization_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "language_ids0": {
+          "name": "language_ids0",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "language_ids1": {
+          "name": "language_ids1",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "uniform_number": {
+          "name": "uniform_number",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "experience": {
+          "name": "experience",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "person_type": {
+          "name": "person_type",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "bats": {
+          "name": "bats",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "throws": {
+          "name": "throws",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "personality_greed": {
+          "name": "personality_greed",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "personality_loyalty": {
+          "name": "personality_loyalty",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "personality_play_for_winner": {
+          "name": "personality_play_for_winner",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "personality_work_ethic": {
+          "name": "personality_work_ethic",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "personality_intelligence": {
+          "name": "personality_intelligence",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "personality_leader": {
+          "name": "personality_leader",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "historical_id": {
+          "name": "historical_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "historical_team_id": {
+          "name": "historical_team_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "best_contract_offer_id": {
+          "name": "best_contract_offer_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "injury_is_injured": {
+          "name": "injury_is_injured",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "injury_dtd_injury": {
+          "name": "injury_dtd_injury",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "injury_career_ending": {
+          "name": "injury_career_ending",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "injury_dl_left": {
+          "name": "injury_dl_left",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "injury_dl_playoff_round": {
+          "name": "injury_dl_playoff_round",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "injury_left": {
+          "name": "injury_left",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "dtd_injury_effect": {
+          "name": "dtd_injury_effect",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "dtd_injury_effect_hit": {
+          "name": "dtd_injury_effect_hit",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "dtd_injury_effect_throw": {
+          "name": "dtd_injury_effect_throw",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "dtd_injury_effect_run": {
+          "name": "dtd_injury_effect_run",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "injury_id": {
+          "name": "injury_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "injury_id2": {
+          "name": "injury_id2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "injury_dtd_injury2": {
+          "name": "injury_dtd_injury2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "injury_left2": {
+          "name": "injury_left2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "dtd_injury_effect2": {
+          "name": "dtd_injury_effect2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "dtd_injury_effect_hit2": {
+          "name": "dtd_injury_effect_hit2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "dtd_injury_effect_throw2": {
+          "name": "dtd_injury_effect_throw2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "dtd_injury_effect_run2": {
+          "name": "dtd_injury_effect_run2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "prone_overall": {
+          "name": "prone_overall",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "prone_leg": {
+          "name": "prone_leg",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "prone_back": {
+          "name": "prone_back",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "prone_arm": {
+          "name": "prone_arm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fatigue_pitches0": {
+          "name": "fatigue_pitches0",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fatigue_pitches1": {
+          "name": "fatigue_pitches1",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fatigue_pitches2": {
+          "name": "fatigue_pitches2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fatigue_pitches3": {
+          "name": "fatigue_pitches3",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fatigue_pitches4": {
+          "name": "fatigue_pitches4",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fatigue_pitches5": {
+          "name": "fatigue_pitches5",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fatigue_points": {
+          "name": "fatigue_points",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fatigue_played_today": {
+          "name": "fatigue_played_today",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "running_ratings_speed": {
+          "name": "running_ratings_speed",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "running_ratings_stealing": {
+          "name": "running_ratings_stealing",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "running_ratings_baserunning": {
+          "name": "running_ratings_baserunning",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "college": {
+          "name": "college",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "acquired": {
+          "name": "acquired",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "acquired_date": {
+          "name": "acquired_date",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "draft_year": {
+          "name": "draft_year",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "draft_round": {
+          "name": "draft_round",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "draft_supplemental": {
+          "name": "draft_supplemental",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "draft_pick": {
+          "name": "draft_pick",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "draft_overall_pick": {
+          "name": "draft_overall_pick",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "draft_eligible": {
+          "name": "draft_eligible",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "hsc_status": {
+          "name": "hsc_status",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "redshirt": {
+          "name": "redshirt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "picked_in_draft": {
+          "name": "picked_in_draft",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "school": {
+          "name": "school",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "commit_school": {
+          "name": "commit_school",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "hidden": {
+          "name": "hidden",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "draft_league_id": {
+          "name": "draft_league_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "draft_team_id": {
+          "name": "draft_team_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "turned_coach": {
+          "name": "turned_coach",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "hall_of_fame": {
+          "name": "hall_of_fame",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "rust": {
+          "name": "rust",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "inducted": {
+          "name": "inducted",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_override_team": {
+          "name": "strategy_override_team",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_stealing": {
+          "name": "strategy_stealing",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_running": {
+          "name": "strategy_running",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_bunt_for_hit": {
+          "name": "strategy_bunt_for_hit",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_sac_bunt": {
+          "name": "strategy_sac_bunt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_hit_run": {
+          "name": "strategy_hit_run",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_hook_start": {
+          "name": "strategy_hook_start",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_hook_relief": {
+          "name": "strategy_hook_relief",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_pitch_count": {
+          "name": "strategy_pitch_count",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_pitch_around": {
+          "name": "strategy_pitch_around",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_never_pinch_hit": {
+          "name": "strategy_never_pinch_hit",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_defensive_sub": {
+          "name": "strategy_defensive_sub",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_dtd_sit_min": {
+          "name": "strategy_dtd_sit_min",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "strategy_dtd_allow_ph": {
+          "name": "strategy_dtd_allow_ph",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "local_pop": {
+          "name": "local_pop",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "national_pop": {
+          "name": "national_pop",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "draft_protected": {
+          "name": "draft_protected",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "morale": {
+          "name": "morale",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "morale_player_performance": {
+          "name": "morale_player_performance",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "morale_team_performance": {
+          "name": "morale_team_performance",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "morale_team_transactions": {
+          "name": "morale_team_transactions",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "expectation": {
+          "name": "expectation",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "morale_player_role": {
+          "name": "morale_player_role",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "on_loan": {
+          "name": "on_loan",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "loan_league_id": {
+          "name": "loan_league_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "loan_team_id": {
+          "name": "loan_team_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "id_idx": {
+          "name": "id_idx",
+          "columns": [
+            "player_id"
+          ],
+          "isUnique": true
+        },
+        "player_team_id_idx": {
+          "name": "player_team_id_idx",
+          "columns": [
+            "team_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "players_batting": {
+      "name": "players_batting",
+      "columns": {
+        "player_id": {
+          "name": "player_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "team_id": {
+          "name": "team_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "league_id": {
+          "name": "league_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_overall_contact": {
+          "name": "batting_ratings_overall_contact",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_overall_gap": {
+          "name": "batting_ratings_overall_gap",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_overall_eye": {
+          "name": "batting_ratings_overall_eye",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_overall_strikeouts": {
+          "name": "batting_ratings_overall_strikeouts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_overall_hp": {
+          "name": "batting_ratings_overall_hp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_overall_power": {
+          "name": "batting_ratings_overall_power",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_overall_babip": {
+          "name": "batting_ratings_overall_babip",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsr_contact": {
+          "name": "batting_ratings_vsr_contact",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsr_gap": {
+          "name": "batting_ratings_vsr_gap",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsr_eye": {
+          "name": "batting_ratings_vsr_eye",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsr_strikeouts": {
+          "name": "batting_ratings_vsr_strikeouts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsr_hp": {
+          "name": "batting_ratings_vsr_hp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsr_power": {
+          "name": "batting_ratings_vsr_power",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsr_babip": {
+          "name": "batting_ratings_vsr_babip",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsl_contact": {
+          "name": "batting_ratings_vsl_contact",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsl_gap": {
+          "name": "batting_ratings_vsl_gap",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsl_eye": {
+          "name": "batting_ratings_vsl_eye",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsl_strikeouts": {
+          "name": "batting_ratings_vsl_strikeouts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsl_hp": {
+          "name": "batting_ratings_vsl_hp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsl_power": {
+          "name": "batting_ratings_vsl_power",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_vsl_babip": {
+          "name": "batting_ratings_vsl_babip",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_talent_contact": {
+          "name": "batting_ratings_talent_contact",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_talent_gap": {
+          "name": "batting_ratings_talent_gap",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_talent_eye": {
+          "name": "batting_ratings_talent_eye",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_talent_strikeouts": {
+          "name": "batting_ratings_talent_strikeouts",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_talent_hp": {
+          "name": "batting_ratings_talent_hp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_talent_power": {
+          "name": "batting_ratings_talent_power",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_talent_babip": {
+          "name": "batting_ratings_talent_babip",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_misc_bunt": {
+          "name": "batting_ratings_misc_bunt",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_misc_bunt_for_hit": {
+          "name": "batting_ratings_misc_bunt_for_hit",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_misc_gb_hitter_type": {
+          "name": "batting_ratings_misc_gb_hitter_type",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "batting_ratings_misc_fb_hitter_type": {
+          "name": "batting_ratings_misc_fb_hitter_type",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "batting_rating_player_id_idx": {
+          "name": "batting_rating_player_id_idx",
+          "columns": [
+            "player_id"
+          ],
+          "isUnique": true
+        },
+        "batting_rating_team_id_idx": {
+          "name": "batting_rating_team_id_idx",
+          "columns": [
+            "team_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "players_fielding": {
+      "name": "players_fielding",
+      "columns": {
+        "player_id": {
+          "name": "player_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "team_id": {
+          "name": "team_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "league_id": {
+          "name": "league_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_ratings_infield_range": {
+          "name": "fielding_ratings_infield_range",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_ratings_infield_arm": {
+          "name": "fielding_ratings_infield_arm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_ratings_turn_doubleplay": {
+          "name": "fielding_ratings_turn_doubleplay",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_ratings_outfield_range": {
+          "name": "fielding_ratings_outfield_range",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_ratings_outfield_arm": {
+          "name": "fielding_ratings_outfield_arm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_ratings_catcher_arm": {
+          "name": "fielding_ratings_catcher_arm",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_ratings_catcher_ability": {
+          "name": "fielding_ratings_catcher_ability",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_ratings_infield_error": {
+          "name": "fielding_ratings_infield_error",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_ratings_outfield_error": {
+          "name": "fielding_ratings_outfield_error",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_experience0": {
+          "name": "fielding_experience0",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_experience1": {
+          "name": "fielding_experience1",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_experience2": {
+          "name": "fielding_experience2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_experience3": {
+          "name": "fielding_experience3",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_experience4": {
+          "name": "fielding_experience4",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_experience5": {
+          "name": "fielding_experience5",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_experience6": {
+          "name": "fielding_experience6",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_experience7": {
+          "name": "fielding_experience7",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_experience8": {
+          "name": "fielding_experience8",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_experience9": {
+          "name": "fielding_experience9",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_rating_pos1": {
+          "name": "fielding_rating_pos1",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_rating_pos2": {
+          "name": "fielding_rating_pos2",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_rating_pos3": {
+          "name": "fielding_rating_pos3",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_rating_pos4": {
+          "name": "fielding_rating_pos4",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_rating_pos5": {
+          "name": "fielding_rating_pos5",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_rating_pos6": {
+          "name": "fielding_rating_pos6",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_rating_pos7": {
+          "name": "fielding_rating_pos7",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_rating_pos8": {
+          "name": "fielding_rating_pos8",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "fielding_rating_pos9": {
+          "name": "fielding_rating_pos9",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "players_pitching": {
+      "name": "players_pitching",
+      "columns": {
+        "player_id": {
+          "name": "player_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "team_id": {
+          "name": "team_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "league_id": {
+          "name": "league_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_overall_stuff": {
+          "name": "pitching_ratings_overall_stuff",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_overall_control": {
+          "name": "pitching_ratings_overall_control",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_overall_movement": {
+          "name": "pitching_ratings_overall_movement",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_overall_balk": {
+          "name": "pitching_ratings_overall_balk",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_overall_hp": {
+          "name": "pitching_ratings_overall_hp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_overall_wild_pitch": {
+          "name": "pitching_ratings_overall_wild_pitch",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_vsr_stuff": {
+          "name": "pitching_ratings_vsr_stuff",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_vsr_control": {
+          "name": "pitching_ratings_vsr_control",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_vsr_movement": {
+          "name": "pitching_ratings_vsr_movement",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_vsr_balk": {
+          "name": "pitching_ratings_vsr_balk",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_vsr_hp": {
+          "name": "pitching_ratings_vsr_hp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_vsr_wild_pitch": {
+          "name": "pitching_ratings_vsr_wild_pitch",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_vsl_stuff": {
+          "name": "pitching_ratings_vsl_stuff",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_vsl_control": {
+          "name": "pitching_ratings_vsl_control",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_vsl_movement": {
+          "name": "pitching_ratings_vsl_movement",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_vsl_balk": {
+          "name": "pitching_ratings_vsl_balk",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_vsl_hp": {
+          "name": "pitching_ratings_vsl_hp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_vsl_wild_pitch": {
+          "name": "pitching_ratings_vsl_wild_pitch",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_talent_stuff": {
+          "name": "pitching_ratings_talent_stuff",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_talent_control": {
+          "name": "pitching_ratings_talent_control",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_talent_movement": {
+          "name": "pitching_ratings_talent_movement",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_talent_balk": {
+          "name": "pitching_ratings_talent_balk",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_talent_hp": {
+          "name": "pitching_ratings_talent_hp",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_talent_wild_pitch": {
+          "name": "pitching_ratings_talent_wild_pitch",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_fastball": {
+          "name": "pitching_ratings_pitches_fastball",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_slider": {
+          "name": "pitching_ratings_pitches_slider",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_curveball": {
+          "name": "pitching_ratings_pitches_curveball",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_screwball": {
+          "name": "pitching_ratings_pitches_screwball",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_forkball": {
+          "name": "pitching_ratings_pitches_forkball",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_changeup": {
+          "name": "pitching_ratings_pitches_changeup",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_sinker": {
+          "name": "pitching_ratings_pitches_sinker",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_splitter": {
+          "name": "pitching_ratings_pitches_splitter",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_knuckleball": {
+          "name": "pitching_ratings_pitches_knuckleball",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_cutter": {
+          "name": "pitching_ratings_pitches_cutter",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_circlechange": {
+          "name": "pitching_ratings_pitches_circlechange",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_knucklecurve": {
+          "name": "pitching_ratings_pitches_knucklecurve",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_talent_fastball": {
+          "name": "pitching_ratings_pitches_talent_fastball",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_talent_slider": {
+          "name": "pitching_ratings_pitches_talent_slider",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_talent_curveball": {
+          "name": "pitching_ratings_pitches_talent_curveball",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_talent_screwball": {
+          "name": "pitching_ratings_pitches_talent_screwball",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_talent_forkball": {
+          "name": "pitching_ratings_pitches_talent_forkball",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_talent_changeup": {
+          "name": "pitching_ratings_pitches_talent_changeup",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_talent_sinker": {
+          "name": "pitching_ratings_pitches_talent_sinker",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_talent_splitter": {
+          "name": "pitching_ratings_pitches_talent_splitter",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_talent_knuckleball": {
+          "name": "pitching_ratings_pitches_talent_knuckleball",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_talent_cutter": {
+          "name": "pitching_ratings_pitches_talent_cutter",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_talent_circlechange": {
+          "name": "pitching_ratings_pitches_talent_circlechange",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_pitches_talent_knucklecurve": {
+          "name": "pitching_ratings_pitches_talent_knucklecurve",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_misc_velocity": {
+          "name": "pitching_ratings_misc_velocity",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_misc_arm_slot": {
+          "name": "pitching_ratings_misc_arm_slot",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_misc_stamina": {
+          "name": "pitching_ratings_misc_stamina",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_misc_ground_fly": {
+          "name": "pitching_ratings_misc_ground_fly",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_misc_hold": {
+          "name": "pitching_ratings_misc_hold",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "pitching_ratings_babip": {
+          "name": "pitching_ratings_babip",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "pitching_rating_player_id_idx": {
+          "name": "pitching_rating_player_id_idx",
+          "columns": [
+            "player_id"
+          ],
+          "isUnique": true
+        },
+        "pitching_rating_team_id_idx": {
+          "name": "pitching_rating_team_id_idx",
+          "columns": [
+            "team_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "team_roster": {
+      "name": "team_roster",
+      "columns": {
+        "team_id": {
+          "name": "team_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "player_id": {
+          "name": "player_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "list_id": {
+          "name": "list_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "team_roster_player_id_idx": {
+          "name": "team_roster_player_id_idx",
+          "columns": [
+            "player_id"
+          ],
+          "isUnique": false
+        },
+        "team_roster_team_id_idx": {
+          "name": "team_roster_team_id_idx",
+          "columns": [
+            "team_id"
+          ],
+          "isUnique": false
+        },
+        "team_roster_list_id_idx": {
+          "name": "team_roster_list_id_idx",
+          "columns": [
+            "list_id"
+          ],
+          "isUnique": false
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    },
+    "teams": {
+      "name": "teams",
+      "columns": {
+        "team_id": {
+          "name": "team_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "abbr": {
+          "name": "abbr",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "nickname": {
+          "name": "nickname",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "logo_file_name": {
+          "name": "logo_file_name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "city_id": {
+          "name": "city_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "park_id": {
+          "name": "park_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "league_id": {
+          "name": "league_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "sub_league_id": {
+          "name": "sub_league_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "division_id": {
+          "name": "division_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "nation_id": {
+          "name": "nation_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "parent_team_id": {
+          "name": "parent_team_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "level": {
+          "name": "level",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "prevent_any_moves": {
+          "name": "prevent_any_moves",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "human_team": {
+          "name": "human_team",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "human_id": {
+          "name": "human_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "gender": {
+          "name": "gender",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "background_color_id": {
+          "name": "background_color_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "text_color_id": {
+          "name": "text_color_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "ballcaps_main_color_id": {
+          "name": "ballcaps_main_color_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "ballcaps_visor_color_id": {
+          "name": "ballcaps_visor_color_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "jersey_main_color_id": {
+          "name": "jersey_main_color_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "jersey_away_color_id": {
+          "name": "jersey_away_color_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "jersey_secondary_color_id": {
+          "name": "jersey_secondary_color_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "jersey_pin_stripes_color_id": {
+          "name": "jersey_pin_stripes_color_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "allstar_team": {
+          "name": "allstar_team",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "historical_id": {
+          "name": "historical_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "team_id_idx": {
+          "name": "team_id_idx",
+          "columns": [
+            "team_id"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {}
+    }
+  },
+  "enums": {},
+  "_meta": {
+    "schemas": {},
+    "tables": {},
+    "columns": {}
+  }
+}

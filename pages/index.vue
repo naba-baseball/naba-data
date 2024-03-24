@@ -3,6 +3,7 @@ const { data: teams } = await useFetch("/api/teams", { default: () => [] });
 </script>
 
 <template>
+  <h1 class="text-xl mb-sm font-serif font-bold uppercase tracking-wider text-primary">Teams</h1>
   <ul class="gap-sm" grid="~ cols-1 sm:cols-3 auto-rows-[minmax(48px,auto)]">
     <li class="block" v-for="team in teams || []" :key="team.team_id">
       <nuxt-link

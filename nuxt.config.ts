@@ -12,7 +12,7 @@ export default defineNuxtConfig({
     "@/assets/css/reset.css",
     "@/assets/css/ratings.css",
     "@/assets/css/variables.css",
-    '@/assets/css/main.css'
+    "@/assets/css/main.css",
   ],
   nitro: {
     storage: {
@@ -20,26 +20,32 @@ export default defineNuxtConfig({
         driver: "fsLite",
         base: ".files",
       },
-      sqliteDB:{
-        driver: 'fsLite',
-        base: '.db'
-      }
+      sqliteDB: {
+        driver: "fsLite",
+        base: ".db",
+      },
+      drizzle: {
+        driver: "fsLite",
+        base: ".drizzle",
+      },
     },
     experimental: {
       tasks: true,
     },
   },
   routeRules: {
-    // "/*": {
-    //   swr: true,
+    // "/**": {
+    //   cache: {
+    //     headersOnly: true,
+    //     maxAge: 60 * 60 * 24,
+    //     swr: true,
+    //   },
     // },
     // "/api/**": {
-    //   // swr: true,
     //   cache: {
     //     headersOnly: true,
     //     maxAge: 60 * 60 * 24,
     //   },
-    //   headers: { xtest: "asdf" },
     // },
   },
   runtimeConfig: {

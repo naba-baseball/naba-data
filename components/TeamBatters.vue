@@ -46,7 +46,7 @@ watch(
       tablePlayer.player_id = player.player_id;
       tablePlayer.age = player.age;
       tablePlayer.name = `${player.first_name} ${player.last_name}`;
-      tablePlayer.bats = useHandAbbreviation(player).value;
+      tablePlayer.bats = useHandAbbreviation(player.bats).value;
       tablePlayer.position = player.position;
       tablePlayer.contact = player.batting.contact;
       tablePlayer.eye = player.batting.eye;
