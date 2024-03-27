@@ -1,5 +1,5 @@
 import { migrate } from "drizzle-orm/libsql/migrator";
-
+import { resolve } from "node:path";
 export default defineTask({
   meta: {
     name: "db:migrate",
@@ -8,8 +8,9 @@ export default defineTask({
   async run() {
     console.log("running migration");
     const db = useSQLite();
-
-    await migrate(db, { migrationsFolder: ".drizzle" });
+    // const migrationsFolder = import.meta.dev ? "drizzle" : "../../../../drizzle";
+    console.log("WHERE AM I", resolve("server/drizzle"));
+    await migrate(db, { migrationsFolder: "server/drizzle" });
     return { result: "migrations applied" };
   },
 });
