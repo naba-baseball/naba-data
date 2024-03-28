@@ -1,5 +1,3 @@
-import { copyFile, readdir, mkdir, cp, writeFile } from "node:fs/promises";
-import { join } from "node:path";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
@@ -17,30 +15,10 @@ export default defineNuxtConfig({
         driver: "fsLite",
         base: ".files",
       },
-      sqliteDB: {
-        driver: "fsLite",
-        base: ".db",
-      },
     },
     experimental: {
       tasks: true,
     },
-  },
-  hooks: {
-    async "nitro:build:public-assets"(nitro) {
-      const targetDir = join(nitro.options.output.serverDir, "drizzle");
-      await cp("./server/drizzle", targetDir, { recursive: true });
-    },
-    // async "build:done"() {
-    //   //copy drizzle files to build
-    //   console.log("====copying====");
-    //   await writeFile("testington", "asdfasdfasdf");
-    //   await mkdir(".output/server/chunks/tasks/.drizzle", { recursive: true });
-    //   await cp(".drizzle/", ".output/server/chunks/tasks/.drizzle/", {
-    //     recursive: true,
-    //   });
-    //   console.log("====copied!====");
-    // },
   },
   routeRules: {
     // "/**": {

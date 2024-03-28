@@ -29,6 +29,9 @@ dependencies:
   drizzle-orm:
     specifier: ^0.30.4
     version: 0.30.4(@libsql/client@0.5.6)
+  papaparse:
+    specifier: ^5.4.1
+    version: 5.4.1
   vue:
     specifier: ^3.4.21
     version: 3.4.21(typescript@5.4.3)
@@ -46,6 +49,9 @@ devDependencies:
   '@nuxt/fonts':
     specifier: ^0.3.0
     version: 0.3.0(nuxt@3.11.1)(vite@5.2.4)
+  '@types/papaparse':
+    specifier: ^5.3.14
+    version: 5.3.14
   '@unocss/nuxt':
     specifier: ^0.58.6
     version: 0.58.6(postcss@8.4.38)(vite@5.2.4)(webpack@5.91.0)
@@ -2356,6 +2362,12 @@ packages:
     resolution: {integrity: sha512-dHM6ZxwlmuZaRmUPfv1p+KrdD1Dci04FbdEm/9wEMouFqxYoFl5aMkt0VMAUtYRQDyYvD41WJLukhq/ha3YuTw==}
     dependencies:
       undici-types: 5.26.5
+
+  /@types/papaparse@5.3.14:
+    resolution: {integrity: sha512-LxJ4iEFcpqc6METwp9f6BV6VVc43m6MfH0VqFosHvrUgfXiFe6ww7R3itkOQ+TCK6Y+Iv/+RnnvtRZnkc5Kc9g==}
+    dependencies:
+      '@types/node': 20.11.30
+    dev: true
 
   /@types/resolve@1.20.2:
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
@@ -6823,6 +6835,10 @@ packages:
   /pako@0.2.9:
     resolution: {integrity: sha512-NUcwaKxUxWrZLpDG+z/xZaCgQITkA/Dv4V/T6bw7VON6l1Xz/VnrBqrYjZQ12TamKHzITTfOEIYUj48y2KXImA==}
     dev: true
+
+  /papaparse@5.4.1:
+    resolution: {integrity: sha512-HipMsgJkZu8br23pW15uvo6sib6wne/4woLZPlFf3rpDyMe9ywEXUsuD7+6K9PRkJlVT51j/sCOYDKGGS3ZJrw==}
+    dev: false
 
   /parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
