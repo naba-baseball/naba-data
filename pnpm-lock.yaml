@@ -37,9 +37,6 @@ devDependencies:
   '@nuxt/fonts':
     specifier: ^0.3.0
     version: 0.3.0(nuxt@3.11.0)(vite@5.1.6)
-  '@pinia/nuxt':
-    specifier: ^0.5.1
-    version: 0.5.1(typescript@5.4.2)(vue@3.4.21)
   '@unocss/nuxt':
     specifier: ^0.58.6
     version: 0.58.6(postcss@8.4.35)(vite@5.1.6)(webpack@5.90.3)
@@ -61,12 +58,6 @@ devDependencies:
   radix-vue:
     specifier: ^1.5.2
     version: 1.5.2(vue@3.4.21)
-  ts-toolbelt:
-    specifier: ^9.6.0
-    version: 9.6.0
-  typescript:
-    specifier: ^5.4.2
-    version: 5.4.2
   unocss:
     specifier: ^0.58.6
     version: 0.58.6(@unocss/webpack@0.58.6)(postcss@8.4.35)(vite@5.1.6)
@@ -1656,19 +1647,6 @@ packages:
       '@parcel/watcher-win32-arm64': 2.4.1
       '@parcel/watcher-win32-ia32': 2.4.1
       '@parcel/watcher-win32-x64': 2.4.1
-    dev: true
-
-  /@pinia/nuxt@0.5.1(typescript@5.4.2)(vue@3.4.21):
-    resolution: {integrity: sha512-6wT6TqY81n+7/x3Yhf0yfaJVKkZU42AGqOR0T3+UvChcaOJhSma7OWPN64v+ptYlznat+fS1VTwNAcbi2lzHnw==}
-    dependencies:
-      '@nuxt/kit': 3.11.0
-      pinia: 2.1.7(typescript@5.4.2)(vue@3.4.21)
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - rollup
-      - supports-color
-      - typescript
-      - vue
     dev: true
 
   /@pkgjs/parseargs@0.11.0:
@@ -7208,10 +7186,6 @@ packages:
       typescript: '>=4.2.0'
     dependencies:
       typescript: 5.4.2
-    dev: true
-
-  /ts-toolbelt@9.6.0:
-    resolution: {integrity: sha512-nsZd8ZeNUzukXPlJmTBwUAuABDe/9qtVDelJeT/qW0ow3ZS3BsQJtNkan1802aM9Uf68/Y8ljw86Hu0h5IUW3w==}
     dev: true
 
   /tslib@2.6.2:

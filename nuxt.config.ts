@@ -4,7 +4,6 @@ export default defineNuxtConfig({
   modules: [
     "@unocss/nuxt",
     "@vueuse/nuxt",
-    "@pinia/nuxt",
     "radix-vue/nuxt",
     "@nuxt/fonts"
   ],
