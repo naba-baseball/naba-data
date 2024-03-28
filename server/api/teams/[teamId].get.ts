@@ -17,6 +17,7 @@ export default defineEventHandler(async (event) => {
         name: 1,
         nickname: 1,
         primary_roster: 1,
+        logo_file_name:1
       },
     },
   );

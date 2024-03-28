@@ -32,12 +32,8 @@ export default defineEventHandler(async (event) => {
       age: 1,
       role: 1,
       bats: 1,
-      batting: {
-        [split]: 1,
-      },
-      roster: {
-        [roster]: 1,
-      },
+      batting: `$batting.${split}`,
+      roster: `$roster.${split}`
     })
     .toArray();
 });

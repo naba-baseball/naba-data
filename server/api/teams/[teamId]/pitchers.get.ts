@@ -28,12 +28,11 @@ export default defineEventHandler(async (event) => {
       player_id: 1,
       first_name: 1,
       last_name: 1,
-      position: 1,
       team_id: 1,
       age: 1,
       role: 1,
-      bats: 1,
-      pitching: "$pitching." + split,
+      throws: 1,
+      pitching: `$pitching.${split}`,
     })
     .toArray();
 });

@@ -189,6 +189,7 @@ export default defineConfig({
     "field-container": "grid gap-2xs",
     "field-input": "bg-surface-50 border-surface-300 shadow shadow-sm text-surface-950 rounded min-h-9",
     "bg-primary": "bg-primary-700 text-white font-normal",
+    'text-primary': 'text-primary-900',
     "btn": "rounded p-2 disabled:(opacity-80 cursor-not-allowed)",
   },
 });

@@ -16,7 +16,7 @@ const columns = [
 ];
 
 const { data: players } = await useFetch<
-  (Player & { bats: number; batting: BattingRatingSplits })[]
+  (Player & BattingRatingSplits & { bats: number })[]
 >(
   computed(() => `/api/teams/${useRoute().params.teamId}/batters`),
   {
@@ -46,13 +46,13 @@ watch(
       tablePlayer.player_id = player.player_id;
       tablePlayer.age = player.age;
       tablePlayer.name = `${player.first_name} ${player.last_name}`;
-      tablePlayer.bats = useHandAbbreviation(player).value;
+      tablePlayer.bats = useHandAbbreviation(player.bats).value;
       tablePlayer.position = player.position;
-      tablePlayer.contact = player.batting[split.value].contact;
-      tablePlayer.eye = player.batting[split.value].eye;
-      tablePlayer.gap = player.batting[split.value].gap;
-      tablePlayer.power = player.batting[split.value].power;
-      tablePlayer.strikeouts = player.batting[split.value].strikeouts;
+      tablePlayer.contact = player.batting.contact;
+      tablePlayer.eye = player.batting.eye;
+      tablePlayer.gap = player.batting.gap;
+      tablePlayer.power = player.batting.power;
+      tablePlayer.strikeouts = player.batting.strikeouts;
       return tablePlayer;
     });
   },

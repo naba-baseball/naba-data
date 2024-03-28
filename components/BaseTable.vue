@@ -46,12 +46,15 @@ function handleSort(val) {
   <table class="base-table gap-x-1" :data-direction="sortDir">
     <thead class="grid grid-cols-subgrid col-span-full">
       <tr
-        class="grid grid-cols-subgrid col-span-full place-content-start h-$table-header-height border-b"
+        class="grid grid-cols-subgrid col-span-full place-content-start [&>*]:h-$table-header-height border-b"
       >
+        <th class="sticky left-0 z-1 bg-surface-100 grid items-center px-3xs">
+          {{ columns[0][columnText] }}
+        </th>
         <th
-          v-for="column of columns"
+          v-for="column of columns.slice(1, columns.length)"
           :key="`column-${column[columnValue]}`"
-          class="capitalize grid grid-flow-col items-center"
+          class="capitalize flex items-center gap-xs cursor-pointer"
           @click="handleSort(column[columnValue])"
         >
           {{ column[columnText] }}
@@ -70,9 +73,15 @@ function handleSort(val) {
         v-for="item of sorted"
         :key="item[itemId]"
       >
-        <td v-for="column of columns" class="grid items-center">
-          <slot :name="column.value" :item :column>
-            {{ item[column.value] }}
+        <th class="sticky left-0 z-1 bg-surface-100 grid items-center px-3xs">
+          {{ item[columns[0][columnValue]] }}
+        </th>
+        <td
+          v-for="column of columns.slice(1, columns.length)"
+          class="grid items-center"
+        >
+          <slot :name="column[columnValue]" :item :column>
+            {{ item[column[columnValue]] }}
           </slot>
         </td>
       </tr>
@@ -84,7 +93,11 @@ function handleSort(val) {
 .base-table {
   --table-column-count: v-bind("columns.length");
   display: grid;
-  grid-template-columns: repeat(var(--table-column-count, 1), minmax(0, 1fr));
+  grid-template-columns: repeat(
+    var(--table-column-count, 1),
+    minmax(10ch, 1fr)
+  );
+  overflow-x: auto;
   &[data-direction="desc"] .sort-arrow {
     transform: rotate(-180deg);
   }

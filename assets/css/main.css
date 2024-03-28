@@ -1,12 +1,12 @@
 .page {
   display: grid;
-  grid-template-columns: [full-width-start] var(--page-margin) [content-start] auto [content-end full-width-end] var(--page-margin);
+  grid-template-columns: [full-width-start] var(--page-margin) [content-start] 1fr [content-end full-width-end] var(--page-margin);
   grid-template-rows:
     [full-height-start] var(--page-margin)
-    [nav-start] 56px
+    [nav-start] 48px
     [nav-end content-start] auto
     [content-end full-height-end] var(--page-margin);
-  min-height: 100dvh;
+  /* min-height: 100dvh; */
   gap: theme('spacing.sm');
   .nav {
     grid-column: content-start / content-end;

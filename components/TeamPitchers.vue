@@ -39,7 +39,7 @@ watch(
       tablePlayer.player_id = player.player_id;
       tablePlayer.age = player.age;
       tablePlayer.name = `${player.first_name} ${player.last_name}`;
-      tablePlayer.throws = useHandAbbreviation(player).value;
+      tablePlayer.throws = useHandAbbreviation(player.throws).value;
       tablePlayer.role = player.role;
       tablePlayer.stuff = player.pitching.stuff;
       tablePlayer.control = player.pitching.control;
@@ -57,7 +57,14 @@ watch(
       <SplitSelect v-model="split" />
       <RosterSelect v-model="roster" />
     </div>
-    <BaseTable sort="role" :columns :items="filteredPlayers" columnText="title" columnValue="value" item-id="player_id">
+    <BaseTable
+      sort="role"
+      :columns
+      :items="filteredPlayers"
+      column-text="title"
+      column-value="value"
+      item-id="player_id"
+    >
       <template
         v-for="rating of ['stuff', 'control', 'movement']"
         #[rating]="{ column, item }"
