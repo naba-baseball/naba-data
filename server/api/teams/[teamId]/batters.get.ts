@@ -12,9 +12,10 @@ export default defineEventHandler(async (event) => {
         split: parseSplit(),
       }),
       data,
-    ));
+    ),
+  );
   const db = useDB().db("ratings");
-  return db
+  return await db
     .collection("players")
     .find({
       team_id,
@@ -22,18 +23,20 @@ export default defineEventHandler(async (event) => {
       roster,
     })
     .sort({ position: 1 })
-    .project<Player & { bats: number; batting: BattingRatingSplits }>({
-      _id: 1,
-      player_id: 1,
-      first_name: 1,
-      last_name: 1,
-      position: 1,
-      team_id: 1,
-      age: 1,
-      role: 1,
-      bats: 1,
-      batting: `$batting.${split}`,
-      roster: `$roster.${split}`
-    })
+    .project<Player & { batting: Record<BattingRating, number>; bats: number }>(
+      {
+        _id: 1,
+        player_id: 1,
+        first_name: 1,
+        last_name: 1,
+        position: 1,
+        team_id: 1,
+        age: 1,
+        role: 1,
+        bats: 1,
+        batting: `$batting.${split}`,
+        roster: `$roster.${split}`,
+      },
+    )
     .toArray();
 });

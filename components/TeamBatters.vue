@@ -14,11 +14,8 @@ const columns = [
   { value: "power", title: "Power" },
   { value: "strikeouts", title: "Ks" },
 ];
-
-const { data: players } = await useFetch<
-  (Player & BattingRatingSplits & { bats: number })[]
->(
-  computed(() => `/api/teams/${useRoute().params.teamId}/batters`),
+const { data: players } = await useFetch(
+  `/api/teams/${useRoute().params.teamId}/batters`,
   {
     deep: false,
     query: {
@@ -28,14 +25,12 @@ const { data: players } = await useFetch<
     default: () => [],
   },
 );
-
 type FilteredPlayer = {
   [key in BattingRating]: number;
-} & Omit<Player, "position"> & {
+} & Player & {
     [key: string]: string | number;
     name: string;
     bats: string;
-    position: string;
   };
 const filteredPlayers = shallowRef<FilteredPlayer[]>([]);
 watch(

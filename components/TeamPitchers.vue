@@ -13,15 +13,13 @@ const columns = [
 ];
 
 const { data: players } = await useFetch(
-  computed(
-    () =>
-      `/api/teams/${useRoute().params.teamId}/pitchers?${new URLSearchParams({
-        split: split.value,
-        roster: roster.value,
-      }).toString()}`,
-  ),
+  `/api/teams/${useRoute().params.teamId}/pitchers`,
   {
     deep: false,
+    query: {
+      split,
+      roster,
+    },
   },
 );
 //primary players should never show on the reserve roster

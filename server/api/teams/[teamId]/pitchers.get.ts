@@ -23,7 +23,9 @@ export default defineEventHandler(async (event) => {
       roster,
     })
     .sort({ role: 1 })
-    .project<Player & { bats: number; batting: BattingRatingSplits }>({
+    .project<
+      Player & { bats: number; pitching: Record<PitchingRating, number> }
+    >({
       _id: 1,
       player_id: 1,
       first_name: 1,
