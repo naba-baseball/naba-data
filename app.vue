@@ -10,7 +10,7 @@ async function logout() {
 <template>
   <Html class="text-surface-800" />
   <ConfigProvider :use-id="idProvider">
-    <nuxt-loading-indicator />
+    <NuxtLoadingIndicator />
     <main class="page font-sans text-base">
       <nav class="nav text-primary flex justify-between">
         <div class="flex gap-sm">
@@ -23,13 +23,15 @@ async function logout() {
             <NuxtLink to="/auth/signup"> Signup </NuxtLink>
           </template>
           <template v-else>
-            <NuxtLink v-if="user.role === 'admin'" to="/upload"> Upload </NuxtLink>
+            <NuxtLink v-if="user.role === 'admin'" to="/upload">
+              Upload
+            </NuxtLink>
             <button @click="logout">Logout {{ user.username }}</button>
           </template>
         </div>
       </nav>
       <section class="content">
-        <nuxt-page />
+        <NuxtPage />
       </section>
     </main>
   </ConfigProvider>

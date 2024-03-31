@@ -6,7 +6,7 @@ const { data: teams } = await useFetch("/api/teams", { default: () => [] });
   <h1 class="text-xl mb-sm font-serif font-bold uppercase tracking-wider text-primary">Teams</h1>
   <ul class="gap-sm" grid="~ cols-1 sm:cols-3 auto-rows-[minmax(48px,auto)]">
     <li class="block" v-for="team in teams || []" :key="team.team_id">
-      <nuxt-link
+      <NuxtLink
         class="p-2 gap-2 bg-white border items-center flex rounded-lg h-full"
         :to="`/teams/${team.team_id}`"
       >
@@ -15,7 +15,7 @@ const { data: teams } = await useFetch("/api/teams", { default: () => [] });
           class="size-6"
         />
         <span> {{ team.name }} {{ team.nickname }} </span>
-      </nuxt-link>
+      </NuxtLink>
     </li>
   </ul>
 </template>

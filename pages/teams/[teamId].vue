@@ -14,7 +14,7 @@ const tab = useRouteQuery("view", "batters");
 </script>
 
 <template>
-  <article data-team class="flex flex-col gap-lg">
+  <article class="flex flex-col gap-lg">
     <div class="grid gap-sm grid-cols-1 sm:grid-cols-2 place-items-center">
       <h1
         class="text-center sm:text-start text-3xl font-serif font-bold uppercase tracking-wider text-primary"
@@ -28,53 +28,56 @@ const tab = useRouteQuery("view", "batters");
       />
     </div>
     <div>
-      <tabs-root v-model="tab" class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-sm w-full">
+      <TabsRoot
+        v-model="tab"
+        class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-sm w-full"
+      >
         <div>
           <h2 class="font-bold text-xs uppercase tracking-widest mb-2xs">
             Players
           </h2>
-          <tabs-list
+          <TabsList
             class="flex flex-col [&>*]:text-start divide-y rounded overflow-hidden"
           >
-            <tabs-trigger
+            <TabsTrigger
               class="data-[active=true]:bg-primary bg-surface-50 p-2"
               id="tab-trigger-batters"
               value="batters"
             >
               Batters
-            </tabs-trigger>
-            <tabs-trigger
+            </TabsTrigger>
+            <TabsTrigger
               class="data-[active=true]:bg-primary bg-surface-50 p-2"
               id="tab-trigger-pitchers"
               value="pitchers"
-              >Pitchers</tabs-trigger
+              >Pitchers</TabsTrigger
             >
-            <tabs-trigger
+            <TabsTrigger
               class="data-[active=true]:bg-primary bg-surface-50 p-2"
               id="tab-trigger-fielders"
               value="fielders"
-              >Fielders</tabs-trigger
+              >Fielders</TabsTrigger
             >
-          </tabs-list>
+          </TabsList>
         </div>
-        <tabs-content class="bg-white" id="tab-content-batters" value="batters">
-          <team-batters />
-        </tabs-content>
-        <tabs-content
+        <TabsContent class="bg-white" id="tab-content-batters" value="batters">
+          <TeamBatters />
+        </TabsContent>
+        <TabsContent
           class="bg-white"
           id="tab-content-pitchers"
           value="pitchers"
         >
-          <team-pitchers />
-        </tabs-content>
-        <tabs-content
+          <TeamPitchers />
+        </TabsContent>
+        <TabsContent
           class="bg-white"
           id="tab-content-pitchers"
           value="fielders"
         >
           <div>Coming eventually... maybe</div>
-        </tabs-content>
-      </tabs-root>
+        </TabsContent>
+      </TabsRoot>
     </div>
   </article>
 </template>
