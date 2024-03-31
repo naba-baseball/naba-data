@@ -7,6 +7,14 @@ services:
       - mongodb_data:/data/db
     ports:
       - 27017:27017
+  app:
+    build: 
+      dockerfile: dockerfile
+    ports:
+      - 3000:3000
+    environment:
+      - NUXT_DATABASE_URL=mongodb://mongodb:27017/
+      - NODE_ENV=production
 
 volumes:
   mongodb_data:

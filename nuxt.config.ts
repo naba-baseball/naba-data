@@ -6,7 +6,6 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "radix-vue/nuxt",
     "@nuxt/fonts",
-    // "nuxt-auth-utils"
   ],
   css: [
     "@unocss/reset/tailwind.css",
@@ -23,20 +22,7 @@ export default defineNuxtConfig({
       },
     },
   },
-  routeRules: {
-    // "/*": {
-    //   swr: true,
-    // },
-    // "/api/**": {
-    //   // swr: true,
-    //   cache: {
-    //     headersOnly: true,
-    //     maxAge: 60 * 60 * 24,
-    //   },
-    //   headers: { xtest: "asdf" },
-    // },
-  },
   runtimeConfig: {
-    databaseURL: "",
+    databaseURL: import.meta.env.NUXT_DATABASE_URL,
   },
 });
