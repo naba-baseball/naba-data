@@ -11,7 +11,10 @@ COPY . /usr/app/
 RUN pnpm build
 
 FROM base
-COPY --from=build /usr/app/.output /usr/app
+COPY --from=build /usr/app/.output /usr/app/
+
 EXPOSE 3000
+RUN chown -R node:node /usr/app
 USER node
+
 CMD ["node", "server/index.mjs"]
