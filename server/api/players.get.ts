@@ -15,6 +15,5 @@ export default defineEventHandler(async () => {
       },
     )
     .toArray();
-  console.log(players);
   return players;
 });

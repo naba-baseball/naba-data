@@ -1,8 +1,10 @@
 import papa from "papaparse";
 
-export default eventHandler(async (event) => {
-  await useDB().db("ratings").dropDatabase();
+export default authenticatedEventHandler(async (event) => {
   const db = useDB().db("ratings");
+  await db.dropCollection("players");
+  await db.dropCollection("teams");
+
   const [teams, roster, players, batting, pitching, fielding, contract] =
     await Promise.all([
       setupDB<any>("teams.csv"),
@@ -84,11 +86,9 @@ export default eventHandler(async (event) => {
     return player;
   });
   await db.collection("players").insertMany(finishedPlayers);
-  await db.collection("teams").insertMany(
-    teams,
-  );
+  await db.collection("teams").insertMany(teams);
   return "ok";
-});
+}, 'admin');
 
 async function setupDB<T>(fileName: string) {
   const file = (await useStorage("files").getItem(fileName)) as string;

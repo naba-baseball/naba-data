@@ -1,4 +1,4 @@
-export default eventHandler(async (event) => {
+export default authenticatedEventHandler(async (event) => {
   const data = await readFormData(event);
   for await (const chunk of data.entries()) {
     const [field, file] = chunk as [string, File];
@@ -7,4 +7,4 @@ export default eventHandler(async (event) => {
     await storage.setItemRaw(file.name, file.stream());
   }
   return "ok";
-});
+}, "admin");

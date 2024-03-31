@@ -5,7 +5,8 @@ export default defineNuxtConfig({
     "@unocss/nuxt",
     "@vueuse/nuxt",
     "radix-vue/nuxt",
-    "@nuxt/fonts"
+    "@nuxt/fonts",
+    // "nuxt-auth-utils"
   ],
   css: [
     "@unocss/reset/tailwind.css",

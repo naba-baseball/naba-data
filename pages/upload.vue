@@ -1,4 +1,11 @@
 <script lang="ts" setup>
+definePageMeta({
+  middleware: (to, from) => {
+    if (useUser().value?.role !== "admin") {
+      return navigateTo("/");
+    }
+  },
+});
 const { files, open } = useFileDialog({
   accept: "text",
   multiple: true,
@@ -73,8 +80,12 @@ watchEffect(() => {
         </template>
       </p>
     </div>
-    <button class="btn bg-primary flex items-center gap-2" :disabled="missingFiles.length !== 0" type="submit">
-     <span class="block i-lucide-upload"></span> upload
+    <button
+      class="btn bg-primary flex items-center gap-2"
+      :disabled="missingFiles.length !== 0"
+      type="submit"
+    >
+      <span class="block i-lucide-upload"></span> upload
     </button>
   </form>
 </template>
