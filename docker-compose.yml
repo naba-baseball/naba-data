@@ -9,7 +9,7 @@ services:
       - 27017:27017
   app:
     build: 
-      dockerfile: dockerfile
+      context: .
     ports:
       - 3000:3000
     environment:

@@ -1,24 +1,17 @@
-# node_modules/
-# .git/
-# .files/
-# .nuxt/
-# .output/
-# .env
-
+*
 **/
-**
-!app.vue
 !assets/**
 !components/**
 !composables/**
 !middleware/**
 !pages/**
-!plugins/**
 !public/**
 !server/**
 !types/**
 !utils/**
+!.dockerignore
 !.npmrc
+!app.vue
 !index.d.ts
 !nuxt.config.ts
 !package.json
