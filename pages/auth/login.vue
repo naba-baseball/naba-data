@@ -8,23 +8,22 @@ const { execute } = await useFetch("/api/login", {
   body: form,
   onResponseError({ error, response }) {
     alert(response._data.message);
-    throw error
+    throw error;
   },
   immediate: false,
   watch: false,
 });
 async function submit() {
   await execute();
-  await navigateTo('/')
+  useUser().value = await $fetch("/api/user");
+  await navigateTo("/");
 }
 </script>
 
 <template>
   <div>
     <form class="space-y-6" @submit.prevent="submit">
-      <h1>
-        Login
-      </h1>
+      <h1>Login</h1>
       <div>
         <label class="text-label mb-2 block" for="username">Username:</label>
         <input
