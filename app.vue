@@ -13,7 +13,7 @@ async function logout() {
     <NuxtLoadingIndicator />
     <main class="page font-sans text-base">
       <nav class="nav text-primary flex justify-between">
-        <div class="flex gap-sm">
+        <div class="flex items-center gap-sm">
           <NuxtLink to="/"> NABA League </NuxtLink>
           <NuxtLink to="/"> Home </NuxtLink>
         </div>
