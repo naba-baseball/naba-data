@@ -87,8 +87,14 @@ export default authenticatedEventHandler(async (event) => {
   });
   await db.collection("players").insertMany(finishedPlayers);
   await db.collection("teams").insertMany(teams);
+  await db.collection("players").createIndex([
+    ["team_id", 1],
+    ["roster", 1],
+    ["position", 1],
+  ]);
+  await db.collection("teams").createIndex([["team_id", 1]], { unique: true});
   return "ok";
-}, 'admin');
+}, "admin");
 
 async function setupDB<T>(fileName: string) {
   const file = (await useStorage("files").getItem(fileName)) as string;
