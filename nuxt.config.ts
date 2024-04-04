@@ -19,19 +19,9 @@ export default defineNuxtConfig({
   },
   routeRules: {
     "/api/teams/**": {
-      swr: 60 * 60 * 24,
-    },
-    "/": {
-      cache:{
-        headersOnly: true
+      cache: {
+        staleMaxAge: -1,
       },
-      swr: 60 * 60 * 24,
-    },
-    "/teams/**": {
-      cache:{
-        headersOnly: true
-      },
-      swr: 60 * 60 * 24,
     },
   },
   runtimeConfig: {
