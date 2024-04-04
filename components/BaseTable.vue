@@ -74,7 +74,13 @@ function handleSort(val) {
         :key="item[itemId]"
       >
         <th class="sticky left-0 z-1 bg-surface-100 grid items-center px-3xs">
-          {{ item[columns[0][columnValue]] }}
+          <slot
+            :name="columns[0][columnValue]"
+            :item="item"
+            :column="columns[0]"
+          >
+            {{ item[columns[0][columnValue]] }}
+          </slot>
         </th>
         <td
           v-for="column of columns.slice(1, columns.length)"

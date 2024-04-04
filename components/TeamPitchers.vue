@@ -63,6 +63,11 @@ watch(
       column-value="value"
       item-id="player_id"
     >
+      <template #name="{ item, column }">
+        <a class="underline underline-dashed underline-surface-300 underline-offset-[0.25rem]" :href="`https://nabaleague.com/players/player_${item.player_id}`">
+          {{ item[column.value] }}
+        </a>
+      </template>
       <template
         v-for="rating of ['stuff', 'control', 'movement']"
         #[rating]="{ column, item }"
