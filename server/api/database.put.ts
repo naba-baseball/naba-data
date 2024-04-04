@@ -93,6 +93,7 @@ export default authenticatedEventHandler(async (event) => {
     ["position", 1],
   ]);
   await db.collection("teams").createIndex([["team_id", 1]], { unique: true});
+  await useStorage('cache').clear()
   return "ok";
 }, "admin");
 
