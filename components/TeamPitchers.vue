@@ -8,8 +8,8 @@ const columns = [
   { value: "age", title: "Age" },
   { value: "role", title: "Role" },
   { value: "stuff", title: "stuff" },
-  { value: "control", title: "control" },
   { value: "movement", title: "movement" },
+  { value: "control", title: "control" },
 ];
 
 const { data: players } = await useFetch(
