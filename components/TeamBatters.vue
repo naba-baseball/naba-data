@@ -9,9 +9,9 @@ const columns = [
   { value: "age", title: "Age" },
   { value: "position", title: "Position" },
   { value: "contact", title: "Contact" },
-  { value: "eye", title: "Eye" },
   { value: "gap", title: "Gap" },
   { value: "power", title: "Power" },
+  { value: "eye", title: "Eye" },
   { value: "strikeouts", title: "Ks" },
 ];
 const { data: players } = await useFetch(
