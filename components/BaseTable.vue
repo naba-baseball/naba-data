@@ -8,36 +8,37 @@
     ITEM_VALUE extends string
   "
 >
-type Item = { [key in ITEM_VALUE]: V } & { [key in ITEM_TEXT]: T };
+type Item = { [key in ITEM_VALUE]: V } & { [key in ITEM_TEXT]: T }
 const props = withDefaults(
   defineProps<{
-    columns: [];
-    items: Item[];
-    itemId?: keyof T;
-    columnText?: ITEM_TEXT;
-    columnValue?: ITEM_VALUE;
+    columns: []
+    items: Item[]
+    itemId?: keyof T
+    columnText?: ITEM_TEXT
+    columnValue?: ITEM_VALUE
   }>(),
-  { itemId: "id", columnText: "text", columnValue: "value", columns: () => [] },
-);
-const sortColumn = defineModel("sort");
-const sortDir = ref<"asc" | "desc">("asc");
+  { itemId: 'id', columnText: 'text', columnValue: 'value', columns: () => [] },
+)
+const sortColumn = defineModel('sort')
+const sortDir = ref<'asc' | 'desc'>('asc')
 const sorted = useSorted(
   () => props.items,
   (a, b) => {
     if (sortColumn.value) {
-      if (sortDir.value === "asc")
-        return a[sortColumn.value] > b[sortColumn.value] ? 1 : -1;
-      return a[sortColumn.value] > b[sortColumn.value] ? -1 : 1;
+      if (sortDir.value === 'asc')
+        return a[sortColumn.value] > b[sortColumn.value] ? 1 : -1
+      return a[sortColumn.value] > b[sortColumn.value] ? -1 : 1
     }
-    return 0;
+    return 0
   },
-);
+)
 function handleSort(val) {
   if (sortColumn.value === val) {
-    sortDir.value = sortDir.value === "asc" ? "desc" : "asc";
-  } else {
-    sortColumn.value = val;
-    sortDir.value = "asc";
+    sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc'
+  }
+  else {
+    sortColumn.value = val
+    sortDir.value = 'asc'
   }
 }
 </script>
@@ -69,9 +70,9 @@ function handleSort(val) {
     </thead>
     <tbody class="grid grid-cols-subgrid col-span-full">
       <tr
-        class="grid grid-cols-subgrid col-span-full border-b h-$table-row-height"
         v-for="item of sorted"
         :key="item[itemId]"
+        class="grid grid-cols-subgrid col-span-full border-b h-$table-row-height"
       >
         <th class="sticky left-0 z-1 bg-surface-100 grid items-center px-3xs">
           <slot
@@ -83,7 +84,7 @@ function handleSort(val) {
           </slot>
         </th>
         <td
-          v-for="column of columns.slice(1, columns.length)"
+          v-for="column of columns.slice(1, columns.length)" :key="`cell-${column[columnValue]}`"
           class="grid items-center"
         >
           <slot :name="column[columnValue]" :item :column>

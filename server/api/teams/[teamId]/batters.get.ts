@@ -1,29 +1,29 @@
-import { object, parse } from "valibot";
+import { object, parse } from 'valibot'
+
 export default defineEventHandler(async (event) => {
   const { teamId: team_id } = await getValidatedRouterParams(
     event,
-    parseNumeric("teamId"),
-  );
+    parseNumeric('teamId'),
+  )
 
-  const { split, roster } = await getValidatedQuery(event, (data) =>
+  const { split, roster } = await getValidatedQuery(event, data =>
     parse(
       object({
         roster: parseRoster(),
         split: parseSplit(),
       }),
       data,
-    ),
-  );
-  const db = useDB().db("ratings");
+    ))
+  const db = useDB().db('ratings')
   return await db
-    .collection("players")
+    .collection('players')
     .find({
       team_id,
       position: { $gte: 2, $lte: 8 },
       roster,
     })
     .sort({ position: 1 })
-    .project<Player & { batting: Record<BattingRating, number>; bats: number }>(
+    .project<Player & { batting: Record<BattingRating, number>, bats: number }>(
       {
         _id: 1,
         player_id: 1,
@@ -38,5 +38,5 @@ export default defineEventHandler(async (event) => {
         roster: `$roster.${split}`,
       },
     )
-    .toArray();
-});
+    .toArray()
+})

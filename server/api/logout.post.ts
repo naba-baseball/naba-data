@@ -1,17 +1,18 @@
 export default eventHandler(async (event) => {
-  const sessionId = getCookie(event, "auth_session");
+  const sessionId = getCookie(event, 'auth_session')
   if (!sessionId) {
     throw createError({
       statusCode: 403,
-    });
+    })
   }
-  const lucia = useLucia();
-  const { session, user } = await lucia.validateSession(sessionId);
-  await lucia.invalidateUserSessions(user?.id);
-  await lucia.invalidateSession(sessionId);
+  const lucia = useLucia()
+  const { user } = await lucia.validateSession(sessionId)
+  if (user)
+    await lucia.invalidateUserSessions(user?.id)
+  await lucia.invalidateSession(sessionId)
   appendHeader(
     event,
-    "Set-Cookie",
+    'Set-Cookie',
     lucia.createBlankSessionCookie().serialize(),
-  );
-});
+  )
+})

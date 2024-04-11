@@ -1,24 +1,24 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ["@unocss/nuxt", "@vueuse/nuxt", "radix-vue/nuxt", "@nuxt/fonts"],
+  modules: ['@unocss/nuxt', '@vueuse/nuxt', 'radix-vue/nuxt', '@nuxt/fonts'],
   css: [
-    "@unocss/reset/tailwind.css",
-    "@/assets/css/reset.css",
-    "@/assets/css/ratings.css",
-    "@/assets/css/variables.css",
-    "@/assets/css/main.css",
+    '@unocss/reset/tailwind.css',
+    '@/assets/css/reset.css',
+    '@/assets/css/ratings.css',
+    '@/assets/css/variables.css',
+    '@/assets/css/main.css',
   ],
   nitro: {
     storage: {
       files: {
-        driver: "fsLite",
-        base: ".files",
+        driver: 'fsLite',
+        base: '.files',
       },
     },
   },
   routeRules: {
-    "/api/teams/**": {
+    '/api/teams/**': {
       cache: {
         staleMaxAge: -1,
       },
@@ -27,4 +27,4 @@ export default defineNuxtConfig({
   runtimeConfig: {
     databaseURL: import.meta.env.NUXT_DATABASE_URL,
   },
-});
+})

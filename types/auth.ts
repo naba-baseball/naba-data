@@ -1,1 +1,1 @@
-export type AuthRole = "admin";
+export type AuthRole = 'admin'

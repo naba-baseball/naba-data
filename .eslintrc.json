@@ -1,12 +1,12 @@
 {
-    "root": true,
-    "extends": [
-        "@nuxtjs/eslint-config-typescript"
-    ],
-    // "rules": {
-    //     "vue/component-name-in-template-casing": [
-    //         "error",
-    //         "kebab-case"
-    //     ]
-    // }
+  "root": true,
+  "extends": [
+    "@nuxtjs/eslint-config-typescript"
+  ]
+  // "rules": {
+  //     "vue/component-name-in-template-casing": [
+  //         "error",
+  //         "kebab-case"
+  //     ]
+  // }
 }

@@ -1,16 +1,16 @@
 <script lang="ts" setup>
-import { useRouteQuery } from "@vueuse/router";
+import { useRouteQuery } from '@vueuse/router'
 
-const route = useRoute();
+const route = useRoute()
 const { data: team } = await useFetch(`/api/teams/${route.params.teamId}`, {
   deep: false,
-});
+})
 if (!team.value) {
   showError({
-    message: "Team not found",
-  });
+    message: 'Team not found',
+  })
 }
-const tab = useRouteQuery("view", "batters");
+const tab = useRouteQuery('view', 'batters')
 </script>
 
 <template>
@@ -25,7 +25,7 @@ const tab = useRouteQuery("view", "batters");
         v-if="team"
         :src="`https://nabaleague.com/images/team_logos/${team.logo_file_name}`"
         class="size-[128px]"
-      />
+      >
     </div>
     <div>
       <TabsRoot
@@ -40,39 +40,41 @@ const tab = useRouteQuery("view", "batters");
             class="flex flex-col [&>*]:text-start divide-y rounded overflow-hidden"
           >
             <TabsTrigger
-              class="data-[active=true]:bg-primary bg-surface-50 p-2"
               id="tab-trigger-batters"
+              class="data-[active=true]:bg-primary bg-surface-50 p-2"
               value="batters"
             >
               Batters
             </TabsTrigger>
             <TabsTrigger
-              class="data-[active=true]:bg-primary bg-surface-50 p-2"
               id="tab-trigger-pitchers"
-              value="pitchers"
-              >Pitchers</TabsTrigger
-            >
-            <TabsTrigger
               class="data-[active=true]:bg-primary bg-surface-50 p-2"
-              id="tab-trigger-fielders"
-              value="fielders"
-              >Fielders</TabsTrigger
+              value="pitchers"
             >
+              Pitchers
+            </TabsTrigger>
+            <TabsTrigger
+              id="tab-trigger-fielders"
+              class="data-[active=true]:bg-primary bg-surface-50 p-2"
+              value="fielders"
+            >
+              Fielders
+            </TabsTrigger>
           </TabsList>
         </div>
-        <TabsContent class="bg-white" id="tab-content-batters" value="batters">
+        <TabsContent id="tab-content-batters" class="bg-white" value="batters">
           <TeamBatters />
         </TabsContent>
         <TabsContent
-          class="bg-white"
           id="tab-content-pitchers"
+          class="bg-white"
           value="pitchers"
         >
           <TeamPitchers />
         </TabsContent>
         <TabsContent
-          class="bg-white"
           id="tab-content-pitchers"
+          class="bg-white"
           value="fielders"
         >
           <div>Coming eventually... maybe</div>

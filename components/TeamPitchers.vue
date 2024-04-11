@@ -1,16 +1,17 @@
 <script lang="ts" setup>
-import { useRouteQuery } from "@vueuse/router";
-const split = useRouteQuery<Split>("split", "overall");
-const roster = useRouteQuery<"primary" | "reserve">("roster", "primary");
+import { useRouteQuery } from '@vueuse/router'
+
+const split = useRouteQuery<Split>('split', 'overall')
+const roster = useRouteQuery<'primary' | 'reserve'>('roster', 'primary')
 const columns = [
-  { value: "name", title: "Name" },
-  { value: "throws", title: "Throws" },
-  { value: "age", title: "Age" },
-  { value: "role", title: "Role" },
-  { value: "stuff", title: "stuff" },
-  { value: "movement", title: "movement" },
-  { value: "control", title: "control" },
-];
+  { value: 'name', title: 'Name' },
+  { value: 'throws', title: 'Throws' },
+  { value: 'age', title: 'Age' },
+  { value: 'role', title: 'Role' },
+  { value: 'stuff', title: 'stuff' },
+  { value: 'movement', title: 'movement' },
+  { value: 'control', title: 'control' },
+]
 
 const { data: players } = await useFetch(
   `/api/teams/${useRoute().params.teamId}/pitchers`,
@@ -21,32 +22,32 @@ const { data: players } = await useFetch(
       roster,
     },
   },
-);
-//primary players should never show on the reserve roster
-const filteredPlayers = shallowRef([]);
+)
+// primary players should never show on the reserve roster
+const filteredPlayers = shallowRef([])
 watch(
   players,
   (players) => {
     filteredPlayers.value = players.map((player) => {
       const tablePlayer: Player & {
-        name: string;
-        throws: string;
+        name: string
+        throws: string
       } & {
         [key in PitchingRating]: number;
-      } = {};
-      tablePlayer.player_id = player.player_id;
-      tablePlayer.age = player.age;
-      tablePlayer.name = `${player.first_name} ${player.last_name}`;
-      tablePlayer.throws = useHandAbbreviation(player.throws).value;
-      tablePlayer.role = player.role;
-      tablePlayer.stuff = player.pitching.stuff;
-      tablePlayer.control = player.pitching.control;
-      tablePlayer.movement = player.pitching.movement;
-      return tablePlayer;
-    });
+      } = {}
+      tablePlayer.player_id = player.player_id
+      tablePlayer.age = player.age
+      tablePlayer.name = `${player.first_name} ${player.last_name}`
+      tablePlayer.throws = useHandAbbreviation(player.throws).value
+      tablePlayer.role = player.role
+      tablePlayer.stuff = player.pitching.stuff
+      tablePlayer.control = player.pitching.control
+      tablePlayer.movement = player.pitching.movement
+      return tablePlayer
+    })
   },
   { immediate: true },
-);
+)
 </script>
 
 <template>
@@ -69,7 +70,7 @@ watch(
         </a>
       </template>
       <template
-        v-for="rating of ['stuff', 'control', 'movement']"
+        v-for="rating of ['stuff', 'control', 'movement']" :key="rating"
         #[rating]="{ column, item }"
       >
         <div :data-rating="item[column.value]">

@@ -1,22 +1,23 @@
 <script lang="ts" setup>
 const form = reactive({
-  username: "",
-  password: "",
-});
-const { execute } = await useFetch("/api/signup", {
-  method: "POST",
+  username: '',
+  password: '',
+})
+const { execute } = await useFetch('/api/signup', {
+  method: 'POST',
   body: form,
   onResponseError({ error, response }) {
-    alert(response._data.message);
-    throw error;
+    // eslint-disable-next-line no-alert
+    alert(response._data.message)
+    throw error
   },
   immediate: false,
   watch: false,
-});
+})
 async function submit() {
-  await execute();
-  useUser().value = await $fetch("/api/user");
-  await navigateTo("/");
+  await execute()
+  useUser().value = await $fetch('/api/user')
+  await navigateTo('/')
 }
 </script>
 
@@ -27,24 +28,26 @@ async function submit() {
       <div>
         <label class="text-label mb-2 block" for="username">Username:</label>
         <input
+          id="username"
+          v-model="form.username"
           class="field-input shadow-inner"
           type="text"
-          id="username"
           name="username"
-          v-model="form.username"
-        />
+        >
       </div>
       <div>
         <label class="text-label mb-2 block" for="password">Password:</label>
         <input
+          id="password"
+          v-model="form.password"
           class="field-input shadow-inner"
           type="password"
-          id="password"
           name="password"
-          v-model="form.password"
-        />
+        >
       </div>
-      <button class="btn bg-primary" type="submit">Login</button>
+      <button class="btn bg-primary" type="submit">
+        Login
+      </button>
     </form>
   </div>
 </template>

@@ -1,13 +1,13 @@
 export default eventHandler(async (event) => {
-  const lucia = useLucia();
-  const sessionId = getCookie(event, "auth_session");
+  const lucia = useLucia()
+  const sessionId = getCookie(event, 'auth_session')
   if (!sessionId) {
     appendHeader(
       event,
-      "Set-Cookie",
+      'Set-Cookie',
       lucia.createBlankSessionCookie().serialize(),
-    );
-    return null;
+    )
+    return null
   }
   return (await lucia.validateSession(sessionId)).user ?? null
-});
+})
