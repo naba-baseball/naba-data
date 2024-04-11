@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@unocss/nuxt', '@vueuse/nuxt', 'radix-vue/nuxt', '@nuxt/fonts'],
+  modules: ['@unocss/nuxt', '@vueuse/nuxt', 'radix-vue/nuxt', '@nuxt/fonts', '@nuxt/eslint'],
   css: [
     '@unocss/reset/tailwind.css',
     '@/assets/css/reset.css',
@@ -9,6 +9,11 @@ export default defineNuxtConfig({
     '@/assets/css/variables.css',
     '@/assets/css/main.css',
   ],
+  eslint: {
+    config: {
+      standalone: false,
+    },
+  },
   nitro: {
     storage: {
       files: {

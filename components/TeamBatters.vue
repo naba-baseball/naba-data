@@ -3,7 +3,6 @@ import { useRouteQuery } from '@vueuse/router'
 
 const split = useRouteQuery<Split>('split', 'overall')
 const roster = useRouteQuery<'primary' | 'reserve'>('roster', 'primary')
-
 const columns = [
   { value: 'name', title: 'Name' },
   { value: 'bats', title: 'Bats' },
@@ -76,8 +75,9 @@ watch(
         </a>
       </template>
       <template
-        v-for="rating of ['contact', 'eye', 'gap', 'power', 'strikeouts']" :key="rating"
+        v-for="rating of ['contact', 'eye', 'gap', 'power', 'strikeouts']"
         #[rating]="{ item, column }"
+        :key="rating"
       >
         <div :data-rating="item[column.value]">
           {{ item[column.value] }}
