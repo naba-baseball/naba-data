@@ -30,51 +30,50 @@ const tab = useRouteQuery('view', 'batters')
     <div>
       <TabsRoot
         v-model="tab"
-        class="grid grid-cols-1 sm:grid-cols-[auto_1fr] gap-sm w-full"
+        class="grid grid-cols-1 gap-sm w-full"
       >
         <div>
           <h2 class="font-bold text-xs uppercase tracking-widest mb-2xs">
             Players
           </h2>
           <TabsList
-            class="flex flex-col [&>*]:text-start divide-y rounded overflow-hidden"
+            class="sm:w-min flex divide-x rounded overflow-hidden border border-surface-300 [&>.tabs-trigger]:w-full [&>.tabs-trigger]:sm:w-auto"
           >
             <TabsTrigger
               id="tab-trigger-batters"
-              class="data-[active=true]:bg-primary bg-surface-50 p-2"
+              class="tabs-trigger"
               value="batters"
             >
               Batters
             </TabsTrigger>
             <TabsTrigger
               id="tab-trigger-pitchers"
-              class="data-[active=true]:bg-primary bg-surface-50 p-2"
+              class="tabs-trigger"
               value="pitchers"
             >
               Pitchers
             </TabsTrigger>
             <TabsTrigger
               id="tab-trigger-fielders"
-              class="data-[active=true]:bg-primary bg-surface-50 p-2"
+              class="tabs-trigger"
               value="fielders"
             >
               Fielders
             </TabsTrigger>
           </TabsList>
         </div>
-        <TabsContent id="tab-content-batters" class="bg-white" value="batters">
+        <TabsContent id="tab-content-batters" value="batters">
           <TeamBatters />
         </TabsContent>
         <TabsContent
           id="tab-content-pitchers"
-          class="bg-white"
           value="pitchers"
         >
           <TeamPitchers />
         </TabsContent>
         <TabsContent
           id="tab-content-pitchers"
-          class="bg-white"
+          class="bg-surface-0"
           value="fielders"
         >
           <div>Coming eventually... maybe</div>

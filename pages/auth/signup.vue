@@ -30,7 +30,7 @@ async function submit() {
         <input
           id="username"
           v-model="form.username"
-          class="field-input shadow-inner"
+          class="field-input shadow-inner w-full sm:w-auto"
           type="text"
           name="username"
         >
@@ -40,12 +40,12 @@ async function submit() {
         <input
           id="password"
           v-model="form.password"
-          class="field-input shadow-inner"
+          class="field-input shadow-inner w-full sm:w-auto"
           type="password"
           name="password"
         >
       </div>
-      <button class="btn bg-primary" type="submit">
+      <button class="btn bg-primary w-full sm:w-auto" type="submit">
         Login
       </button>
     </form>

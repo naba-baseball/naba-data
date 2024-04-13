@@ -53,8 +53,12 @@ watch(
 <template>
   <div class="flex flex-col gap-6">
     <div class="flex gap-3">
-      <SplitSelect v-model="split" />
-      <RosterSelect v-model="roster" />
+      <div class="w-full sm:w-auto">
+        <SplitSelect v-model="split" />
+      </div>
+      <div class="w-full sm:w-auto">
+        <RosterSelect v-model="roster" />
+      </div>
     </div>
     <BaseTable
       sort="role"

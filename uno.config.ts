@@ -110,6 +110,7 @@ export default defineConfig({
         950: '#441606',
       },
       surface: {
+        0: '#ffffff',
         50: '#f1f5f8',
         100: '#ebf1f5',
         200: '#d1dde6',
@@ -187,9 +188,10 @@ export default defineConfig({
     'text-label':
       'text-xs font-semibold text-surface-800 uppercase tracking-wider',
     'field-container': 'grid gap-2xs',
-    'field-input': 'bg-surface-50 border-surface-300 shadow shadow-sm text-surface-950 rounded min-h-9',
+    'field-input': 'bg-surface-0 border-surface-300 shadow shadow-sm text-surface-950 rounded min-h-9',
     'bg-primary': 'bg-primary-700 text-white font-normal',
     'text-primary': 'text-primary-900',
-    'btn': 'rounded p-2 disabled:(opacity-80 cursor-not-allowed)',
+    'btn': 'rounded p-3 sm:p-2 disabled:(opacity-80 cursor-not-allowed)',
+    'tabs-trigger': 'data-[active=true]:(bg-primary) bg-surface-0 p-2 rounded [&+.tabs-trigger]:rounded-l-none [&:has(+.tabs-trigger)]:rounded-none',
   },
 })

@@ -44,7 +44,7 @@ function handleSort(val) {
 </script>
 
 <template>
-  <table class="base-table gap-x-1" :data-direction="sortDir">
+  <table class="base-table gap-x-1 bg-surface-0 border rounded border-surface-200" :data-direction="sortDir">
     <thead class="grid grid-cols-subgrid col-span-full">
       <tr
         class="grid grid-cols-subgrid col-span-full place-content-start [&>*]:h-$table-header-height border-b"
