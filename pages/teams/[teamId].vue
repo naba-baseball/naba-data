@@ -11,6 +11,13 @@ if (!team.value) {
   })
 }
 const tab = useRouteQuery('view', 'batters')
+const querySplit = useRouteQuery('split')
+const queryRoster = useRouteQuery('roster')
+const { split, roster } = useTeamsFilters()
+watchEffect(() => {
+  querySplit.value = split.value
+  queryRoster.value = roster.value
+})
 </script>
 
 <template>
@@ -37,7 +44,7 @@ const tab = useRouteQuery('view', 'batters')
             Players
           </h2>
           <TabsList
-            class="sm:w-min flex divide-x rounded overflow-hidden border border-surface-300 [&>.tabs-trigger]:w-full [&>.tabs-trigger]:sm:w-auto"
+            class="sm:w-min flex gap-xs"
           >
             <TabsTrigger
               id="tab-trigger-batters"
@@ -46,6 +53,7 @@ const tab = useRouteQuery('view', 'batters')
             >
               Batters
             </TabsTrigger>
+
             <TabsTrigger
               id="tab-trigger-pitchers"
               class="tabs-trigger"
@@ -61,6 +69,14 @@ const tab = useRouteQuery('view', 'batters')
               Fielders
             </TabsTrigger>
           </TabsList>
+        </div>
+        <div class="flex gap-3">
+          <div class="w-full sm:w-auto">
+            <SplitSelect v-model="split" />
+          </div>
+          <div class="w-full sm:w-auto">
+            <RosterSelect v-model="roster" />
+          </div>
         </div>
         <TabsContent id="tab-content-batters" value="batters">
           <TeamBatters />

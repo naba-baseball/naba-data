@@ -10,7 +10,7 @@ async function logout() {
 </script>
 
 <template>
-  <Html class="text-surface-800 bg-surface-50" />
+  <Html class="text-primary-900 bg-paper to-surface-100 [&_*]:border-surface-100" />
   <ConfigProvider :use-id="idProvider">
     <NuxtLoadingIndicator />
     <main class="page font-sans text-base">

@@ -1,8 +1,6 @@
 <script lang="ts" setup>
 import { useRouteQuery } from '@vueuse/router'
 
-const split = useRouteQuery<Split>('split', 'overall')
-const roster = useRouteQuery<'primary' | 'reserve'>('roster', 'primary')
 const columns = [
   { value: 'name', title: 'Name' },
   { value: 'bats', title: 'Bats' },
@@ -14,6 +12,7 @@ const columns = [
   { value: 'eye', title: 'Eye' },
   { value: 'strikeouts', title: 'Ks' },
 ]
+const { split, roster } = useTeamsFilters()
 const { data: players } = await useFetch(
   `/api/teams/${useRoute().params.teamId}/batters`,
   {
@@ -57,14 +56,6 @@ watch(
 
 <template>
   <div class="flex flex-col gap-6">
-    <div class="flex gap-3">
-      <div class="w-full sm:w-auto">
-        <SplitSelect v-model="split" />
-      </div>
-      <div class="w-full sm:w-auto">
-        <RosterSelect v-model="roster" />
-      </div>
-    </div>
     <BaseTable
       column-value="value"
       column-text="title"

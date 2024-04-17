@@ -10,7 +10,7 @@ const { data: teams } = await useFetch('/api/teams', { default: () => [] })
     <ul class="gap-sm" grid="~ cols-1 sm:cols-3 auto-rows-[minmax(48px,auto)]">
       <li v-for="team in teams || []" :key="team.team_id" class="block">
         <NuxtLink
-          class="p-2 gap-2 bg-white border items-center flex rounded-lg h-full"
+          class="p-4 gap-2  items-center flex h-full bg-paper rounded"
           :to="`/teams/${team.team_id}`"
         >
           <img
