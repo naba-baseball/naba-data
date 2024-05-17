@@ -194,5 +194,6 @@ export default defineConfig({
     'btn': 'rounded p-3 sm:p-2 disabled:(opacity-80 cursor-not-allowed)',
     'tabs-trigger': 'data-[active=true]:(bg-surface-200) btn hover:opacity-80',
     'bg-paper': 'bg-gradient-from-surface-0 bg-gradient-radial to-surface-50 border border-surface-200/25',
+    'heading': 'text-center sm:text-start text-3xl font-serif font-bold uppercase tracking-wider text-primary',
   },
 })

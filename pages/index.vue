@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { data: teams } = await useFetch('/api/teams', { default: () => [] })
+const { teams, api } = useTeams()
 </script>
 
 <template>

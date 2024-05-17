@@ -22,13 +22,13 @@ export default defineNuxtConfig({
       },
     },
   },
-  routeRules: {
-    '/api/teams/**': {
-      cache: {
-        staleMaxAge: -1,
-      },
-    },
-  },
+  // routeRules: {
+  //   '/api/teams/**': {
+  //     cache: {
+  //       staleMaxAge: -1,
+  //     },
+  //   },
+  // },
   runtimeConfig: {
     databaseURL: import.meta.env.NUXT_DATABASE_URL,
   },

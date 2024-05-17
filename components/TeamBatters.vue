@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import { useRouteQuery } from '@vueuse/router'
-
-const columns = [
+const props = defineProps<{ teamId: number | string, selectable?: boolean }>()
+const model = defineModel<Player[]>({ default: () => [] })
+const defaultColumns = [
   { value: 'name', title: 'Name' },
   { value: 'bats', title: 'Bats' },
   { value: 'age', title: 'Age' },
@@ -12,9 +12,18 @@ const columns = [
   { value: 'eye', title: 'Eye' },
   { value: 'strikeouts', title: 'Ks' },
 ]
+const columns = computed(() => {
+  if (props.selectable) {
+    return [
+      { value: 'selected', title: 'Select' },
+      ...defaultColumns,
+    ]
+  }
+  return defaultColumns
+})
 const { split, roster } = useTeamsFilters()
 const { data: players } = await useFetch(
-  `/api/teams/${useRoute().params.teamId}/batters`,
+  () => `/api/teams/${props.teamId}/batters`,
   {
     deep: false,
     query: {
@@ -55,32 +64,33 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
-    <BaseTable
-      column-value="value"
-      column-text="title"
-      sort="position"
-      :columns
-      :items="filteredPlayers"
-      item-id="player_id"
+  <BaseTable
+    column-value="value"
+    column-text="title"
+    sort="position"
+    :columns
+    :items="filteredPlayers"
+    item-id="player_id"
+  >
+    <template #selected="{ item }">
+      <input v-model="model" type="checkbox" :value="{ name: item.name, player_id: item.player_id }">
+    </template>
+    <template #name="{ item, column }">
+      <a class="underline underline-dashed underline-surface-300 underline-offset-[0.25rem]" :href="`https://nabaleague.com/players/player_${item.player_id}`">
+        {{ item[column.value] }}
+      </a>
+    </template>
+    <template
+      v-for="rating of ['contact', 'eye', 'gap', 'power', 'strikeouts']"
+      #[rating]="{ item, column }"
+      :key="rating"
     >
-      <template #name="{ item, column }">
-        <a class="underline underline-dashed underline-surface-300 underline-offset-[0.25rem]" :href="`https://nabaleague.com/players/player_${item.player_id}`">
-          {{ item[column.value] }}
-        </a>
-      </template>
-      <template
-        v-for="rating of ['contact', 'eye', 'gap', 'power', 'strikeouts']"
-        #[rating]="{ item, column }"
-        :key="rating"
-      >
-        <div :data-rating="item[column.value]">
-          {{ item[column.value] }}
-        </div>
-      </template>
-      <template #position="{ item, column }">
-        {{ getAbbreviatedPosition(item[column.value]) }}
-      </template>
-    </BaseTable>
-  </div>
+      <div :data-rating="item[column.value]">
+        {{ item[column.value] }}
+      </div>
+    </template>
+    <template #position="{ item, column }">
+      {{ getAbbreviatedPosition(item[column.value]) }}
+    </template>
+  </BaseTable>
 </template>

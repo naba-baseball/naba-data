@@ -1,12 +1,9 @@
 <script lang="ts" setup>
 const model = defineModel<number>()
-const { data: teams } = await useFetch('/api/teams', {
-  transform: data =>
-    data.map(team => ({ text: team.name, value: team.team_id })),
-  default: () => [],
-})
+const { teams } = useTeams()
+const items = computed(() => teams.value.map(team => ({ text: team.name, value: team.team_id })))
 </script>
 
 <template>
-  <FieldSelect v-model="model" :items="teams" />
+  <FieldSelect v-model="model" label="team" :items />
 </template>

@@ -22,6 +22,9 @@ async function logout() {
           <NuxtLink to="/">
             Home
           </NuxtLink>
+          <NuxtLink to="/lineups">
+            Lineups
+          </NuxtLink>
         </div>
         <div class="flex items-center gap-sm">
           <template v-if="!user">

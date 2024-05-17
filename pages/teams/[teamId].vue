@@ -24,7 +24,7 @@ watchEffect(() => {
   <article class="flex flex-col gap-lg">
     <div class="grid gap-sm grid-cols-1 sm:grid-cols-2 place-items-center">
       <h1
-        class="text-center sm:text-start text-3xl font-serif font-bold uppercase tracking-wider text-primary"
+        class="heading"
       >
         {{ team.name }} {{ team.nickname }}
       </h1>
@@ -79,7 +79,7 @@ watchEffect(() => {
           </div>
         </div>
         <TabsContent id="tab-content-batters" value="batters">
-          <TeamBatters />
+          <TeamBatters :team-id="route.params.teamId" />
         </TabsContent>
         <TabsContent
           id="tab-content-pitchers"
