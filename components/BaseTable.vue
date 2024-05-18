@@ -1,94 +1,110 @@
-<script
-  lang="ts"
-  setup
-  generic="
-    V extends string,
-    T extends string,
-    ITEM_TEXT extends string,
-    ITEM_VALUE extends string
-  "
->
-type Item = { [key in ITEM_VALUE]: V } & { [key in ITEM_TEXT]: T }
+<script lang="ts" setup generic="T extends Record<string, unknown>">
+import { type ColumnDef, getCoreRowModel, useVueTable } from '@tanstack/vue-table'
+
+type Item = T & { id?: string }
 const props = withDefaults(
   defineProps<{
-    columns: []
+    selectable?: boolean
+    columns: ColumnDef<Item>[]
     items: Item[]
-    itemId?: keyof T
-    columnText?: ITEM_TEXT
-    columnValue?: ITEM_VALUE
+    itemId?: keyof Item | string
   }>(),
-  { itemId: 'id', columnText: 'text', columnValue: 'value', columns: () => [] },
+  { columns: () => [], items: () => [], itemId: 'id' },
 )
-const sortColumn = defineModel('sort')
-const sortDir = ref<'asc' | 'desc'>('asc')
-const sorted = useSorted(
-  () => props.items,
-  (a, b) => {
-    if (sortColumn.value) {
-      if (sortDir.value === 'asc')
-        return a[sortColumn.value] > b[sortColumn.value] ? 1 : -1
-      return a[sortColumn.value] > b[sortColumn.value] ? -1 : 1
-    }
-    return 0
+const model = defineModel<Record<string, T>>({ default: () => ({}) })
+const allColumns = computed(() => {
+  if (props.selectable)
+    return [{ id: 'select', header: '' }, ...props.columns]
+  return props.columns
+})
+const selected = computed<Record<string, boolean>>(() => {
+  const newMap: Record<string, boolean> = {}
+  for (const key of Object.keys(model.value))
+    newMap[key] = true
+  return newMap
+})
+
+const table = useVueTable({
+  get columns() {
+    return allColumns.value
   },
-)
-function handleSort(val) {
-  if (sortColumn.value === val) {
-    sortDir.value = sortDir.value === 'asc' ? 'desc' : 'asc'
-  }
-  else {
-    sortColumn.value = val
-    sortDir.value = 'asc'
-  }
-}
+  get data() { return props.items },
+  getCoreRowModel: getCoreRowModel(),
+  getRowId: row => `${row[props.itemId]}`,
+  get enableMultiRowSelection() {
+    return props.selectable
+  },
+  state: {
+    get rowSelection() {
+      return selected.value
+    },
+  },
+  onRowSelectionChange(updater) {
+    if (updater instanceof Function) {
+      const result = updater(selected.value)
+      model.value = Object.keys(result)
+        .filter(key => result[key])
+        .reduce(
+          (acc, key) => {
+            acc[key] = props.items.find(item => `${item[props.itemId]}` === key) as T
+            return acc
+          },
+          {} as Record<string, T>,
+        )
+    }
+  },
+})
+
+const firstColumnIndex = () => props.selectable ? 1 : 0
+const stickyColumn = computed(() => table.getAllColumns()[firstColumnIndex()])
+const headers = computed(() => table.getFlatHeaders().slice(firstColumnIndex() + 1))
 </script>
 
 <template>
-  <table class="base-table gap-x-1 bg-surface-0 border rounded" :data-direction="sortDir">
+  <table class="base-table bg-surface-0 border rounded">
     <thead class="grid grid-cols-subgrid col-span-full">
       <tr
         class="grid grid-cols-subgrid col-span-full place-content-start [&>*]:h-$table-header-height border-b"
       >
-        <th class="sticky left-0 z-1 bg-surface-100 grid items-center px-3xs">
-          {{ columns[0][columnText] }}
+        <th v-if="props.selectable" data-header="select" />
+        <th v-if="stickyColumn" class="sticky left-0 z-1 bg-surface-100 grid items-center px-3xs">
+          {{ stickyColumn.columnDef.header }}
         </th>
         <th
-          v-for="column of columns.slice(1, columns.length)"
-          :key="`column-${column[columnValue]}`"
+          v-for="header of headers"
+          :key="header.id"
           class="capitalize flex items-center gap-xs cursor-pointer"
-          @click="handleSort(column[columnValue])"
         >
-          {{ column[columnText] }}
+          {{ header.column.columnDef.header }}
           <SortArrow
             class="sort-arrow"
-            :class="
-              column[columnValue] === sortColumn ? 'opacity-100' : 'opacity-0'
-            "
           />
         </th>
       </tr>
     </thead>
     <tbody class="grid grid-cols-subgrid col-span-full">
       <tr
-        v-for="item of sorted"
-        :key="item[itemId]"
+        v-for="row of table.getRowModel().rows" :key="row.id"
         class="grid grid-cols-subgrid col-span-full border-b h-$table-row-height"
       >
+        <td v-if="props.selectable" data-cell="select">
+          <BaseCheckbox :model-value="row.getIsSelected()" @update:model-value="row.toggleSelected($event)" />
+        </td>
         <th class="sticky left-0 z-1 bg-surface-50 border-0 grid items-center px-3xs">
           <slot
-            :name="columns[0][columnValue]"
-            :item="item"
-            :column="columns[0]"
+            :name="stickyColumn.id"
+            :row="row"
+            :column="stickyColumn"
           >
-            {{ item[columns[0][columnValue]] }}
+            {{ row.renderValue(stickyColumn.id) }}
           </slot>
         </th>
         <td
-          v-for="column of columns.slice(1, columns.length)" :key="`cell-${column[columnValue]}`"
+          v-for="cell of row.getAllCells().slice(firstColumnIndex() + 1)" :key="cell.id"
           class="grid items-center"
         >
-          <slot :name="column[columnValue]" :item :column>
-            {{ item[column[columnValue]] }}
+          <slot :name="cell.column.id" :row="cell.row" :column="cell.column">
+            {{ cell.renderValue() }}
           </slot>
         </td>
       </tr>
@@ -98,15 +114,21 @@ function handleSort(val) {
 
 <style>
 .base-table {
-  --table-column-count: v-bind("columns.length");
+  --table-column-count: v-bind("allColumns.length");
   display: grid;
   grid-template-columns: repeat(
     var(--table-column-count, 1),
-    minmax(10ch, 1fr)
+    minmax(max-content, 1fr)
   );
   overflow-x: auto;
   &[data-direction="desc"] .sort-arrow {
     transform: rotate(-180deg);
+  }
+  & [data-header="select"],[data-cell="select"] {
+    place-self: center;
+  }
+  & th,td {
+    padding-inline: theme('spacing.1');
   }
 }
 </style>

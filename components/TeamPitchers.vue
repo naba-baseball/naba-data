@@ -1,79 +1,50 @@
 <script lang="ts" setup>
-import { useRouteQuery } from '@vueuse/router'
+import type { ColumnDef } from '@tanstack/vue-table'
+import type { UnwrapRef } from 'vue'
+import type { TeamTableProps } from '~/types/shared.js'
 
-const columns = [
-  { value: 'name', title: 'Name' },
-  { value: 'throws', title: 'Throws' },
-  { value: 'age', title: 'Age' },
-  { value: 'role', title: 'Role' },
-  { value: 'stuff', title: 'stuff' },
-  { value: 'movement', title: 'movement' },
-  { value: 'control', title: 'control' },
+export type TeamPitchersItem = UnwrapRef<typeof players>[number]
+const props = defineProps<TeamTableProps>()
+const model = defineModel<Record<string, TeamPitchersItem>>({ default: () => ({}) })
+const defaultColumns: ColumnDef<TeamPitchersItem>[] = [
+  { accessorFn: i => `${i.first_name} ${i.last_name}`, header: 'Name', id: 'name' },
+  { accessorFn: i => useHandAbbreviation(i.throws).value, header: 'Throws', id: 'throws' },
+  { accessorKey: 'age', header: 'Age', id: 'age' },
+  { accessorFn: i => getAbbreviatedRole(i.role), header: 'Role', id: 'role' },
+  { accessorKey: 'pitching.stuff', header: 'stuff', id: 'stuff' },
+  { accessorKey: 'pitching.movement', header: 'movement', id: 'movement' },
+  { accessorKey: 'pitching.control', header: 'control', id: 'control' },
 ]
+const columns = computed(() => defaultColumns)
 const { split, roster } = useTeamsFilters()
 const { data: players } = await useFetch(
-  `/api/teams/${useRoute().params.teamId}/pitchers`,
+  () => `/api/teams/${props.teamId}/pitchers`,
   {
     deep: false,
     query: {
       split,
       roster,
     },
+    default: () => [],
   },
-)
-// primary players should never show on the reserve roster
-const filteredPlayers = shallowRef([])
-watch(
-  players,
-  (players) => {
-    filteredPlayers.value = players.map((player) => {
-      const tablePlayer: Player & {
-        name: string
-        throws: string
-      } & {
-        [key in PitchingRating]: number;
-      } = {}
-      tablePlayer.player_id = player.player_id
-      tablePlayer.age = player.age
-      tablePlayer.name = `${player.first_name} ${player.last_name}`
-      tablePlayer.throws = useHandAbbreviation(player.throws).value
-      tablePlayer.role = player.role
-      tablePlayer.stuff = player.pitching.stuff
-      tablePlayer.control = player.pitching.control
-      tablePlayer.movement = player.pitching.movement
-      return tablePlayer
-    })
-  },
-  { immediate: true },
 )
 </script>
 
 <template>
-  <div class="flex flex-col gap-6">
-    <BaseTable
-      sort="role"
-      :columns
-      :items="filteredPlayers"
-      column-text="title"
-      column-value="value"
-      item-id="player_id"
+  <BaseTable v-model="model" :columns :items="players" :selectable :team-id item-id="player_id">
+    <template
+      v-for="rating of ['stuff', 'control', 'movement']"
+      #[rating]="{ row, column }"
+      :key="rating"
     >
-      <template #name="{ item, column }">
-        <a class="underline underline-dashed underline-surface-300 underline-offset-[0.25rem]" :href="`https://nabaleague.com/players/player_${item.player_id}`">
-          {{ item[column.value] }}
-        </a>
-      </template>
-      <template
-        v-for="rating of ['stuff', 'control', 'movement']" :key="rating"
-        #[rating]="{ column, item }"
-      >
-        <div :data-rating="item[column.value]">
-          {{ item[column.value] }}
-        </div>
-      </template>
-      <template #role="{ item, column }">
-        {{ getAbbreviatedRole(item[column.value]) }}
-      </template>
-    </BaseTable>
-  </div>
+      <div :data-rating="row.getValue(column.id)">
+        {{ row.renderValue(column.id) }}
+      </div>
+    </template>
+    <template #name="{ row, column }">
+      <a class="underline underline-dashed underline-surface-300 underline-offset-[0.25rem]" :href="`https://nabaleague.com/players/player_${row.original.player_id}`">
+        {{ row.renderValue(column.id) }}
+      </a>
+    </template>
+  </BaseTable>
 </template>

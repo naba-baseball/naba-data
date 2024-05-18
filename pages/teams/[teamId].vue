@@ -79,13 +79,13 @@ watchEffect(() => {
           </div>
         </div>
         <TabsContent id="tab-content-batters" value="batters">
-          <TeamBatters :team-id="route.params.teamId" />
+          <TeamBatters :team-id="route.params.teamId as string" />
         </TabsContent>
         <TabsContent
           id="tab-content-pitchers"
           value="pitchers"
         >
-          <TeamPitchers />
+          <TeamPitchers :team-id="route.params.teamId as string" />
         </TabsContent>
         <TabsContent
           id="tab-content-pitchers"

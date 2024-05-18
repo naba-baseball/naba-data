@@ -1,7 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  modules: ['@unocss/nuxt', '@vueuse/nuxt', 'radix-vue/nuxt', '@nuxt/fonts', '@nuxt/eslint'],
+  modules: [
+    '@unocss/nuxt',
+    '@vueuse/nuxt',
+    'radix-vue/nuxt',
+    '@nuxt/fonts',
+    '@nuxt/eslint',
+  ],
   css: [
     '@unocss/reset/tailwind.css',
     '@/assets/css/reset.css',
@@ -22,13 +28,6 @@ export default defineNuxtConfig({
       },
     },
   },
-  // routeRules: {
-  //   '/api/teams/**': {
-  //     cache: {
-  //       staleMaxAge: -1,
-  //     },
-  //   },
-  // },
   runtimeConfig: {
     databaseURL: import.meta.env.NUXT_DATABASE_URL,
   },

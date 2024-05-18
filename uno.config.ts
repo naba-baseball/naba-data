@@ -34,7 +34,6 @@ export default defineConfig({
     presetUno(),
     presetIcons(),
     presetAttributify(),
-    presetForms(),
   ],
   transformers: [transformerDirectives(), transformerVariantGroup()],
   theme: {
@@ -195,5 +194,6 @@ export default defineConfig({
     'tabs-trigger': 'data-[active=true]:(bg-surface-200) btn hover:opacity-80',
     'bg-paper': 'bg-gradient-from-surface-0 bg-gradient-radial to-surface-50 border border-surface-200/25',
     'heading': 'text-center sm:text-start text-3xl font-serif font-bold uppercase tracking-wider text-primary',
+    'heading-sm': 'heading text-xl',
   },
 })

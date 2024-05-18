@@ -1,10 +1,12 @@
 import {
   literal,
+  minValue,
   number,
   object,
   optional,
   parse,
   string,
+  toMinValue,
   transform,
   union,
 } from 'valibot'
@@ -14,6 +16,16 @@ export function parseNumeric(key: string) {
     parse(
       object({
         [key]: transform(string(), Number, number()),
+      }),
+      data,
+    )
+}
+
+export function parseTeamId() {
+  return (data: unknown) =>
+    parse(
+      object({
+        teamId: transform(string(), Number, number([minValue(1)])),
       }),
       data,
     )

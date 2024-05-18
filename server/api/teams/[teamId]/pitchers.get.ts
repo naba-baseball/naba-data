@@ -1,9 +1,10 @@
 import { object, parse } from 'valibot'
+import { parseTeamId } from '~/server/utils/parsers.js'
 
 export default defineEventHandler(async (event) => {
   const { teamId: team_id } = await getValidatedRouterParams(
     event,
-    parseNumeric('teamId'),
+    parseTeamId(),
   )
 
   const { split, roster } = await getValidatedQuery(event, data =>
@@ -15,7 +16,7 @@ export default defineEventHandler(async (event) => {
       data,
     ))
   const db = useDB().db('ratings')
-  return db
+  return await db
     .collection('players')
     .find({
       team_id,
@@ -23,9 +24,7 @@ export default defineEventHandler(async (event) => {
       roster,
     })
     .sort({ role: 1 })
-    .project<
-      Player & { bats: number, pitching: Record<PitchingRating, number> }
-    >({
+    .project<Player & { pitching: Record<PitchingRating, number>, throws: number }>({
       _id: 1,
       player_id: 1,
       first_name: 1,
