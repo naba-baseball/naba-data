@@ -10,13 +10,12 @@ async function logout() {
 </script>
 
 <template>
-  <Html class="text-primary-900 bg-paper to-surface-100 [&_*]:border-surface-100" />
   <ConfigProvider :use-id="idProvider">
     <NuxtLoadingIndicator />
-    <main class="page font-sans text-base">
-      <nav class="nav text-primary flex justify-between">
-        <div class="flex items-center gap-sm">
-          <NuxtLink to="/">
+    <main class="page">
+      <nav class="group-between">
+        <div class="group-inline">
+          <NuxtLink class="logo" to="/">
             NABA League
           </NuxtLink>
           <NuxtLink to="/">
@@ -26,7 +25,7 @@ async function logout() {
             Lineups
           </NuxtLink>
         </div>
-        <div class="flex items-center gap-sm">
+        <div class="group-inline">
           <template v-if="!user">
             <NuxtLink to="/auth/login">
               Login

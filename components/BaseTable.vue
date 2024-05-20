@@ -115,20 +115,5 @@ const headers = computed(() => table.getFlatHeaders().slice(firstColumnIndex() +
 <style>
 .base-table {
   --table-column-count: v-bind("allColumns.length");
-  display: grid;
-  grid-template-columns: repeat(
-    var(--table-column-count, 1),
-    minmax(max-content, 1fr)
-  );
-  overflow-x: auto;
-  &[data-direction="desc"] .sort-arrow {
-    transform: rotate(-180deg);
-  }
-  & [data-header="select"],[data-cell="select"] {
-    place-self: center;
-  }
-  & th,td {
-    padding-inline: theme('spacing.1');
-  }
 }
 </style>

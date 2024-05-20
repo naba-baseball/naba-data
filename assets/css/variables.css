@@ -1,9 +1,0 @@
-:root {
-  --table-header-height: theme("height.9");
-  --table-row-height: theme("height.14");
-  --flow-space: theme("spacing.4");
-  --page-margin: theme('spacing.3xs');
-  @media (min-width: 640px) {
-    --page-margin: 1rem;
-  }
-}

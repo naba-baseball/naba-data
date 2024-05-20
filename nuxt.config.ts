@@ -2,17 +2,13 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
-    '@unocss/nuxt',
     '@vueuse/nuxt',
     'radix-vue/nuxt',
     '@nuxt/fonts',
     '@nuxt/eslint',
   ],
   css: [
-    '@unocss/reset/tailwind.css',
     '@/assets/css/reset.css',
-    '@/assets/css/ratings.css',
-    '@/assets/css/variables.css',
     '@/assets/css/main.css',
   ],
   eslint: {
@@ -26,6 +22,11 @@ export default defineNuxtConfig({
         driver: 'fsLite',
         base: '.files',
       },
+    },
+  },
+  fonts: {
+    experimental: {
+      processCSSVariables: true,
     },
   },
   runtimeConfig: {
