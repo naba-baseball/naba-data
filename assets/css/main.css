@@ -208,6 +208,9 @@
   .h-full {
     height: 100%;
   }
+  .block {
+    display: block;
+  }
 }
 
 @layer flair {
