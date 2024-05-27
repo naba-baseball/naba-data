@@ -13,7 +13,7 @@ async function logout() {
   <ConfigProvider :use-id="idProvider">
     <NuxtLoadingIndicator />
     <main class="page">
-      <nav class="border-be">
+      <nav class="border-be bg-surface-inverse">
         <div class="group-between" style="grid-column: content-start">
           <div class="group-inline h-full">
             <NuxtLink class="logo" to="/">

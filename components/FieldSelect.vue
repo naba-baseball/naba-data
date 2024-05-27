@@ -1,13 +1,10 @@
-<script lang="ts" setup generic="M, T extends string, V extends string">
-type TItem = { [key in T]: string } | { text?: string }
-type VItem = { [key in V]: M } | { value?: M }
-
-type Item = TItem & VItem
+<script lang="ts" setup generic="M extends string | number">
+type Item = Record<string, M>
 defineOptions({ inheritAttrs: false })
 withDefaults(
   defineProps<{
-    itemText?: T
-    itemValue?: V
+    itemText?: keyof Item
+    itemValue?: keyof Item
     items: Item[]
     label: string
   }>(),
@@ -25,15 +22,15 @@ const model = defineModel<M>()
   <label class="field-container">
     <div class="text-label">{{ label }}</div>
     <select v-bind="$attrs" v-model="model" class="field-input">
-      <option
-        v-for="item of items"
-        :key="item[itemValue as V]"
-        :value="item[itemValue as V]"
-      >
-        {{ item[itemText as T] }}
+      <option v-for="item of items" :key="item[itemValue]" :value="item[itemValue]">
+        {{ item[itemText] }}
       </option>
     </select>
   </label>
 </template>
 
-<style></style>
+<style>
+.field-container {
+  
+}
+</style>

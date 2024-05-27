@@ -21,62 +21,34 @@ watchEffect(() => {
 </script>
 
 <template>
-  <article class="flex flex-col gap-lg">
-    <div class="grid gap-sm grid-cols-1 sm:grid-cols-2 place-items-center">
-      <h1
-        class="heading"
-      >
+  <article>
+    <div>
+      <h1>
         {{ team.name }} {{ team.nickname }}
       </h1>
-      <img
-        v-if="team"
-        :src="`https://nabaleague.com/images/team_logos/${team.logo_file_name}`"
-        class="size-[128px]"
-      >
+      <img v-if="team" :src="`https://nabaleague.com/images/team_logos/${team.logo_file_name}`">
     </div>
     <div>
-      <TabsRoot
-        v-model="tab"
-        class="grid grid-cols-1 gap-sm w-full"
-      >
+      <TabsRoot v-model="tab" class="tabs-root">
         <div>
-          <h2 class="font-bold text-xs uppercase tracking-widest mb-2xs">
+          <h2>
             Players
           </h2>
-          <TabsList
-            class="sm:w-min flex gap-xs"
-          >
-            <TabsTrigger
-              id="tab-trigger-batters"
-              class="tabs-trigger"
-              value="batters"
-            >
+          <TabsList class="button-group">
+            <TabsTrigger id="tab-trigger-batters" class="tabs-trigger button" value="batters">
               Batters
             </TabsTrigger>
-
-            <TabsTrigger
-              id="tab-trigger-pitchers"
-              class="tabs-trigger"
-              value="pitchers"
-            >
+            <TabsTrigger id="tab-trigger-pitchers" class="tabs-trigger button" value="pitchers">
               Pitchers
             </TabsTrigger>
-            <TabsTrigger
-              id="tab-trigger-fielders"
-              class="tabs-trigger"
-              value="fielders"
-            >
+            <TabsTrigger id="tab-trigger-fielders" class="tabs-trigger button" value="fielders">
               Fielders
             </TabsTrigger>
           </TabsList>
         </div>
-        <div class="flex gap-3">
-          <div class="w-full sm:w-auto">
-            <SplitSelect v-model="split" />
-          </div>
-          <div class="w-full sm:w-auto">
-            <RosterSelect v-model="roster" />
-          </div>
+        <div>
+          <SplitSelect v-model="split" />
+          <RosterSelect v-model="roster" />
         </div>
         <TabsContent id="tab-content-batters" value="batters">
           <TeamBatters :team-id="route.params.teamId as string" />
@@ -98,3 +70,15 @@ watchEffect(() => {
     </div>
   </article>
 </template>
+
+<style>
+.tabs-root {
+
+}
+.tabs-trigger {
+  &[data-state="active"]{
+    background-color: var(--color-surface-inverse);
+    color: var(--color-on-surface-inverse);
+  }
+}
+</style>
