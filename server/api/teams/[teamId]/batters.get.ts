@@ -1,5 +1,6 @@
 import { object, parse } from 'valibot'
 import { parseTeamId } from '~/server/utils/parsers.js'
+import type { BattingRating, Player } from '~/types/index.js'
 
 export default defineEventHandler(async (event) => {
   const { teamId: team_id } = await getValidatedRouterParams(
@@ -16,7 +17,7 @@ export default defineEventHandler(async (event) => {
     ))
   const db = useDB().db('ratings')
   return await db
-    .collection('players')
+    .collection<Player & { batting: Record<BattingRating, number>, bats: number }>('players')
     .find({
       team_id,
       position: { $gte: 2, $lte: 8 },
