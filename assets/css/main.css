@@ -85,7 +85,7 @@
 
   a {
     color: var(--color-link-text, currentColor);
-  } 
+  }
 
   h1 {
     font-size: var(--step-4);
@@ -184,7 +184,7 @@
   .button-group {
     .button:not(:first-child) {
       border-inline-start: 0;
-    } 
+    }
   }
 
   .divider-x {
@@ -257,29 +257,29 @@
 
 @layer flair {
   :root {
-    --color-aztec-50: #f4f9f9;
-    --color-aztec-100: #dcebea;
-    --color-aztec-200: #b9d6d4;
-    --color-aztec-300: #8ebab8;
-    --color-aztec-400: #669b9a;
-    --color-aztec-500: #4c8080;
-    --color-aztec-600: #3b6566;
-    --color-aztec-700: #325253;
-    --color-aztec-800: #2b4344;
-    --color-aztec-900: #27393a;
-    --color-aztec-950: #0f191a;
+    --color-50: #f7f8f8;
+    --color-100: #eef0f0;
+    --color-200: #e1e5e5;
+    --color-300: #b8c1c1;
+    --color-400: #919f9e;
+    --color-500: #738483;
+    --color-600: #5d6c6c;
+    --color-700: #4c5858;
+    --color-800: #414a4b;
+    --color-900: #394141;
+    --color-950: #262b2b;
   }
 
   body {
-    --color-link-text: var(--color-aztec-950);
+    --color-link-text: var(--color-950);
     --font-base: Fira Sans;
     --text-size-base: var(--step-0);
     /* --leading: ''; */
-    --color-global-bg: var(--color-aztec-100);
-    --color-global-text: var(--color-aztec-800);
-    --color-border: var(--color-aztec-950);
-    --color-surface-inverse: var(--color-aztec-950);
-    --color-on-surface-inverse: var(--color-aztec-50);
+    --color-global-bg: var(--color-100);
+    --color-global-text: var(--color-800);
+    --color-border: var(--color-950);
+    --color-surface-inverse: var(--color-950);
+    --color-on-surface-inverse: var(--color-50);
     border: 1px solid var(--color-border);
   }
 
