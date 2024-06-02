@@ -19,11 +19,8 @@ export function scaleRatings(value: number) {
 
 export function scaleObject(obj: Record<string, unknown>) {
   for (const [key, value] of Object.entries(obj)) {
-    if (typeof value === 'number' && key.toLowerCase().includes('ratings')) {
-      const simplifiedKey = key.toLowerCase().replace(/.*ratings_/, '')
-      obj[simplifiedKey] = scaleRatings(value)
-      delete obj[key]
-    }
+    if (typeof value === 'number' && key.toLowerCase().includes('ratings'))
+      obj[key] = scaleRatings(value)
   }
   return obj
 }

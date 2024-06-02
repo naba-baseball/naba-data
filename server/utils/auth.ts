@@ -26,8 +26,9 @@ export function authenticatedEventHandler<T extends EventHandlerRequest, D>(hand
       return { response }
     }
     catch (err) {
+      if (err instanceof Error)
+        throw err
       // Error handling
-      return { err }
     }
   })
 }
