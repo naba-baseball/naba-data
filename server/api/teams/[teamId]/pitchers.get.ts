@@ -1,6 +1,6 @@
+import { and, asc, eq } from 'drizzle-orm'
 import { object, parse } from 'valibot'
 import { parseTeamId } from '~/server/utils/parsers.js'
-import type { PitchingRating, Player } from '~/types/index.js'
 
 export default defineEventHandler(async (event) => {
   const { teamId: team_id } = await getValidatedRouterParams(
@@ -16,25 +16,23 @@ export default defineEventHandler(async (event) => {
       }),
       data,
     ))
-  const db = useDB().db('ratings')
-  return await db
-    .collection('players')
-    .find({
-      team_id,
-      position: { $in: [1] },
-      roster,
-    })
-    .sort({ role: 1 })
-    .project<Player & { pitching: Record<PitchingRating, number>, throws: number }>({
-      _id: 1,
-      player_id: 1,
-      first_name: 1,
-      last_name: 1,
-      team_id: 1,
-      age: 1,
-      role: 1,
-      throws: 1,
-      pitching: `$pitching.${split}`,
-    })
-    .toArray()
+  const db = useSqlite()
+  const res = await db.select({
+    player_id: PlayersTable.player_id,
+    first_name: PlayersTable.first_name,
+    last_name: PlayersTable.last_name,
+    position: PlayersTable.position,
+    role: PlayersTable.role,
+    throws: PlayersTable.throws,
+    stuff: PlayersTable[`pitching_ratings_${split}_stuff`],
+    movement: PlayersTable[`pitching_ratings_${split}_movement`],
+    control: PlayersTable[`pitching_ratings_${split}_control`],
+  }).from(PlayersTable).where(
+    and(
+      eq(PlayersTable.team_id, team_id),
+      eq(PlayersTable.roster, roster),
+      eq(PlayersTable.position, 1),
+    ),
+  ).orderBy(asc(PlayersTable.position))
+  return res
 })

@@ -15,8 +15,6 @@ const requiredFiles = [
   'players.csv',
   'players_pitching.csv',
   'players_batting.csv',
-  'players_fielding.csv',
-  'players_contract.csv',
 ]
 const selectedFiles = computed(() => {
   const selectedFiles: File[] = []

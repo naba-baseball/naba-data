@@ -11,11 +11,11 @@ const defaultColumns: ColumnDef<TeamBattersItem>[] = [
   { accessorFn: p => useHandAbbreviation(p.bats).value, header: 'Bats', id: 'bats' },
   { accessorKey: 'age', header: 'Age', id: 'age' },
   { accessorFn: p => getAbbreviatedPosition(p.position), header: 'Position', id: 'position' },
-  { accessorKey: 'batting.contact', header: 'Contact', id: 'contact' },
-  { accessorKey: 'batting.gap', header: 'Gap', id: 'gap' },
-  { accessorKey: 'batting.power', header: 'Power', id: 'power' },
-  { accessorKey: 'batting.eye', header: 'Eye', id: 'eye' },
-  { accessorKey: 'batting.strikeouts', header: 'Ks', id: 'strikeouts' },
+  { accessorKey: 'contact', header: 'Contact', id: 'contact' },
+  { accessorKey: 'gap', header: 'Gap', id: 'gap' },
+  { accessorKey: 'power', header: 'Power', id: 'power' },
+  { accessorKey: 'eye', header: 'Eye', id: 'eye' },
+  { accessorKey: 'strikeouts', header: 'Ks', id: 'strikeouts' },
 ]
 const columns = computed(() => defaultColumns)
 const { players } = useTeamPlayers(() => props.teamId)

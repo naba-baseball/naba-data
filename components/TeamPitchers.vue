@@ -11,9 +11,9 @@ const defaultColumns: ColumnDef<TeamPitchersItem>[] = [
   { accessorFn: i => useHandAbbreviation(i.throws).value, header: 'Throws', id: 'throws' },
   { accessorKey: 'age', header: 'Age', id: 'age' },
   { accessorFn: i => getAbbreviatedRole(i.role), header: 'Role', id: 'role' },
-  { accessorKey: 'pitching.stuff', header: 'stuff', id: 'stuff' },
-  { accessorKey: 'pitching.movement', header: 'movement', id: 'movement' },
-  { accessorKey: 'pitching.control', header: 'control', id: 'control' },
+  { accessorKey: 'stuff', header: 'stuff', id: 'stuff' },
+  { accessorKey: 'movement', header: 'movement', id: 'movement' },
+  { accessorKey: 'control', header: 'control', id: 'control' },
 ]
 const columns = computed(() => defaultColumns)
 const { split, roster } = useTeamsFilters()
