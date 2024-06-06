@@ -1,7 +1,6 @@
 import { Lucia } from 'lucia'
-import { MongodbAdapter } from '@lucia-auth/adapter-mongodb'
-import type { Collection } from 'mongodb'
 import type { EventHandler, EventHandlerRequest } from 'h3'
+import { DrizzleSQLiteAdapter } from '@lucia-auth/adapter-drizzle'
 import type { AuthRole } from '~/types/auth.js'
 
 export function authenticatedEventHandler<T extends EventHandlerRequest, D>(handler: EventHandler<T, D>, role?: AuthRole): EventHandler<T, D> {
@@ -34,11 +33,7 @@ export function authenticatedEventHandler<T extends EventHandlerRequest, D>(hand
 }
 
 export function useLucia() {
-  const db = useDB().db('ratings')
-
-  const User = db.collection('users') as Collection<UserDoc>
-  const Session = db.collection('sessions') as Collection<SessionDoc>
-  const adapter = new MongodbAdapter(Session, User)
+  const adapter = new DrizzleSQLiteAdapter(useSqlite(), sessionsTable, usersTable)
 
   return new Lucia(adapter, {
     sessionCookie: {
@@ -55,19 +50,6 @@ export function useLucia() {
     },
   })
 }
-
-interface UserDoc {
-  _id: string
-  username: string
-  role: 'admin' | string
-}
-
-interface SessionDoc {
-  _id: string
-  expires_at: Date
-  user_id: string
-}
-
 declare module 'lucia' {
   interface Register {
     Lucia: ReturnType<typeof useLucia>

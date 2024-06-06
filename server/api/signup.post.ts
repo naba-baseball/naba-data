@@ -1,3 +1,5 @@
+import { eq } from 'drizzle-orm'
+import { generateIdFromEntropySize } from 'lucia'
 import { Argon2id } from 'oslo/password'
 import {
   minLength,
@@ -6,7 +8,6 @@ import {
   required,
   string,
 } from 'valibot'
-import { ObjectId } from 'mongodb'
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, body =>
@@ -25,21 +26,16 @@ export default defineEventHandler(async (event) => {
     ))
   const { password, username } = body
   const hashedPassword = await new Argon2id().hash(password)
-  const userId = new ObjectId()
-  const db = useDB().db('ratings')
-  const existingUser = await db.collection('users').findOne({ username })
+  const db = useSqlite()
+  const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.username, username))
   if (existingUser)
     return createError({ message: 'Username is not available', status: 400 })
 
-  await db.collection('users').insertOne({
-    _id: userId.toString(),
-    user_id: userId.toString(),
-    username,
-    password: hashedPassword,
-    role: '',
-  })
+  const userId = generateIdFromEntropySize(16)
+  await db.insert(usersTable).values({ id: userId, username, password: hashedPassword })
+
   const lucia = useLucia()
-  const session = await lucia.createSession(userId.toString(), {})
+  const session = await lucia.createSession(userId, {})
   appendHeader(
     event,
     'Set-Cookie',

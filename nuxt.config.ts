@@ -32,7 +32,4 @@ export default defineNuxtConfig({
       processCSSVariables: true,
     },
   },
-  runtimeConfig: {
-    databaseURL: import.meta.env.NUXT_DATABASE_URL,
-  },
 })

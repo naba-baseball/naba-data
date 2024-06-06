@@ -120,3 +120,18 @@ export const TeamsTable = sqliteTable('teams', {
   }
 })
 export type Team = typeof TeamsTable.$inferSelect
+
+export const usersTable = sqliteTable('users', {
+  id: text('id').notNull().primaryKey(),
+  username: text('username').notNull(),
+  role: text('role'),
+  password: text('password').notNull(),
+})
+
+export const sessionsTable = sqliteTable('sessions', {
+  id: text('id').notNull().primaryKey(),
+  userId: text('user_id')
+    .notNull()
+    .references(() => usersTable.id),
+  expiresAt: integer('expires_at').notNull(),
+})
