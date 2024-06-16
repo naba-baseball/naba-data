@@ -16,7 +16,7 @@ const { execute } = await useFetch('/api/login', {
 })
 async function submit() {
   await execute()
-  useUser().value = await $fetch('/api/user')
+  await refreshNuxtData('user')
   await navigateTo('/')
 }
 </script>

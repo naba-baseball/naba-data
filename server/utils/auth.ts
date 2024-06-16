@@ -1,6 +1,7 @@
-import { Lucia } from 'lucia'
+import { Lucia  } from 'lucia'
 import type { EventHandler, EventHandlerRequest } from 'h3'
 import { DrizzleSQLiteAdapter } from '@lucia-auth/adapter-drizzle'
+import { minLength, object, parse, required, string } from 'valibot'
 import type { AuthRole } from '~/types/auth.js'
 
 export function authenticatedEventHandler<T extends EventHandlerRequest, D>(handler: EventHandler<T, D>, role?: AuthRole): EventHandler<T, D> {
@@ -60,4 +61,22 @@ declare module 'lucia' {
 interface DatabaseUserAttributes {
   username: string
   role: AuthRole
+}
+
+export async function validateUsernameAndPassword() {
+  const body = await readValidatedBody(useEvent(), body =>
+    parse(
+      required(
+        object({
+          username: string([
+            minLength(3, 'Username must be 3 characters or more'),
+          ]),
+          password: string([
+            minLength(6, 'Password must be 6 characters or more'),
+          ]),
+        }),
+      ),
+      body,
+    ))
+  return body
 }

@@ -1,6 +1,6 @@
 import type { User } from 'lucia'
 
 export function useUser() {
-  const user = useState<User | null>('user', () => ref(null))
+  const {data: user} = useNuxtData<User | null>('user')
   return user
 }

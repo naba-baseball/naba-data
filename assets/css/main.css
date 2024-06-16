@@ -67,6 +67,8 @@
     --flow-space: var(--space-l);
     --page-margin: var(--space-3xs);
 
+    --input-height: 44px;
+
     @media (min-width: 640px) {
       --page-margin: 1rem;
     }
@@ -198,6 +200,33 @@
     height: 1px;
     background-color: var(--color-border);
   }
+
+  .form label {
+    display: block;
+    margin-block-start: var(--space-2xs);
+    margin-block-end: var(--space-3xs);
+  }
+
+  .form input {
+    height: var(--input-height);
+    border-radius: 10px;
+    border-style: solid;
+    padding: 4px;
+    outline-color: var(--color-300);
+    outline-offset: 4px;
+    border-color: var(--color-border);
+  }
+
+  .form button[type="submit"] {
+    display: block;
+    height: var(--input-height);
+    margin-block-start: var(--space-m);
+    border-radius: 10px;
+    border-style: solid;
+    background-color: var(--color-800);
+    color: var(--color-50);
+  }
+
 }
 
 @layer utilities {
