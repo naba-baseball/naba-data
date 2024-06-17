@@ -40,10 +40,10 @@ async function submit() {
   })
   statusMessage.value = 'extracting...'
   await $fetch('/api/database', { method: 'PUT' })
-  emit('done')
   statusMessage.value = 'done :)'
+  emit('done')
 }
-const { execute, status, error } = useAsyncData(submit, {
+const { execute, error, isLoading } = useAsyncState(submit, undefined, {
   immediate: false,
 })
 watchEffect(() => {
@@ -75,7 +75,7 @@ watchEffect(() => {
     </template>
     <div>
       <p>
-        <template v-if="status ==='pending' || error || status === 'success'">
+        <template v-if="statusMessage">
           {{ statusMessage }}
         </template>
       </p>

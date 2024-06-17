@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { ColumnDef } from '@tanstack/vue-table'
 import type { UnwrapRef } from 'vue'
-import type { TeamTableProps } from '~/types/shared.js'
+import type { TeamTableProps } from '~~/types/shared.js'
 
 export type TeamPitchersItem = UnwrapRef<typeof players>[number]
 const props = defineProps<TeamTableProps>()

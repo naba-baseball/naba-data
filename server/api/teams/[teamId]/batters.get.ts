@@ -1,7 +1,5 @@
 import { object, parse } from 'valibot'
 import { and, asc, eq, gte, lte } from 'drizzle-orm'
-import { parseTeamId } from '~/server/utils/parsers.js'
-import { useSqlite } from '~/server/utils/sqlite.js'
 
 export default defineEventHandler(async (event) => {
   const { teamId: team_id } = await getValidatedRouterParams(

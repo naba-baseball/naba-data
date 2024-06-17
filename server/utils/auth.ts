@@ -2,7 +2,7 @@ import { Lucia  } from 'lucia'
 import type { EventHandler, EventHandlerRequest } from 'h3'
 import { DrizzleSQLiteAdapter } from '@lucia-auth/adapter-drizzle'
 import { minLength, object, parse, required, string } from 'valibot'
-import type { AuthRole } from '~/types/auth.js'
+import type { AuthRole } from '~~/types/auth.js'
 
 export function authenticatedEventHandler<T extends EventHandlerRequest, D>(handler: EventHandler<T, D>, role?: AuthRole): EventHandler<T, D> {
   return defineEventHandler<T>(async (event) => {
