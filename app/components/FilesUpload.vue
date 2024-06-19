@@ -53,8 +53,8 @@ watchEffect(() => {
 </script>
 
 <template>
-  <form name="select-files" class="p-4" @submit.prevent="execute">
-    <button class="btn border" type="button" @click="open">
+  <form name="select-files" class="form" @submit.prevent="execute">
+    <button class="button" type="button" @click="open">
       select files
     </button>
     <div>

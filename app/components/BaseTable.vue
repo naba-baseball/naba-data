@@ -61,19 +61,16 @@ const headers = computed(() => table.getFlatHeaders().slice(firstColumnIndex() +
 </script>
 
 <template>
-  <table class="base-table bg-surface-0 border rounded">
-    <thead class="grid grid-cols-subgrid col-span-full">
-      <tr
-        class="grid grid-cols-subgrid col-span-full place-content-start [&>*]:h-$table-header-height border-b"
-      >
+  <table class="base-table">
+    <thead >
+      <tr>
         <th v-if="props.selectable" data-header="select" />
-        <th v-if="stickyColumn" class="sticky left-0 z-1 bg-surface-100 grid items-center px-3xs">
+        <th v-if="stickyColumn">
           {{ stickyColumn.columnDef.header }}
         </th>
         <th
           v-for="header of headers"
           :key="header.id"
-          class="capitalize flex items-center gap-xs cursor-pointer"
         >
           {{ header.column.columnDef.header }}
           <SortArrow
@@ -82,15 +79,14 @@ const headers = computed(() => table.getFlatHeaders().slice(firstColumnIndex() +
         </th>
       </tr>
     </thead>
-    <tbody class="grid grid-cols-subgrid col-span-full">
+    <tbody >
       <tr
         v-for="row of table.getRowModel().rows" :key="row.id"
-        class="grid grid-cols-subgrid col-span-full border-b h-$table-row-height"
       >
         <td v-if="props.selectable" data-cell="select">
           <BaseCheckbox :model-value="row.getIsSelected()" @update:model-value="row.toggleSelected($event)" />
         </td>
-        <th class="sticky left-0 z-1 bg-surface-50 border-0 grid items-center px-3xs">
+        <th>
           <slot
             :name="stickyColumn.id"
             :row="row"
@@ -101,7 +97,6 @@ const headers = computed(() => table.getFlatHeaders().slice(firstColumnIndex() +
         </th>
         <td
           v-for="cell of row.getAllCells().slice(firstColumnIndex() + 1)" :key="cell.id"
-          class="grid items-center"
         >
           <slot :name="cell.column.id" :row="cell.row" :column="cell.column">
             {{ cell.renderValue() }}
