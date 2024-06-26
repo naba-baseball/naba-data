@@ -1,13 +1,17 @@
 <script lang="ts" setup>
-const items: { value: Split, text: string }[] = [
-  { value: 'overall', text: 'Overall' },
-  { value: 'vsl', text: 'vs. Left' },
-  { value: 'vsr', text: 'vs. Right' },
-  { value: 'talent', text: 'Potential' },
+import type { Split } from '~~/types/index.js'
+
+const options: { value: Split, label: string }[] = [
+  { value: 'overall', label: 'Overall' },
+  { value: 'vsl', label: 'vs. Left' },
+  { value: 'vsr', label: 'vs. Right' },
+  { value: 'talent', label: 'Potential' },
 ]
 const model = defineModel<Split>({ default: 'overall' })
 </script>
 
 <template>
-  <FieldSelect v-model="model" name="split" label="Split" :items />
+  <UFormGroup label="Split">
+    <USelect v-model="model" name="split" :options />
+  </UFormGroup>
 </template>

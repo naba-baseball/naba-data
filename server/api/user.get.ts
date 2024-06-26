@@ -8,7 +8,7 @@ export default eventHandler(async (event) => {
       'Set-Cookie',
       lucia.createBlankSessionCookie().serialize(),
     )
-    return null
+    return undefined
   }
-  return (await lucia.validateSession(sessionId)).user ?? null
+  return (await lucia.validateSession(sessionId)).user ?? undefined
 })

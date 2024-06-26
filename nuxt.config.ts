@@ -1,7 +1,7 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  future:{
-    compatibilityVersion: 4
+  future: {
+    compatibilityVersion: 4,
   },
   devtools: { enabled: true },
   modules: [
@@ -9,9 +9,9 @@ export default defineNuxtConfig({
     'radix-vue/nuxt',
     '@nuxt/fonts',
     '@nuxt/eslint',
+    '@nuxt/ui',
   ],
   css: [
-    '@/assets/css/reset.css',
     '@/assets/css/main.css',
   ],
   eslint: {
@@ -34,6 +34,9 @@ export default defineNuxtConfig({
         base: '.preferences',
       },
     },
+  },
+  ui: {
+    icons: ['lucide'],
   },
   fonts: {
     experimental: {

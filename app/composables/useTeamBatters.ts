@@ -3,7 +3,6 @@ export function useTeamPlayers(teamId: MaybeRefOrGetter<number | string>) {
   const api = useFetch(
     () => `/api/teams/${toValue(teamId)}/batters`,
     {
-      deep: false,
       query: {
         split,
         roster,

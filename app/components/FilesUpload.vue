@@ -53,10 +53,10 @@ watchEffect(() => {
 </script>
 
 <template>
-  <form name="select-files" class="form" @submit.prevent="execute">
-    <button class="button" type="button" @click="open">
+  <form name="select-files" @submit.prevent="execute">
+    <UButton type="button" @click="open">
       select files
-    </button>
+    </UButton>
     <div>
       <ul>
         <li v-for="file of selectedFiles" :key="file.name">
@@ -80,12 +80,11 @@ watchEffect(() => {
         </template>
       </p>
     </div>
-    <button
-      class="btn bg-primary flex items-center gap-2"
+    <UButton icon="i-lucide-upload"
       :disabled="missingFiles.length !== 0"
       type="submit"
     >
-      <span class="block i-lucide-upload" /> upload
-    </button>
+     upload
+    </UButton>
   </form>
 </template>

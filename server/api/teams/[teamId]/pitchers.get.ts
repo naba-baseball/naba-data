@@ -19,6 +19,7 @@ export default defineEventHandler(async (event) => {
   const res = await db.select({
     player_id: PlayersTable.player_id,
     first_name: PlayersTable.first_name,
+    age: PlayersTable.age,
     last_name: PlayersTable.last_name,
     position: PlayersTable.position,
     role: PlayersTable.role,

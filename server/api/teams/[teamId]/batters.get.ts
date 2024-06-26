@@ -19,6 +19,7 @@ export default defineEventHandler(async (event) => {
     player_id: PlayersTable.player_id,
     first_name: PlayersTable.first_name,
     last_name: PlayersTable.last_name,
+    age: PlayersTable.age,
     position: PlayersTable.position,
     role: PlayersTable.role,
     bats: PlayersTable.bats,

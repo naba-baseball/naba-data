@@ -1,6 +1,4 @@
-import type { User } from 'lucia'
-
 export function useUser() {
-  const {data: user} = useNuxtData<User | null>('user')
-  return user
+  const userAPI = useFetch('/api/user', { immediate: false, key: 'user' })
+  return { user: userAPI.data, api: userAPI }
 }

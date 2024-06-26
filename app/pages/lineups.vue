@@ -4,8 +4,11 @@ import type { UnwrapRef } from 'vue'
 
 const teamId = ref<number>(1)
 const type = useRouteQuery<'batters' | 'pitchers'>('type', 'batters')
-const selectedPitchers = ref<Record<UnwrapRef<typeof teamId>, any>>({})
-const selectedBatters = ref<Record<UnwrapRef<typeof teamId>, any>>({})
+const selectedPitchers = ref<Record<UnwrapRef<typeof teamId>, unknown[]>>({})
+const selectedBatters = ref<Record<UnwrapRef<typeof teamId>, unknown[]>>({})
+watch(teamId, (id) => {
+  selectedBatters.value[id] ??= []
+}, { immediate: true })
 const selectedOfType = computed(() => type.value === 'batters' ? selectedBatters.value[teamId.value] : selectedPitchers.value[teamId.value])
 </script>
 
@@ -24,8 +27,8 @@ const selectedOfType = computed(() => type.value === 'batters' ? selectedBatters
           <label w-fit>
             <input v-model="type" type="radio" value="pitchers"> Pitchers
           </label>
-          <TeamBatters v-show="type === 'batters'" v-model="selectedBatters[teamId]" selectable :team-id />
-          <TeamPitchers v-show="type === 'pitchers'" v-model="selectedPitchers[teamId]" selectable :team-id />
+          <TeamBatters v-show="type === 'batters'" v-model="selectedBatters[teamId]" :team-id />
+          <TeamPitchers v-show="type === 'pitchers'" v-model="selectedPitchers[teamId]" :team-id />
         </div>
         <div space-y-3>
           <h2 heading-sm>

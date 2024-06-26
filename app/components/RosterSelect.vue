@@ -1,18 +1,13 @@
 <script lang="ts" setup>
-const items = [
-  { value: 'primary', text: 'Primary' },
-  { value: 'reserve', text: 'Reserve' },
+const options = [
+  { value: 'primary', label: 'Primary' },
+  { value: 'reserve', label: 'Reserve' },
 ]
-const model = defineModel<(typeof items)[number]['value']>()
+const model = defineModel<(typeof options)[number]['value']>()
 </script>
 
 <template>
-  <FieldSelect
-    v-model="model"
-    name="roster"
-    label="Roster"
-    :items
-  />
+  <UFormGroup label="Roster">
+    <USelect v-model="model" name="roster" :options />
+  </UFormGroup>
 </template>
-
-<style></style>
