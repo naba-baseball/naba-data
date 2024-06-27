@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-
+const emit = defineEmits<{ done: [] }>()
 const { files, open } = useFileDialog({
   accept: 'text',
   multiple: true,
@@ -29,7 +29,6 @@ const missingFiles = computed(() => {
   return missingFiles
 })
 const statusMessage = ref()
-const emit = defineEmits<{done: []}>()
 async function submit() {
   statusMessage.value = 'uploading...'
   const body = new FormData()
@@ -53,13 +52,14 @@ watchEffect(() => {
 </script>
 
 <template>
-  <form name="select-files" @submit.prevent="execute">
+  <form name="select-files" class="space-y-2" @submit.prevent="execute">
     <UButton type="button" @click="open">
       select files
     </UButton>
-    <div>
-      <ul>
-        <li v-for="file of selectedFiles" :key="file.name">
+    <ul v-auto-animate class="grid gap-2">
+      <li v-for="file of selectedFiles" :key="file.name">
+        <pan class="w-lg">
+          <UIcon class="align-text-bottom text-primary-700 dark:text-primary-500" name="i-lucide-file" />
           {{ file.name }} / {{ file.size / 1000 }} KB /
           {{
             new Date(file.lastModified).toLocaleString("en-us", {
@@ -67,12 +67,12 @@ watchEffect(() => {
               dateStyle: "short",
             })
           }}
-        </li>
-      </ul>
-    </div>
-    <template v-for="fileName of missingFiles" :key="fileName">
-      <div>missing {{ fileName }}</div>
-    </template>
+        </pan>
+      </li>
+      <template v-for="fileName of missingFiles" :key="fileName">
+        <li>missing {{ fileName }}</li>
+      </template>
+    </ul>
     <div>
       <p>
         <template v-if="statusMessage">
@@ -80,11 +80,12 @@ watchEffect(() => {
         </template>
       </p>
     </div>
-    <UButton icon="i-lucide-upload"
+    <UButton
+      icon="i-lucide-upload"
       :disabled="missingFiles.length !== 0"
       type="submit"
     >
-     upload
+      upload
     </UButton>
   </form>
 </template>

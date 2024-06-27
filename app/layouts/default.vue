@@ -12,18 +12,19 @@ const constantLinks = [{
   label: 'Lineups',
 }]
 const links = computed(() => {
-  return user.value
+  return [...constantLinks, ...user.value
     ? [
-        ...constantLinks,
         {
           to: '/upload',
           label: 'Upload',
         },
       ]
-    : [...constantLinks, {
-        to: '/auth/login',
-        label: 'Login',
-      }]
+    : [
+        {
+          to: '/auth/login',
+          label: 'Login',
+        },
+      ]]
 })
 </script>
 

@@ -2,8 +2,8 @@
 </script>
 
 <template>
-  <main class="page">
-    <section class="content">
+  <main>
+    <section class="mx-auto">
       <slot />
     </section>
   </main>
