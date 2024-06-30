@@ -1,7 +1,7 @@
 <script setup>
 definePageMeta({
   middleware: () => {
-    if (useUser().value?.role !== 'admin')
+    if (useUser().user.value?.role !== 'admin')
       return navigateTo('/')
   },
 })

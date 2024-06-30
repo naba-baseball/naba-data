@@ -8,7 +8,7 @@ export default eventHandler(async (event) => {
       'Set-Cookie',
       lucia.createBlankSessionCookie().serialize(),
     )
-    return undefined
+    return { role: 'guest' }
   }
   return (await lucia.validateSession(sessionId)).user ?? undefined
 })

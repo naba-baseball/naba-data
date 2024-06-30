@@ -1,4 +1,4 @@
-import { object, parse } from 'valibot'
+import * as v from 'valibot'
 import { and, asc, eq, gte, lte } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
@@ -7,8 +7,8 @@ export default defineEventHandler(async (event) => {
     parseTeamId(),
   )
   const { split, roster } = await getValidatedQuery(event, data =>
-    parse(
-      object({
+    v.parse(
+      v.object({
         roster: parseRoster(),
         split: parseSplit(),
       }),

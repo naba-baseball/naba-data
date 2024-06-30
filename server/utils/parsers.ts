@@ -1,21 +1,10 @@
-import {
-  literal,
-  minValue,
-  number,
-  object,
-  optional,
-  parse,
-  string,
-  toMinValue,
-  transform,
-  union,
-} from 'valibot'
+import * as v from 'valibot'
 
 export function parseNumeric(key: string) {
   return (data: unknown) =>
-    parse(
-      object({
-        [key]: transform(string(), Number, number()),
+    v.parse(
+      v.object({
+        [key]: v.pipe(v.string(), v.transform(Number)),
       }),
       data,
     )
@@ -23,29 +12,29 @@ export function parseNumeric(key: string) {
 
 export function parseTeamId() {
   return (data: unknown) =>
-    parse(
-      object({
-        teamId: transform(string(), Number, number([minValue(1)])),
+    v.parse(
+      v.object({
+        teamId: v.pipe(v.union([v.string(), v.number()]), v.transform(Number), v.minValue(1)),
       }),
       data,
     )
 }
 
 export function parseSplit() {
-  return optional(
-    union([
-      literal('overall'),
-      literal('talent'),
-      literal('vsl'),
-      literal('vsr'),
+  return v.optional(
+    v.union([
+      v.literal('overall'),
+      v.literal('talent'),
+      v.literal('vsl'),
+      v.literal('vsr'),
     ]),
     'overall',
   )
 }
 
 export function parseRoster() {
-  return optional(
-    union([literal('primary'), literal('reserve')]),
+  return v.optional(
+    v.union([v.literal('primary'), v.literal('reserve')]),
     'primary',
   )
 }

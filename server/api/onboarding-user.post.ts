@@ -3,7 +3,7 @@ import { generateIdFromEntropySize } from 'lucia'
 import { Argon2id } from 'oslo/password'
 
 export default defineEventHandler(async (event) => {
-  const {password, username} = await validateUsernameAndPassword()
+  const { password, username } = await validateUsernameAndPassword()
   const hashedPassword = await new Argon2id().hash(password)
   const db = useSqlite()
   const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.username, username))
@@ -20,6 +20,5 @@ export default defineEventHandler(async (event) => {
     'Set-Cookie',
     lucia.createSessionCookie(session.id).serialize(),
   )
-  await useStorage('preferences').setItem('onboarding', false)
-  return sendRedirect(event, '/')
+  return 'ok'
 })

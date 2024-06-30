@@ -1,13 +1,6 @@
 import { eq } from 'drizzle-orm'
 import { generateIdFromEntropySize } from 'lucia'
 import { Argon2id } from 'oslo/password'
-import {
-  minLength,
-  object,
-  parse,
-  required,
-  string,
-} from 'valibot'
 
 export default defineEventHandler(async (event) => {
   const body = await validateUsernameAndPassword()
@@ -19,7 +12,7 @@ export default defineEventHandler(async (event) => {
     return createError({ message: 'Username is not available', status: 400 })
 
   const userId = generateIdFromEntropySize(16)
-  await db.insert(usersTable).values({ id: userId, username, password: hashedPassword })
+  await db.insert(usersTable).values({ id: userId, username, password: hashedPassword, role: 'user' })
 
   const lucia = useLucia()
   const session = await lucia.createSession(userId, {})

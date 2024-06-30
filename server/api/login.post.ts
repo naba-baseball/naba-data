@@ -1,14 +1,14 @@
-import { object, parse, required, string } from 'valibot'
+import * as v from 'valibot'
 import { Argon2id } from 'oslo/password'
 import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
   const { username, password } = await readValidatedBody(event, body =>
-    parse(
-      required(
-        object({
-          username: string(),
-          password: string(),
+    v.parse(
+      v.required(
+        v.object({
+          username: v.string(),
+          password: v.string(),
         }),
       ),
       body,

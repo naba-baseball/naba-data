@@ -1,14 +1,10 @@
-<script setup>
+<script lang="ts" setup>
 import { ConfigProvider } from 'radix-vue'
 
-const { user } = useUser()
-if (user.value === undefined && useCookie('auth_session').value != null) {
-  const { data } = await useFetch('/api/user', { key: 'user' })
-  user.value = data.value
-}
+console.log('app layout')
 
-await useFetch('/api/preference', { params: { key: 'onboarding' }, key: 'onboarding' })
-const { data: isOnboarding } = useNuxtData('onboarding')
+const { data: isOnboarding } = await useFetch('/api/preference', { params: { key: 'onboarding' }, key: 'onboarding' })
+console.log('isOnboarding', isOnboarding.value)
 const shouldRedirect = isOnboarding.value && useRoute().path !== '/onboarding'
 if (shouldRedirect)
   await navigateTo('/onboarding')
@@ -18,6 +14,7 @@ const idProvider = () => useId()
 
 <template>
   <Head>
+    <Title>Naba data</Title>
     <Body class="dark:bg-gray-950" />
   </Head>
   <ConfigProvider :use-id="idProvider">

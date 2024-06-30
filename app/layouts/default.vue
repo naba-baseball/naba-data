@@ -1,4 +1,5 @@
 <script lang="ts" setup>
+console.log('default layout')
 const { user } = useUser()
 async function logout() {
   await $fetch('/api/logout', { method: 'POST' })
@@ -11,30 +12,29 @@ const constantLinks = [{
   to: '/lineups',
   label: 'Lineups',
 }]
-const links = computed(() => {
-  return [...constantLinks, ...user.value
-    ? [
-        {
-          to: '/upload',
-          label: 'Upload',
-        },
-      ]
-    : [
-        {
-          to: '/auth/login',
-          label: 'Login',
-        },
-      ]]
-})
+const guestLinks = [
+  ...constantLinks,
+  {
+    to: '/auth/login',
+    label: 'Login',
+  },
+]
+const authenticatedLinks = [
+  ...constantLinks,
+  {
+    to: '/upload',
+    label: 'Upload',
+  },
+]
 </script>
 
 <template>
   <main>
     <div class="-mx-2 grid grid-flow-col place-content-between">
-      <UHorizontalNavigation :links />
+      <UHorizontalNavigation :links="user?.role === 'admin' ? authenticatedLinks : guestLinks" />
       <div class="py-2 flex items-center">
         <ColorTheme />
-        <UButton v-if="user" color="gray" variant="ghost" @click="logout">
+        <UButton v-if="user?.role === 'admin'" color="gray" variant="ghost" @click="logout">
           Logout {{ user.username }}
         </UButton>
       </div>
@@ -44,5 +44,3 @@ const links = computed(() => {
     </section>
   </main>
 </template>
-
-<style></style>

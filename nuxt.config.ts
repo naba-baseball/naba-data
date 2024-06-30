@@ -15,6 +15,13 @@ export default defineNuxtConfig({
   css: [
     '@/assets/css/main.css',
   ],
+  app: {
+    head: {
+      htmlAttrs: {
+        lang: 'en',
+      },
+    },
+  },
   eslint: {
     config: {
       standalone: false,

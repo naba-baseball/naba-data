@@ -1,4 +1,5 @@
 export function useUser() {
-  const userAPI = useFetch('/api/user', { immediate: false, key: 'user' })
-  return { user: userAPI.data, api: userAPI }
+  const api = useFetch('/api/user', { key: 'user', default: () => ({ role: 'guest' }) })
+  const { data: user } = useNuxtData('user')
+  return { user, api, refresh: () => refreshNuxtData('user') }
 }

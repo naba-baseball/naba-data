@@ -1,6 +1,3 @@
-<script lang="ts" setup>
-</script>
-
 <template>
   <main>
     <section class="mx-auto">
@@ -8,7 +5,3 @@
     </section>
   </main>
 </template>
-
-<style>
-
-</style>

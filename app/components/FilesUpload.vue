@@ -58,7 +58,7 @@ watchEffect(() => {
     </UButton>
     <ul v-auto-animate class="grid gap-2">
       <li v-for="file of selectedFiles" :key="file.name">
-        <pan class="w-lg">
+        <span class="w-lg">
           <UIcon class="align-text-bottom text-primary-700 dark:text-primary-500" name="i-lucide-file" />
           {{ file.name }} / {{ file.size / 1000 }} KB /
           {{
@@ -67,7 +67,7 @@ watchEffect(() => {
               dateStyle: "short",
             })
           }}
-        </pan>
+        </span>
       </li>
       <template v-for="fileName of missingFiles" :key="fileName">
         <li>missing {{ fileName }}</li>

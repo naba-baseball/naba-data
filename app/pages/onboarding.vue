@@ -1,6 +1,7 @@
 <script lang="ts" setup>
-const formEl = shallowRef<HTMLFormElement>()
-const { data, execute: getOnboarding } = await useFetch('/api/onboarding')
+import * as v from 'valibot'
+
+const { data, execute: getOnboarding } = await useLazyFetch('/api/onboarding')
 watchEffect(async () => {
   if (data.value?.hasUploadedFiles && data.value?.hasAdmin) {
     await $fetch('/api/preference', {
@@ -26,49 +27,62 @@ watchEffect(() => {
     useHead({ title: 'Onboarding - Files' })
   }
 })
+const userForm = reactive({
+  username: '',
+  password: '',
+})
+const userFormSchema = v.object({
+  username: v.pipe(v.string(), v.minLength(3, 'Username must be at least 3 characters')),
+  password: v.pipe(v.string(), v.minLength(6, 'Password must be at least 6 characters')),
+})
 const { execute: updateUser, error: userError } = useFetch('/api/onboarding-user', {
   method: 'POST',
   immediate: false,
   watch: false,
   body: toRef(() => {
-    const form = new FormData(formEl.value)
     return {
-      username: form.get('username'),
-      password: form.get('password'),
+      username: userForm.username,
+      password: userForm.password,
     }
   }),
 })
-const toggle = ref(false)
+function handleUserSubmit() {
+  updateUser().then(() => {
+    getOnboarding()
+  })
+}
 </script>
 
 <template>
   <div>
-    <h1 class="2xl font-bold">
+    <h1 class="text-4xl font-bold">
       Lets get things setup
     </h1>
     <template v-if="data">
       <transition
         mode="out-in"
-        class="transition-[transform_opacity] duration-500"
         enter-from-class="translate-x-12 opacity-0"
         enter-to-class="translate-x-0 opacity-100"
         leave-from-class="opacity-100 translate-x-0"
         leave-to-class="opacity-0 -translate-x-12"
       >
-        <form
+        <UForm
           v-if="!data.hasAdmin"
-          ref="formEl" name="onboarding" class="space-y-4 w-md" method="POST"
-          @submit.prevent="updateUser().then(() => getOnboarding())"
+          :state="userForm"
+          :schema="userFormSchema"
+          class="transition-[transform_opacity] duration-500 space-y-4 w-md"
+          @submit="handleUserSubmit"
         >
           <h2 class="text-xl">
             Create Admin user
           </h2>
-          <UFormGroup label="Username">
-            <UInput id="username" name="username" type="text" placeholder="Username" />
+          <UFormGroup label="Username" name="username">
+            <UInput id="username" v-model="userForm.username" type="text" placeholder="Username" />
           </UFormGroup>
-          <UFormGroup label="Password">
-            <UInput id="password" name="password" type="password" placeholder="Password" />
+          <UFormGroup label="Password" name="password">
+            <UInput id="password" v-model="userForm.password" type="password" placeholder="Password" />
           </UFormGroup>
+          <input type="hidden">
 
           <div v-if="userError" id="warnings">
             <div>Errors</div>
@@ -77,8 +91,8 @@ const toggle = ref(false)
           <UButton type="submit">
             Create admin user
           </UButton>
-        </form>
-        <div v-else-if="!data.hasUploadedFiles">
+        </UForm>
+        <div v-else-if="!data.hasUploadedFiles" class="transition-[transform_opacity] duration-500">
           <h2>
             Upload files
           </h2>

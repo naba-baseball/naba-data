@@ -10,7 +10,8 @@ if (!team.value) {
   })
 }
 const tabs = [{ label: 'Batters', value: 'batters' }, { label: 'Pitchers', value: 'pitchers' }, { label: 'Fielders', value: 'fielders' }]
-const tab = useRouteQuery('view', 0)
+const tab = useRouteQuery('view', '0')
+const tabNumber = useToNumber(tab)
 const querySplit = useRouteQuery('split')
 const queryRoster = useRouteQuery<'primary' | 'reserve'>('roster')
 const { split, roster } = useTeamsFilters()
@@ -26,7 +27,7 @@ const teamId = toRef(() => route.params.teamId as string)
 <template>
   <article class="space-y-4">
     <div class="inline-flex gap-4 items-center justify-between">
-      <h1>
+      <h1 v-if="team">
         {{ team.name }} {{ team.nickname }}
       </h1>
       <img v-if="team" class="size-20" src="/salt_lake_city_missionaries.png">
@@ -35,7 +36,7 @@ const teamId = toRef(() => route.params.teamId as string)
       <SplitSelect v-model="split" />
       <RosterSelect v-model="roster" />
     </div>
-    <UTabs v-model="tab" :items="tabs">
+    <UTabs :model-value="tabNumber" @update:model-value="tab = $event" :items="tabs">
       <template #item="{ item }">
         <TeamBatters v-if="item.value === 'batters'" :team-id />
         <TeamPitchers v-if="item.value === 'pitchers'" :team-id />
