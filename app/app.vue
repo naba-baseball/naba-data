@@ -1,10 +1,7 @@
 <script lang="ts" setup>
 import { ConfigProvider } from 'radix-vue'
 
-console.log('app layout')
-
 const { data: isOnboarding } = await useFetch('/api/preference', { params: { key: 'onboarding' }, key: 'onboarding' })
-console.log('isOnboarding', isOnboarding.value)
 const shouldRedirect = isOnboarding.value && useRoute().path !== '/onboarding'
 if (shouldRedirect)
   await navigateTo('/onboarding')
@@ -24,5 +21,6 @@ const idProvider = () => useId()
         <NuxtPage />
       </NuxtLayout>
     </UContainer>
+    <UNotifications />
   </ConfigProvider>
 </template>

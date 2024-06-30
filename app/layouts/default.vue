@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-console.log('default layout')
 const { user } = useUser()
 async function logout() {
   await $fetch('/api/logout', { method: 'POST' })

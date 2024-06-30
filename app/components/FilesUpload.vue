@@ -29,7 +29,7 @@ const missingFiles = computed(() => {
   return missingFiles
 })
 const statusMessage = ref()
-async function submit() {
+const { execute, error, isLoading } = useAsyncState(async () => {
   statusMessage.value = 'uploading...'
   const body = new FormData()
   for (const file of selectedFiles.value) body.append('file', file)
@@ -41,8 +41,7 @@ async function submit() {
   await $fetch('/api/database', { method: 'PUT' })
   statusMessage.value = 'done :)'
   emit('done')
-}
-const { execute, error, isLoading } = useAsyncState(submit, undefined, {
+}, undefined, {
   immediate: false,
 })
 watchEffect(() => {
@@ -73,19 +72,13 @@ watchEffect(() => {
         <li>missing {{ fileName }}</li>
       </template>
     </ul>
-    <div>
-      <p>
-        <template v-if="statusMessage">
-          {{ statusMessage }}
-        </template>
-      </p>
-    </div>
     <UButton
-      icon="i-lucide-upload"
+      :icon="!statusMessage ? 'i-lucide-upload' : ''"
       :disabled="missingFiles.length !== 0"
       type="submit"
+      :loading="isLoading"
     >
-      upload
+      {{ statusMessage ?? 'Upload' }}
     </UButton>
   </form>
 </template>

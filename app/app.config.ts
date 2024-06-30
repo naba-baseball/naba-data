@@ -13,5 +13,8 @@ export default defineAppConfig({
         },
       },
     },
+    notifications: {
+      position: 'top-0 left-1/2 bottom-auto -translate-x-1/2',
+    },
   },
 })
