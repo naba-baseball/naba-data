@@ -6,7 +6,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@vueuse/nuxt',
-    'radix-vue/nuxt',
     '@nuxt/fonts',
     '@nuxt/eslint',
     '@nuxt/ui',

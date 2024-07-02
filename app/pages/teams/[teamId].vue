@@ -2,7 +2,7 @@
 import { useRouteQuery } from '@vueuse/router'
 
 const route = useRoute()
-const { data: team } = useFetch(`/api/teams/${route.params.teamId}`)
+const { data: team } = await useFetch(`/api/teams/${route.params.teamId}`)
 if (!team.value) {
   showError({
     message: 'Team not found',
