@@ -55,18 +55,34 @@ watchEffect(() => {
     <UButton type="button" @click="open">
       select files
     </UButton>
-    <ul v-auto-animate class="grid gap-2">
-      <li v-for="file of selectedFiles" :key="file.name">
-        <span class="w-lg">
+    <ul v-auto-animate class="grid auto-rows-[minmax(40px,1fr)] gap-2">
+      <li class="w-[600px] grid grid-cols-3 p-2 text-sm uppercase tracking-wide opacity-70">
+        <div>
+          file name
+        </div>
+        <div>
+          size
+        </div>
+        <div>
+          last modified
+        </div>
+      </li>
+      <li v-for="file of selectedFiles" :key="file.name" class="w-[600px] grid grid-cols-3 p-2">
+        <div>
           <UIcon class="align-text-bottom text-primary-700 dark:text-primary-500" name="i-lucide-file" />
-          {{ file.name }} / {{ file.size / 1000 }} KB /
+          {{ file.name }}
+        </div>
+        <div class="font-mono text-sm opacity-70">
+          {{ file.size / 1000 }} KB
+        </div>
+        <div class="text-sm opacity-70">
           {{
             new Date(file.lastModified).toLocaleString("en-us", {
-              timeStyle: "medium",
-              dateStyle: "short",
+              timeStyle: "short",
+              dateStyle: "long",
             })
           }}
-        </span>
+        </div>
       </li>
       <template v-for="fileName of missingFiles" :key="fileName">
         <li>missing {{ fileName }}</li>
