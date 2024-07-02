@@ -5,7 +5,7 @@ async function logout() {
   location.reload()
 }
 const constantLinks = [{
-  to: '/',
+  to: '/teams',
   label: 'Home',
 }, {
   to: '/lineups',

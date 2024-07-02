@@ -2,14 +2,17 @@
 import { useRouteQuery } from '@vueuse/router'
 
 const route = useRoute()
-const { data: team } = await useFetch(`/api/teams/${route.params.teamId}`, {
-})
+const { data: team } = useFetch(`/api/teams/${route.params.teamId}`)
 if (!team.value) {
   showError({
     message: 'Team not found',
   })
 }
-const tabs = [{ label: 'Batters', value: 'batters' }, { label: 'Pitchers', value: 'pitchers' }, { label: 'Fielders', value: 'fielders' }]
+const tabs = [
+  { label: 'Batters', value: 'batters' },
+  { label: 'Pitchers', value: 'pitchers' },
+  { label: 'Fielders', value: 'fielders' },
+]
 const tab = useRouteQuery('view', '0')
 const tabNumber = useToNumber(tab)
 const querySplit = useRouteQuery('split')
@@ -30,13 +33,13 @@ const teamId = toRef(() => route.params.teamId as string)
       <h1 v-if="team">
         {{ team.name }} {{ team.nickname }}
       </h1>
-      <img v-if="team" class="size-20" src="/salt_lake_city_missionaries.png">
+      <NuxtImg v-if="team" class="size-16" width="64px" height="64px" placeholder :src="`https://nabaleague.com/images/team_logos/${team.logo_file_name}`" />
     </div>
     <div class="grid grid-cols-2 gap-4">
       <SplitSelect v-model="split" />
       <RosterSelect v-model="roster" />
     </div>
-    <UTabs :model-value="tabNumber" @update:model-value="tab = $event" :items="tabs">
+    <UTabs :model-value="tabNumber" :items="tabs" @update:model-value="tab = $event">
       <template #item="{ item }">
         <TeamBatters v-if="item.value === 'batters'" :team-id />
         <TeamPitchers v-if="item.value === 'pitchers'" :team-id />
