@@ -11,7 +11,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/ui',
     '@formkit/auto-animate/nuxt',
-    "@nuxt/image"
+    '@nuxt/image',
   ],
   css: [
     '@/assets/css/main.css',
@@ -28,19 +28,21 @@ export default defineNuxtConfig({
       standalone: false,
     },
   },
+  experimental: {
+    asyncContext: true,
+  },
   nitro: {
     experimental: {
       database: true,
-      asyncContext: true,
     },
     storage: {
       files: {
         driver: 'fsLite',
-        base: '.files',
+        base: '.data/files',
       },
       preferences: {
         driver: 'fsLite',
-        base: '.preferences',
+        base: '.data/preferences',
       },
     },
   },
