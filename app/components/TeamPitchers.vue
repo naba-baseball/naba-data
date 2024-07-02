@@ -27,7 +27,7 @@ const { data: players } = await useFetch(
 </script>
 
 <template>
-  <UTable :rows="players" :columns="defaultColumns">
+  <UTable by="player_id" :rows="players" :columns="defaultColumns">
     <template #name-data="{ row }">
       <a
         class="underline underline-dashed underline-surface-300 underline-offset-[0.25rem]"

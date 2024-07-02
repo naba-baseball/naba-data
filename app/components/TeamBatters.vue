@@ -20,9 +20,9 @@ const model = defineModel<UnwrapRef<typeof players>[]>()
 </script>
 
 <template>
-  <UTable v-model="model" by="id"  :rows="players" :columns="defaultColumns">
+  <UTable v-model="model" by="player_id" :rows="players" :columns="defaultColumns">
     <template #name-data="{ row }">
-      <a class="underline underline-dashed underline-gray-300 underline-offset-[0.25rem]" :href="`https://nabaleague.com/players/player_${row.player_id}`">
+      <a class="underline underline-dashed underline-gray-300 underline-offset-4" :href="`https://nabaleague.com/players/player_${row.player_id}`">
         {{ row.first_name }} {{ row.last_name }}
       </a>
     </template>

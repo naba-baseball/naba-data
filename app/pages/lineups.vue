@@ -10,6 +10,7 @@ watch(teamId, (id) => {
   selectedBatters.value[id] ??= []
 }, { immediate: true })
 const selectedOfType = computed(() => type.value === 'batters' ? selectedBatters.value[teamId.value] : selectedPitchers.value[teamId.value])
+const { roster, split } = useTeamsFilters()
 </script>
 
 <template>
@@ -18,25 +19,24 @@ const selectedOfType = computed(() => type.value === 'batters' ? selectedBatters
       Lineup tool (WIP)
     </h1>
     <article>
-      <div grid="~ sm:cols-[2fr_1fr] gap-5">
-        <div grid="~ gap-3">
+      <div class="grid sm:grid-cols-[2fr_1fr] gap-5">
+        <div class="grid gap-3">
           <TeamSelect v-model="teamId" />
-          <label w-fit>
-            <input v-model="type" type="radio" value="batters"> Batters
-          </label>
-          <label w-fit>
-            <input v-model="type" type="radio" value="pitchers"> Pitchers
-          </label>
+          <UFormGroup label="Players">
+            <URadioGroup v-model="type" :options="[{ label: 'Batters', value: 'batters' }, { label: 'Pitchers', value: 'pitchers' }]" />
+          </UFormGroup>
+          <RosterSelect v-model="roster" />
+          <SplitSelect v-model="split" />
           <TeamBatters v-show="type === 'batters'" v-model="selectedBatters[teamId]" :team-id />
           <TeamPitchers v-show="type === 'pitchers'" v-model="selectedPitchers[teamId]" :team-id />
         </div>
-        <div space-y-3>
-          <h2 heading-sm>
+        <div class="space-y-3">
+          <h2 class="text-2xl">
             {{ type === 'batters' ? 'Batting' : 'Pitching' }} Lineup
           </h2>
-          <ol space-y-3>
-            <li v-for="(player) of selectedOfType" :key="player.player_id" text-lg font-medium>
-              <span class="bg-primary-200 rounded p-inline-2 text-primary-700">
+          <ol v-auto-animate class="space-y-3">
+            <li v-for="(player) of selectedOfType" :key="player.player_id" class="text-lg font-medium">
+              <span class="bg-primary-200 dark:bg-primary-950 rounded-lg px-2 py-1 text-primary-700 dark:text-primary-200">
                 {{ player.first_name }} {{ player.last_name }}
               </span>
             </li>
