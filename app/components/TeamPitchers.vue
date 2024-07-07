@@ -36,6 +36,9 @@ const { data: players } = await useFetch(
         {{ row.first_name }} {{ row.last_name }}
       </a>
     </template>
+    <template #role-data="{ row }">
+      {{ getAbbreviatedRole(row.role) }}
+    </template>
     <template #throws-data="{ row }">
       {{ useHandAbbreviation(row.throws).value }}
     </template>
