@@ -112,7 +112,7 @@ export default authenticatedEventHandler(async () => {
          "pitching_ratings_misc_stamina" integer NOT NULL,
          "pitching_ratings_misc_ground_fly" integer NOT NULL,
          "pitching_ratings_misc_hold" integer NOT NULL,
-         "pitching_ratings_babip" integer NOT NULL
+         "pitching_ratings_babip" integer
     )
   `
 

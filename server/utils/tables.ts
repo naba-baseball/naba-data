@@ -98,7 +98,7 @@ export const PlayersTable = sqliteTable('players', {
   pitching_ratings_misc_stamina: integer('pitching_ratings_misc_stamina').notNull(),
   pitching_ratings_misc_ground_fly: integer('pitching_ratings_misc_ground_fly').notNull(),
   pitching_ratings_misc_hold: integer('pitching_ratings_misc_hold').notNull(),
-  pitching_ratings_babip: integer('pitching_ratings_babip').notNull(),
+  pitching_ratings_babip: integer('pitching_ratings_babip'),
 }, (table) => {
   return {
     player_id_idx: index('player_id_idx').on(table.player_id),
