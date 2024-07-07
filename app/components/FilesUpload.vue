@@ -53,7 +53,7 @@ watchEffect(() => {
 <template>
   <form name="select-files" class="space-y-2" @submit.prevent="execute">
     <ul v-auto-animate class="grid text-gray-700 dark:text-gray-200 auto-rows-[minmax(40px,1fr)] gap-2">
-      <li class="w-[600px] grid grid-cols-3 p-2 text-sm uppercase tracking-wide ">
+      <li class="w-[600px] grid grid-cols-3 self-end text-sm uppercase tracking-wide ">
         <div>
           file name
         </div>

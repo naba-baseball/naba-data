@@ -29,17 +29,19 @@ const authenticatedLinks = [
 
 <template>
   <main>
-    <div class="-mx-2 grid grid-flow-col place-content-between">
-      <UHorizontalNavigation :links="user?.role === 'admin' ? authenticatedLinks : guestLinks" />
-      <div class="py-2 flex items-center">
-        <ColorTheme />
-        <UButton v-if="user?.role === 'admin'" color="gray" variant="ghost" @click="logout">
-          Logout {{ user.username }}
-        </UButton>
+    <UContainer>
+      <div class="-mx-2 grid grid-flow-col place-content-between">
+        <UHorizontalNavigation :links="user?.role === 'admin' ? authenticatedLinks : guestLinks" />
+        <div class="py-2 flex items-center">
+          <ColorTheme />
+          <UButton v-if="user?.role === 'admin'" color="gray" variant="ghost" @click="logout">
+            Logout {{ user.username }}
+          </UButton>
+        </div>
       </div>
-    </div>
-    <section class="content">
-      <slot />
-    </section>
+      <section class="content">
+        <slot />
+      </section>
+    </UContainer>
   </main>
 </template>

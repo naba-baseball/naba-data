@@ -10,11 +10,9 @@ if (shouldRedirect)
     <Title>Naba data</Title>
     <Body class="dark:bg-gray-950" />
   </Head>
-  <UContainer>
-    <NuxtLoadingIndicator />
-    <NuxtLayout :name="isOnboarding ? 'onboarding' : 'default'">
-      <NuxtPage />
-    </NuxtLayout>
-  </UContainer>
+  <NuxtLoadingIndicator />
+  <NuxtLayout :name="isOnboarding ? 'onboarding' : 'default'">
+    <NuxtPage />
+  </NuxtLayout>
   <UNotifications />
 </template>
