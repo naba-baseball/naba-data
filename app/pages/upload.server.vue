@@ -10,12 +10,8 @@ definePageMeta({
       return navigateTo('/')
   },
 })
-function done() {
-  const toast = useToast()
-  toast.add({ title: 'Site upload successful', actions: [{ label: 'Go home', click: () => navigateTo('/') }] })
-}
 </script>
 
 <template>
-  <FilesUpload @done="done()" />
+  <div />
 </template>

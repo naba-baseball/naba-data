@@ -1,9 +1,19 @@
 <script lang="ts" setup>
 const emit = defineEmits<{ done: [] }>()
+const model = defineModel<File[]>({ default: () => [] })
 const { files, open } = useFileDialog({
   accept: 'text',
   multiple: true,
 })
+watchEffect(() => {
+  if (!files.value)
+    return
+  model.value = []
+  for (const file of files.value) {
+    model.value.push(file)
+  }
+})
+
 const requiredFiles = [
   'teams.csv',
   'team_roster.csv',
@@ -11,20 +21,9 @@ const requiredFiles = [
   'players_pitching.csv',
   'players_batting.csv',
 ]
-const selectedFiles = computed(() => {
-  const selectedFiles: File[] = []
-  if (!files.value)
-    return selectedFiles
-  for (const file of files.value) {
-    if (requiredFiles.includes(file.name))
-      selectedFiles.push(file)
-  }
-
-  return selectedFiles
-})
 const missingFiles = computed(() => {
   const missingFiles = requiredFiles.filter(
-    fileName => !selectedFiles.value.find(file => file.name === fileName),
+    fileName => !model.value.find(file => file.name === fileName),
   )
   return missingFiles
 })
@@ -32,7 +31,7 @@ const statusMessage = ref()
 const { execute, error, isLoading } = useAsyncState(async () => {
   statusMessage.value = 'uploading...'
   const body = new FormData()
-  for (const file of selectedFiles.value) body.append('file', file)
+  for (const file of model.value) body.append('file', file)
   await $fetch('/api/upload', {
     method: 'POST',
     body,
@@ -44,6 +43,7 @@ const { execute, error, isLoading } = useAsyncState(async () => {
 }, undefined, {
   immediate: false,
 })
+
 watchEffect(() => {
   if (error.value)
     statusMessage.value = `error! ${error.value}`
@@ -52,11 +52,8 @@ watchEffect(() => {
 
 <template>
   <form name="select-files" class="space-y-2" @submit.prevent="execute">
-    <UButton type="button" @click="open">
-      select files
-    </UButton>
-    <ul v-auto-animate class="grid auto-rows-[minmax(40px,1fr)] gap-2">
-      <li class="w-[600px] grid grid-cols-3 p-2 text-sm uppercase tracking-wide opacity-70">
+    <ul v-auto-animate class="grid text-gray-700 dark:text-gray-200 auto-rows-[minmax(40px,1fr)] gap-2">
+      <li class="w-[600px] grid grid-cols-3 self-end text-sm uppercase tracking-wide ">
         <div>
           file name
         </div>
@@ -67,15 +64,15 @@ watchEffect(() => {
           last modified
         </div>
       </li>
-      <li v-for="file of selectedFiles" :key="file.name" class="w-[600px] grid grid-cols-3 p-2">
-        <div>
+      <li v-for="file of model" :key="file.name" class="w-[600px] grid grid-cols-3 p-2">
+        <div class="text-gray-950 dark:text-white">
           <UIcon class="align-text-bottom text-primary-700 dark:text-primary-500" name="i-lucide-file" />
           {{ file.name }}
         </div>
-        <div class="font-mono text-sm opacity-70">
-          {{ file.size / 1000 }} KB
+        <div class="font-mono text-sm ">
+          {{ file.size / 1000 }} kB
         </div>
-        <div class="text-sm opacity-70">
+        <div class="text-sm ">
           {{
             new Date(file.lastModified).toLocaleString("en-us", {
               timeStyle: "short",
@@ -88,13 +85,18 @@ watchEffect(() => {
         <li>missing {{ fileName }}</li>
       </template>
     </ul>
-    <UButton
-      :icon="!statusMessage ? 'i-lucide-upload' : ''"
-      :disabled="missingFiles.length !== 0"
-      type="submit"
-      :loading="isLoading"
-    >
-      {{ statusMessage ?? 'Upload' }}
-    </UButton>
+    <div class="flex items-center gap-2">
+      <UButton color="gray" type="button" @click="open">
+        Select files
+      </UButton>
+      <UButton
+        :icon="!statusMessage ? 'i-lucide-upload' : ''"
+        :disabled="missingFiles.length !== 0"
+        type="submit"
+        :loading="isLoading"
+      >
+        {{ statusMessage ?? 'Upload' }}
+      </UButton>
+    </div>
   </form>
 </template>

@@ -54,7 +54,7 @@ function handleUserSubmit() {
 </script>
 
 <template>
-  <div>
+  <div v-auto-animate class="space-y-5">
     <h1 class="text-4xl font-bold">
       Lets get things setup
     </h1>
@@ -70,7 +70,7 @@ function handleUserSubmit() {
           v-if="!data.hasAdmin"
           :state="userForm"
           :schema="userFormSchema"
-          class="transition-[transform_opacity] duration-500 space-y-4 w-md"
+          class="transition-[transform_opacity] duration-500 space-y-3 w-md"
           @submit="handleUserSubmit"
         >
           <h2 class="text-xl">
@@ -92,8 +92,8 @@ function handleUserSubmit() {
             Create admin user
           </UButton>
         </UForm>
-        <div v-else-if="!data.hasUploadedFiles" class="transition-[transform_opacity] duration-500">
-          <h2>
+        <div v-else-if="!data.hasUploadedFiles" class="transition-[transform_opacity] space-y-3 duration-500">
+          <h2 class="text-xl">
             Upload files
           </h2>
           <FilesUpload class="w-lg" @done="getOnboarding()" />
