@@ -1,9 +1,19 @@
 <script lang="ts" setup>
 const emit = defineEmits<{ done: [] }>()
+const model = defineModel<File[]>({ default: () => [] })
 const { files, open } = useFileDialog({
   accept: 'text',
   multiple: true,
 })
+watchEffect(() => {
+  if (!files.value)
+    return
+  model.value = []
+  for (const file of files.value) {
+    model.value.push(file)
+  }
+})
+
 const requiredFiles = [
   'teams.csv',
   'team_roster.csv',
@@ -11,20 +21,9 @@ const requiredFiles = [
   'players_pitching.csv',
   'players_batting.csv',
 ]
-const selectedFiles = computed(() => {
-  const selectedFiles: File[] = []
-  if (!files.value)
-    return selectedFiles
-  for (const file of files.value) {
-    if (requiredFiles.includes(file.name))
-      selectedFiles.push(file)
-  }
-
-  return selectedFiles
-})
 const missingFiles = computed(() => {
   const missingFiles = requiredFiles.filter(
-    fileName => !selectedFiles.value.find(file => file.name === fileName),
+    fileName => !model.value.find(file => file.name === fileName),
   )
   return missingFiles
 })
@@ -32,7 +31,7 @@ const statusMessage = ref()
 const { execute, error, isLoading } = useAsyncState(async () => {
   statusMessage.value = 'uploading...'
   const body = new FormData()
-  for (const file of selectedFiles.value) body.append('file', file)
+  for (const file of model.value) body.append('file', file)
   await $fetch('/api/upload', {
     method: 'POST',
     body,
@@ -44,6 +43,7 @@ const { execute, error, isLoading } = useAsyncState(async () => {
 }, undefined, {
   immediate: false,
 })
+
 watchEffect(() => {
   if (error.value)
     statusMessage.value = `error! ${error.value}`
@@ -67,7 +67,7 @@ watchEffect(() => {
           last modified
         </div>
       </li>
-      <li v-for="file of selectedFiles" :key="file.name" class="w-[600px] grid grid-cols-3 p-2">
+      <li v-for="file of model" :key="file.name" class="w-[600px] grid grid-cols-3 p-2">
         <div>
           <UIcon class="align-text-bottom text-primary-700 dark:text-primary-500" name="i-lucide-file" />
           {{ file.name }}

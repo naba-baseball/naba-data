@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 definePageMeta({
   middleware: async () => {
     let { data: user } = useNuxtData('user')
@@ -14,8 +14,12 @@ function done() {
   const toast = useToast()
   toast.add({ title: 'Site upload successful', actions: [{ label: 'Go home', click: () => navigateTo('/') }] })
 }
+const discoveredFiles = ref([])
 </script>
 
 <template>
-  <FilesUpload @done="done()" />
+  <div>
+    <FilesUpload v-model="discoveredFiles" @done="done()" />
+    <FilesUploadDirectory v-model="discoveredFiles" />
+  </div>
 </template>
