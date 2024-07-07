@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 const { teams } = useTeams()
+const sortedTeams = computed(() => teams.value.toSorted((a, b) => a.name.localeCompare(b.name)))
 </script>
 
 <template>
@@ -7,8 +8,8 @@ const { teams } = useTeams()
     <h1>
       Teams
     </h1>
-    <ul class="grid grid-cols-4 gap-4">
-      <li v-for="team in teams" :key="team.team_id">
+    <ul class="grid sm:grid-cols-4 gap-4">
+      <li v-for="team in sortedTeams" :key="team.team_id">
         <UCard>
           <div class="flex flex-col gap-4 items-center">
             <div>
