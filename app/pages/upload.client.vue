@@ -19,7 +19,7 @@ const discoveredFiles = ref([])
         You can select your save's csv folder and it'll automatically be checked for any updates when you visit this page.
       </p>
       <p>
-        Usually this is located at <span class="font-bold text-sm">Documents\OOTP Baseball 24\saved_games\YOUR_SAVE.lg\import_export\csv</span>
+        Usually this is located at <span class="font-bold text-sm">Documents\Out of the Park Developments\OOTP Baseball 24\saved_games\YOUR_SAVE.lg\import_export\csv</span>
       </p>
       <div>
         We'll scan any folder you select for the required files.
