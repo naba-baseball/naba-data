@@ -52,11 +52,8 @@ watchEffect(() => {
 
 <template>
   <form name="select-files" class="space-y-2" @submit.prevent="execute">
-    <UButton type="button" @click="open">
-      select files
-    </UButton>
-    <ul v-auto-animate class="grid auto-rows-[minmax(40px,1fr)] gap-2">
-      <li class="w-[600px] grid grid-cols-3 p-2 text-sm uppercase tracking-wide opacity-70">
+    <ul v-auto-animate class="grid text-gray-700 dark:text-gray-200 auto-rows-[minmax(40px,1fr)] gap-2">
+      <li class="w-[600px] grid grid-cols-3 p-2 text-sm uppercase tracking-wide ">
         <div>
           file name
         </div>
@@ -68,14 +65,14 @@ watchEffect(() => {
         </div>
       </li>
       <li v-for="file of model" :key="file.name" class="w-[600px] grid grid-cols-3 p-2">
-        <div>
+        <div class="text-gray-950 dark:text-white">
           <UIcon class="align-text-bottom text-primary-700 dark:text-primary-500" name="i-lucide-file" />
           {{ file.name }}
         </div>
-        <div class="font-mono text-sm opacity-70">
-          {{ file.size / 1000 }} KB
+        <div class="font-mono text-sm ">
+          {{ file.size / 1000 }} kB
         </div>
-        <div class="text-sm opacity-70">
+        <div class="text-sm ">
           {{
             new Date(file.lastModified).toLocaleString("en-us", {
               timeStyle: "short",
@@ -88,13 +85,18 @@ watchEffect(() => {
         <li>missing {{ fileName }}</li>
       </template>
     </ul>
-    <UButton
-      :icon="!statusMessage ? 'i-lucide-upload' : ''"
-      :disabled="missingFiles.length !== 0"
-      type="submit"
-      :loading="isLoading"
-    >
-      {{ statusMessage ?? 'Upload' }}
-    </UButton>
+    <div class="flex items-center gap-2">
+      <UButton color="gray" type="button" @click="open">
+        Select files
+      </UButton>
+      <UButton
+        :icon="!statusMessage ? 'i-lucide-upload' : ''"
+        :disabled="missingFiles.length !== 0"
+        type="submit"
+        :loading="isLoading"
+      >
+        {{ statusMessage ?? 'Upload' }}
+      </UButton>
+    </div>
   </form>
 </template>
