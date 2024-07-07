@@ -5,13 +5,13 @@ import type { TeamTableProps } from '~~/types/shared.js'
 export type TeamPitchersItem = UnwrapRef<typeof players>[number]
 const props = defineProps<TeamTableProps>()
 const defaultColumns = [
-  { label: 'Name', key: 'name' },
-  { label: 'Throws', key: 'throws', sortable: true },
-  { label: 'Age', key: 'age', sortable: true },
-  { label: 'Role', key: 'role', sortable: true },
-  { label: 'Stuff', key: 'stuff', sortable: true },
-  { label: 'Movement', key: 'movement', sortable: true },
-  { label: 'Control', key: 'control', sortable: true },
+  { key: 'last_name', label: 'Name', sortable: true },
+  { key: 'throws', label: 'Throws', sortable: true },
+  { key: 'age', label: 'Age', sortable: true },
+  { key: 'role', label: 'Role', sortable: true },
+  { key: 'stuff', label: 'Stuff', sortable: true },
+  { key: 'movement', label: 'Movement', sortable: true },
+  { key: 'control', label: 'Control', sortable: true },
 ]
 const { split, roster } = useTeamsFilters()
 const { data: players } = await useFetch(
@@ -27,8 +27,8 @@ const { data: players } = await useFetch(
 </script>
 
 <template>
-  <UTable by="player_id" :rows="players" :columns="defaultColumns">
-    <template #name-data="{ row }">
+  <UTable :sort="{ column: 'last_name', direction: 'asc' }" by="player_id" :rows="players" :columns="defaultColumns">
+    <template #last_name-data="{ row }">
       <a
         class="underline underline-dashed underline-surface-300 underline-offset-[0.25rem]"
         :href="`https://nabaleague.com/players/player_${row.player_id}`"

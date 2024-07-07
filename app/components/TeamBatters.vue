@@ -5,7 +5,7 @@ import type { TeamTableProps } from '~~/types/shared.js'
 export type TeamBattersItem = UnwrapRef<typeof players>[number]
 const props = defineProps<TeamTableProps>()
 const defaultColumns = [
-  { key: 'name', label: 'Name' },
+  { key: 'last_name', label: 'Name', sortable: true },
   { key: 'bats', label: 'Bats', sortable: true },
   { key: 'age', label: 'Age', sortable: true },
   { key: 'position', label: 'Position', sortable: true },
@@ -20,8 +20,8 @@ const model = defineModel<UnwrapRef<typeof players>[]>()
 </script>
 
 <template>
-  <UTable v-model="model" by="player_id" :rows="players" :columns="defaultColumns">
-    <template #name-data="{ row }">
+  <UTable v-model="model" :sort="{ column: 'last_name', direction: 'asc' }" by="player_id" :rows="players" :columns="defaultColumns">
+    <template #last_name-data="{ row }">
       <a class="underline underline-dashed underline-gray-300 underline-offset-4" :href="`https://nabaleague.com/players/player_${row.player_id}`">
         {{ row.first_name }} {{ row.last_name }}
       </a>
