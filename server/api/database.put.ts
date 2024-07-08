@@ -131,6 +131,9 @@ export default authenticatedEventHandler(async () => {
   await db.sql`CREATE INDEX "team_id_idx" ON "teams" ("team_id")`
   await db.sql`CREATE INDEX "players_player_id_idx" ON "players" ("player_id")`
   await db.sql`CREATE INDEX "players_team_id_idx" ON "players" ("team_id")`
+
+  const meta = useStorage('preferences')
+  await meta.setItem('last_uploaded', Date.now())
   return 'ok'
 }, 'admin')
 

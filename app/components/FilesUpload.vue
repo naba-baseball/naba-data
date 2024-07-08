@@ -1,32 +1,21 @@
 <script lang="ts" setup>
 const emit = defineEmits<{ done: [] }>()
+const store = fileUploadsStore()
 const model = defineModel<File[]>({ default: () => [] })
-const { files, open } = useFileDialog({
+const { files: dialogFiles, open } = useFileDialog({
   accept: 'text',
   multiple: true,
 })
 watchEffect(() => {
-  if (!files.value)
+  if (!dialogFiles.value)
     return
-  model.value = []
-  for (const file of files.value) {
-    model.value.push(file)
+  const fileArr: File[] = []
+  for (const file of dialogFiles.value) {
+    fileArr.push(file)
   }
+  model.value = fileArr
 })
 
-const requiredFiles = [
-  'teams.csv',
-  'team_roster.csv',
-  'players.csv',
-  'players_pitching.csv',
-  'players_batting.csv',
-]
-const missingFiles = computed(() => {
-  const missingFiles = requiredFiles.filter(
-    fileName => !model.value.find(file => file.name === fileName),
-  )
-  return missingFiles
-})
 const statusMessage = ref()
 const { execute, error, isLoading } = useAsyncState(async () => {
   statusMessage.value = 'uploading...'
@@ -81,7 +70,7 @@ watchEffect(() => {
           }}
         </div>
       </li>
-      <template v-for="fileName of missingFiles" :key="fileName">
+      <template v-for="fileName of store.missingFiles" :key="fileName">
         <li>missing {{ fileName }}</li>
       </template>
     </ul>
@@ -91,7 +80,7 @@ watchEffect(() => {
       </UButton>
       <UButton
         :icon="!statusMessage ? 'i-lucide-upload' : ''"
-        :disabled="missingFiles.length !== 0"
+        :disabled="store.missingFiles.length !== 0"
         type="submit"
         :loading="isLoading"
       >

@@ -2,30 +2,16 @@
 import { get, set } from 'idb-keyval'
 
 defineOptions({ inheritAttrs: false })
-const requiredFiles = [
-  'teams.csv',
-  'team_roster.csv',
-  'players.csv',
-  'players_pitching.csv',
-  'players_batting.csv',
-]
+
 const supported = 'showDirectoryPicker' in window
 const csvDirHandle = shallowRef<FileSystemDirectoryHandle>()
 const hasDirReadPermission = ref(false)
-const discoveredFiles = defineModel<File[]>({ default: () => [] })
-const userActive = ref(navigator.userActivation.isActive || navigator.userActivation.hasBeenActive)
-if (!userActive.value) {
-  const { pause, resume } = useTimeoutPoll(() => {
-    userActive.value = navigator.userActivation.isActive || navigator.userActivation.hasBeenActive
-  }, 1000, { immediate: false })
-  watch(userActive, () => {
-    if (!userActive.value)
-      resume()
-    else
-      pause()
-  }, { immediate: true })
-}
-async function setupDir() {
+const model = defineModel<File[]>({ default: () => [] })
+const { isActive: isUserActive } = useUserActivation()
+const { isWatching: watchingDirectory } = useWatchDirectory()
+watch([isUserActive, watchingDirectory], async ([isUserActive, isWatchingDirectory]) => {
+  if (!isUserActive || !isWatchingDirectory)
+    return
   csvDirHandle.value = await get<FileSystemDirectoryHandle>('handles:csv_directory')
   try {
     if (csvDirHandle.value) {
@@ -41,25 +27,12 @@ async function setupDir() {
   catch (err) {
     useToast().add({ title: 'Error', description: 'An error occurred while checking for files.', timeout: 0 })
   }
-}
-watch(userActive, () => {
-  if (userActive.value) {
-    setupDir()
-  }
 }, { immediate: true })
+const { files } = useFileUploads()
 watchEffect(async () => {
-  if (hasDirReadPermission.value && csvDirHandle.value) {
-    const files = await Promise.all(requiredFiles.map(async (name) => {
-      try {
-        const file = await csvDirHandle.value.getFileHandle(name)
-        return await file.getFile()
-      }
-      catch (e) {
-        return null
-      }
-    }))
-    discoveredFiles.value = files.filter(file => file !== null)
-  }
+  if (!csvDirHandle.value || !hasDirReadPermission.value || !watchingDirectory.value)
+    return
+  model.value = files.value.filter(file => file !== null)
 })
 async function openDir() {
   const dir = await window.showDirectoryPicker()
@@ -80,9 +53,9 @@ const badgeProps = {
   </UBadge>
   <div v-else class="inline-grid grid-flow-col gap-3">
     <UButton v-bind="$attrs" color="gray" :disabled="!supported" icon="i-lucide-folder-open" @click="openDir">
-      Select folder
+      {{ csvDirHandle ? 'Change' : 'Select' }} folder
     </UButton>
-    <UBadge v-bind="badgeProps">
+    <UBadge v-bind="badgeProps" :variant="csvDirHandle ? 'subtle' : 'solid'" :color="csvDirHandle ? `primary` : 'gray'">
       <template v-if="csvDirHandle">
         Selected folder: {{ csvDirHandle.name }}
       </template>

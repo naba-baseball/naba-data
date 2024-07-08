@@ -3,17 +3,43 @@ function done() {
   const toast = useToast()
   toast.add({ title: 'Site upload successful', actions: [{ label: 'Go home', click: () => navigateTo('/') }] })
 }
-const discoveredFiles = ref([])
+const showNotification = ref(false)
+function notifyFound(files: File[]) {
+  if (!files.length) {
+    showNotification.value = false
+    return
+  }
+  showNotification.value = true
+}
+const lastUploadedAPI = useLastUploaded()
+const lastUpdated = computed(() => {
+  if (!lastUploadedAPI.data.value)
+    return ''
+  return new Date(lastUploadedAPI.data.value).toLocaleString('en-us', {
+    timeStyle: 'short',
+    dateStyle: 'long',
+  })
+})
+const { isWatching } = useWatchDirectory()
+const { refreshFiles, files } = useFileUploads()
 </script>
 
 <template>
   <div class="grid gap-5 w-lg">
     <h1>Upload CSV files</h1>
-    <UCard :ui="{ body: { base: 'space-y-3' } }" class="shadow-md">
+    <small>Last uploaded: {{ lastUpdated }}</small>
+    <UButton v-if="isWatching" class="w-fit" color="gray" @click="refreshFiles()">
+      Check for updates
+    </UButton>
+    <UAlert v-if="showNotification && isWatching" icon="i-lucide-folder-search" title="Updated files detected and are ready to upload" />
+    <FilesUpload v-model="files" @done="done()" />
+    <UDivider />
+    <div class="space-y-3 text-gray-700 dark:text-gray-100">
       <div class="flex items-center gap-2">
-        <h2 class="text-xl font-bold">
+        <h2 class="text-lg font-medium">
           Automatically discover new CSV Files
         </h2>
+        <UToggle v-model="isWatching" />
       </div>
       <p>
         You can select your save's csv folder and it'll automatically be checked for any updates when you visit this page.
@@ -24,8 +50,7 @@ const discoveredFiles = ref([])
       <div>
         We'll scan any folder you select for the required files.
       </div>
-      <FilesUploadDirectory v-model="discoveredFiles" />
-    </UCard>
-    <FilesUpload v-model="discoveredFiles" @done="done()" />
+      <FilesUploadDirectory v-model="files" @update:model-value="notifyFound" />
+    </div>
   </div>
 </template>

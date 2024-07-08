@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     '@nuxt/ui',
     '@formkit/auto-animate/nuxt',
     '@nuxt/image',
+    '@pinia/nuxt',
   ],
   css: [
     '@/assets/css/main.css',
@@ -36,6 +37,10 @@ export default defineNuxtConfig({
       database: true,
     },
     storage: {
+      meta: {
+        driver: 'fsLite',
+        base: '.data/meta',
+      },
       files: {
         driver: 'fsLite',
         base: '.data/files',
