@@ -33,7 +33,7 @@ export default defineEventHandler(async (event) => {
       eq(PlayersTable.team_id, team_id),
       eq(PlayersTable.roster, roster),
       gte(PlayersTable.position, 2),
-      lte(PlayersTable.position, 8),
+      lte(PlayersTable.position, 10),
     ),
   ).orderBy(asc(PlayersTable.position))
 })

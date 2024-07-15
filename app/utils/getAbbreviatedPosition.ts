@@ -8,6 +8,7 @@ type AbbreviatedPosition =
   | 'LF'
   | 'CF'
   | 'RF'
+  | 'DH'
 const abbreviated: Record<number, AbbreviatedPosition> = {
   1: 'P',
   2: 'C',
@@ -18,7 +19,7 @@ const abbreviated: Record<number, AbbreviatedPosition> = {
   7: 'LF',
   8: 'CF',
   9: 'RF',
-  10: 'C',
+  10: 'DH',
 } as const
 
 export function getAbbreviatedPosition(
