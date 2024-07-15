@@ -33,7 +33,7 @@ const teamId = toRef(() => route.params.teamId as string)
       <h1 v-if="team">
         {{ team.name }} {{ team.nickname }}
       </h1>
-      <NuxtImg v-if="team" class="size-16" width="64px" height="64px" placeholder :src="`https://nabaleague.com/images/team_logos/${team.logo_file_name}`" />
+      <img v-if="team" class="size-16" width="64px" height="64px" placeholder :src="`https://nabaleague.com/images/team_logos/${team.logo_file_name}`">
     </div>
     <div class="grid grid-cols-2 gap-4">
       <SplitSelect v-model="split" />

@@ -13,7 +13,7 @@ const sortedTeams = computed(() => teams.value.toSorted((a, b) => a.name.localeC
         <UCard>
           <div class="flex flex-col gap-4 items-center">
             <div>
-              <NuxtImg class="size-16" width="64px" height="64px" placeholder :src="`https://nabaleague.com/images/team_logos/${team.logo_file_name}`" />
+              <img class="size-16" width="64px" height="64px" placeholder :src="`https://nabaleague.com/images/team_logos/${team.logo_file_name}`">
             </div>
             <NuxtLink class="underline" :to="`/teams/${team.team_id}`">
               <span> {{ team.name }} {{ team.nickname }} </span>

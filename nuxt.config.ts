@@ -11,7 +11,6 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/ui',
     '@formkit/auto-animate/nuxt',
-    '@nuxt/image',
     '@pinia/nuxt',
   ],
   css: [
