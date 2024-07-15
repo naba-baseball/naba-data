@@ -24,6 +24,10 @@ const authenticatedLinks = [
     to: '/upload',
     label: 'Upload',
   },
+  {
+    to: '/admin',
+    label: 'Admin',
+  },
 ]
 </script>
 
