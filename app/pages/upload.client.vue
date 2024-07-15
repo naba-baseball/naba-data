@@ -11,15 +11,7 @@ function notifyFound(files: File[]) {
   }
   showNotification.value = true
 }
-const lastUploadedAPI = useLastUploaded()
-const lastUpdated = computed(() => {
-  if (!lastUploadedAPI.data.value)
-    return ''
-  return new Date(lastUploadedAPI.data.value).toLocaleString('en-us', {
-    timeStyle: 'short',
-    dateStyle: 'long',
-  })
-})
+const { lastUploaded } = useLastUploaded()
 const { isWatching } = useWatchDirectory()
 const { refreshFiles, files } = useFileUploads()
 </script>
@@ -27,7 +19,7 @@ const { refreshFiles, files } = useFileUploads()
 <template>
   <div class="grid gap-5 w-lg">
     <h1>Upload CSV files</h1>
-    <small>Last uploaded: {{ lastUpdated }}</small>
+    <small>Last uploaded: {{ lastUploaded }}</small>
     <UButton v-if="isWatching" class="w-fit" color="gray" @click="refreshFiles()">
       Check for updates
     </UButton>

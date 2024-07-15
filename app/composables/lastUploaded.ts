@@ -1,6 +1,16 @@
 export function useLastUploaded() {
-  const lastUpdatedAPI = useLazyFetch<number | null>('/api/preference', { key: 'last_uploaded', dedupe: 'defer', query: {
+  const lastUploadedAPI = useLazyFetch<number | null>('/api/preference', { key: 'last_uploaded', dedupe: 'defer', query: {
     key: 'last_uploaded',
   } })
-  return lastUpdatedAPI
+  return {
+    api: lastUploadedAPI,
+    lastUploaded: computed(() => {
+      if (!lastUploadedAPI.data.value)
+        return ''
+      return new Date(lastUploadedAPI.data.value).toLocaleString('en-us', {
+        timeStyle: 'short',
+        dateStyle: 'long',
+      })
+    }),
+  }
 }
