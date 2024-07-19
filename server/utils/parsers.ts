@@ -14,7 +14,7 @@ export function parseTeamId() {
   return (data: unknown) =>
     v.parse(
       v.object({
-        teamId: v.pipe(v.union([v.string(), v.number()]), v.transform(Number), v.minValue(1)),
+        teamId: v.pipe(v.union([v.string(), v.number()]), v.transform(Number), v.minValue(0)),
       }),
       data,
     )

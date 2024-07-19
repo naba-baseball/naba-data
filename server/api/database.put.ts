@@ -127,6 +127,7 @@ export default authenticatedEventHandler(async () => {
     await driz.insert(PlayersTable).values(batch)
     startIndex += batchSize
   }
+  teams.push({ team_id: 0, name: 'Free agents', abbr: 'FA', nickname: '', logo_file_name: '' })
   await driz.insert(TeamsTable).values(teams)
   await db.sql`CREATE INDEX "team_id_idx" ON "teams" ("team_id")`
   await db.sql`CREATE INDEX "players_player_id_idx" ON "players" ("player_id")`

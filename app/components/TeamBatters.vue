@@ -20,7 +20,7 @@ const model = defineModel<UnwrapRef<typeof players>[]>()
 </script>
 
 <template>
-  <UTable v-model="model" :sort="{ column: 'last_name', direction: 'asc' }" by="player_id" :rows="players" :columns="defaultColumns">
+  <UTable v-model="model" page-count="20" :total="players.length" :sort="{ column: 'last_name', direction: 'asc' }" by="player_id" :rows="players" :columns="defaultColumns">
     <template #last_name-data="{ row }">
       <a class="underline underline-dashed underline-gray-300 underline-offset-4" :href="`https://nabaleague.com/players/player_${row.player_id}`">
         {{ row.first_name }} {{ row.last_name }}
