@@ -12,7 +12,7 @@ export const fileUploadsStore = defineStore('fileUploads', () => {
   const hasDirReadPermission = ref(false)
   const { isActive: isUserActive } = useUserActivation()
   const { isWatching: watchingDirectory } = useWatchDirectory()
-  const { data: lastUpdated } = useLastUploaded()
+  const { lastUploadedDate } = useLastUploaded()
 
   watch([isUserActive, watchingDirectory], async ([isUserActive, isWatchingDirectory]) => {
     if (!isUserActive || !isWatchingDirectory)
@@ -39,7 +39,7 @@ export const fileUploadsStore = defineStore('fileUploads', () => {
   async function refreshFiles() {
     if (!csvDirHandle.value || !hasDirReadPermission.value)
       return
-    files.value = await readDir(csvDirHandle.value, lastUpdated.value ?? 0)
+    files.value = await readDir(csvDirHandle.value, lastUploadedDate.value ?? 0)
   }
   const missingFiles = computed(() => {
     const missingFiles = requiredFiles.filter(

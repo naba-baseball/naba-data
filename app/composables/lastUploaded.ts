@@ -4,6 +4,9 @@ export function useLastUploaded() {
   } })
   return {
     api: lastUploadedAPI,
+    lastUploadedDate: toRef(() => {
+      return lastUploadedAPI.data.value
+    }),
     lastUploaded: computed(() => {
       if (!lastUploadedAPI.data.value)
         return ''
