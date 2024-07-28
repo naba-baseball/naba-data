@@ -1,125 +1,16 @@
 import papa from 'papaparse'
 import { drizzle } from 'db0/integrations/drizzle/index'
-import type { Player, Team } from '../utils/tables.js'
 
 export default authenticatedEventHandler(async () => {
+  await createTeamsTable()
+  await createPlayersTable()
+  await createPlayerCareerBattingStats()
   const db = useDatabase()
-  await db.sql`DROP TABLE IF EXISTS teams`
-  await db.sql`CREATE TABLE teams (
-    "team_id" integer NOT NULL,
-    "name" text,
-    "abbr" text,
-    "nickname" text,
-    "logo_file_name" text
-  )`
-
-  await db.sql`DROP TABLE IF EXISTS players`
-  await db.sql`
-    CREATE TABLE players (
-         "player_id" integer NOT NULL,
-         "first_name" text,
-         "last_name" text,
-         "team_id" integer NOT NULL,
-         "position" integer NOT NULL,
-         "age" integer NOT NULL,
-         "role" integer NOT NULL,
-         "bats" integer NOT NULL,
-         "throws" integer NOT NULL,
-         "roster" text,
-         "batting_ratings_overall_contact" integer NOT NULL,
-         "batting_ratings_overall_gap" integer NOT NULL,
-         "batting_ratings_overall_eye" integer NOT NULL,
-         "batting_ratings_overall_strikeouts" integer NOT NULL,
-         "batting_ratings_overall_hp" integer NOT NULL,
-         "batting_ratings_overall_power" integer NOT NULL,
-         "batting_ratings_overall_babip" integer NOT NULL,
-         "batting_ratings_vsr_contact" integer NOT NULL,
-         "batting_ratings_vsr_gap" integer NOT NULL,
-         "batting_ratings_vsr_eye" integer NOT NULL,
-         "batting_ratings_vsr_strikeouts" integer NOT NULL,
-         "batting_ratings_vsr_hp" integer NOT NULL,
-         "batting_ratings_vsr_power" integer NOT NULL,
-         "batting_ratings_vsr_babip" integer NOT NULL,
-         "batting_ratings_vsl_contact" integer NOT NULL,
-         "batting_ratings_vsl_gap" integer NOT NULL,
-         "batting_ratings_vsl_eye" integer NOT NULL,
-         "batting_ratings_vsl_strikeouts" integer NOT NULL,
-         "batting_ratings_vsl_hp" integer NOT NULL,
-         "batting_ratings_vsl_power" integer NOT NULL,
-         "batting_ratings_vsl_babip" integer NOT NULL,
-         "batting_ratings_talent_contact" integer NOT NULL,
-         "batting_ratings_talent_gap" integer NOT NULL,
-         "batting_ratings_talent_eye" integer NOT NULL,
-         "batting_ratings_talent_strikeouts" integer NOT NULL,
-         "batting_ratings_talent_hp" integer NOT NULL,
-         "batting_ratings_talent_power" integer NOT NULL,
-         "batting_ratings_talent_babip" integer NOT NULL,
-         "batting_ratings_misc_bunt" integer NOT NULL,
-         "batting_ratings_misc_bunt_for_hit" integer NOT NULL,
-         "batting_ratings_misc_gb_hitter_type" integer NOT NULL,
-         "batting_ratings_misc_fb_hitter_type" integer NOT NULL,
-       
-         "pitching_ratings_overall_stuff" integer NOT NULL,
-         "pitching_ratings_overall_control" integer NOT NULL,
-         "pitching_ratings_overall_movement" integer NOT NULL,
-         "pitching_ratings_overall_balk" integer NOT NULL,
-         "pitching_ratings_overall_hp" integer NOT NULL,
-         "pitching_ratings_overall_wild_pitch" integer NOT NULL,
-         "pitching_ratings_vsr_stuff" integer NOT NULL,
-         "pitching_ratings_vsr_control" integer NOT NULL,
-         "pitching_ratings_vsr_movement" integer NOT NULL,
-         "pitching_ratings_vsr_balk" integer NOT NULL,
-         "pitching_ratings_vsr_hp" integer NOT NULL,
-         "pitching_ratings_vsr_wild_pitch" integer NOT NULL,
-         "pitching_ratings_vsl_stuff" integer NOT NULL,
-         "pitching_ratings_vsl_control" integer NOT NULL,
-         "pitching_ratings_vsl_movement" integer NOT NULL,
-         "pitching_ratings_vsl_balk" integer NOT NULL,
-         "pitching_ratings_vsl_hp" integer NOT NULL,
-         "pitching_ratings_vsl_wild_pitch" integer NOT NULL,
-         "pitching_ratings_talent_stuff" integer NOT NULL,
-         "pitching_ratings_talent_control" integer NOT NULL,
-         "pitching_ratings_talent_movement" integer NOT NULL,
-         "pitching_ratings_talent_balk" integer NOT NULL,
-         "pitching_ratings_talent_hp" integer NOT NULL,
-         "pitching_ratings_talent_wild_pitch" integer NOT NULL,
-         "pitching_ratings_pitches_fastball" integer NOT NULL,
-         "pitching_ratings_pitches_slider" integer NOT NULL,
-         "pitching_ratings_pitches_curveball" integer NOT NULL,
-         "pitching_ratings_pitches_screwball" integer NOT NULL,
-         "pitching_ratings_pitches_forkball" integer NOT NULL,
-         "pitching_ratings_pitches_changeup" integer NOT NULL,
-         "pitching_ratings_pitches_sinker" integer NOT NULL,
-         "pitching_ratings_pitches_splitter" integer NOT NULL,
-         "pitching_ratings_pitches_knuckleball" integer NOT NULL,
-         "pitching_ratings_pitches_cutter" integer NOT NULL,
-         "pitching_ratings_pitches_circlechange" integer NOT NULL,
-         "pitching_ratings_pitches_knucklecurve" integer NOT NULL,
-         "pitching_ratings_pitches_talent_fastball" integer NOT NULL,
-         "pitching_ratings_pitches_talent_slider" integer NOT NULL,
-         "pitching_ratings_pitches_talent_curveball" integer NOT NULL,
-         "pitching_ratings_pitches_talent_screwball" integer NOT NULL,
-         "pitching_ratings_pitches_talent_forkball" integer NOT NULL,
-         "pitching_ratings_pitches_talent_changeup" integer NOT NULL,
-         "pitching_ratings_pitches_talent_sinker" integer NOT NULL,
-         "pitching_ratings_pitches_talent_splitter" integer NOT NULL,
-         "pitching_ratings_pitches_talent_knuckleball" integer NOT NULL,
-         "pitching_ratings_pitches_talent_cutter" integer NOT NULL,
-         "pitching_ratings_pitches_talent_circlechange" integer NOT NULL,
-         "pitching_ratings_pitches_talent_knucklecurve" integer NOT NULL,
-         "pitching_ratings_misc_velocity" integer NOT NULL,
-         "pitching_ratings_misc_arm_slot" integer NOT NULL,
-         "pitching_ratings_misc_stamina" integer NOT NULL,
-         "pitching_ratings_misc_ground_fly" integer NOT NULL,
-         "pitching_ratings_misc_hold" integer NOT NULL,
-         "pitching_ratings_babip" integer
-    )
-  `
-
-  const { players, teams } = await processData()
+  const { players, teams, playerCareerBattingStats } = await processData()
   const driz = drizzle(db)
   const batchSize = 100
   const total = players.length
+  await driz.insert(PlayerCareerBattingStats).values(playerCareerBattingStats)
   let startIndex = 0
   while (startIndex < total) {
     const endIndex = Math.min(startIndex + batchSize, total)
@@ -137,7 +28,7 @@ export default authenticatedEventHandler(async () => {
   return 'ok'
 }, 'admin')
 
-async function setupDB<T>(fileName: string) {
+async function getCSVData<T>(fileName: string) {
   const file = (await useStorage('files').getItem(fileName)) as string
   const { data: docs } = await papa.parse(file, {
     dynamicTyping: true,
@@ -147,12 +38,13 @@ async function setupDB<T>(fileName: string) {
 }
 
 async function processData() {
-  const [teams, roster, players, batting, pitching] = await Promise.all([
-    setupDB<any>('teams.csv'),
-    setupDB<any>('team_roster.csv'),
-    setupDB<any>('players.csv'),
-    setupDB<any>('players_batting.csv'),
-    setupDB<any>('players_pitching.csv'),
+  const [teams, roster, players, batting, pitching, careerBattingStats] = await Promise.all([
+    getCSVData<any>('teams.csv'),
+    getCSVData<any>('team_roster.csv'),
+    getCSVData<any>('players.csv'),
+    getCSVData<any>('players_batting.csv'),
+    getCSVData<any>('players_pitching.csv'),
+    getCSVData('players_career_batting_stats.csv'),
   ])
   const finishedPlayers = players.filter(p => p.player_id != null).map((p: Partial<Player>) => {
     const player = {
@@ -200,5 +92,6 @@ async function processData() {
         logo_file_name: team.logo_file_name,
       } satisfies Team
     }),
+    playerCareerBattingStats: careerBattingStats,
   }
 }

@@ -6,6 +6,7 @@ const requiredFiles = [
   'players.csv',
   'players_pitching.csv',
   'players_batting.csv',
+  'players_career_batting_stats.csv',
 ]
 export const fileUploadsStore = defineStore('fileUploads', () => {
   const csvDirHandle = shallowRef<FileSystemDirectoryHandle>()

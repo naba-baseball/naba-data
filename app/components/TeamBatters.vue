@@ -14,6 +14,7 @@ const defaultColumns = [
   { key: 'power', label: 'Power', sortable: true },
   { key: 'eye', label: 'Eye', sortable: true },
   { key: 'strikeouts', label: 'Ks', sortable: true },
+  { key: 'other', label: '' },
 ]
 const { players } = useTeamPlayers(() => props.teamId)
 const model = defineModel<UnwrapRef<typeof players>[]>()
@@ -40,6 +41,11 @@ const model = defineModel<UnwrapRef<typeof players>[]>()
       <div :data-rating="getRowData(row, column.key)">
         {{ getRowData(row, column.key) }}
       </div>
+    </template>
+    <template #other-data="{ row }">
+      <UButton variant="ghost" :to="`/stats/${row.player_id}`">
+        Stats
+      </UButton>
     </template>
   </UTable>
 </template>
