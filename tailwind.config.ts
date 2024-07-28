@@ -1,9 +1,12 @@
 import type { Config } from 'tailwindcss'
+import defaultTheme from 'tailwindcss/defaultTheme.js'
 
 export default <Partial<Config>>{
   theme: {
-
     extend: {
+      fontFamily: {
+        sans: ['InterVariable', ...defaultTheme.fontFamily.sans],
+      },
       width: {
         sm: '240px',
         md: '400px',

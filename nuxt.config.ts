@@ -7,7 +7,6 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@vueuse/nuxt',
-    '@nuxt/fonts',
     '@nuxt/eslint',
     '@nuxt/ui',
     '@formkit/auto-animate/nuxt',
@@ -49,14 +48,6 @@ export default defineNuxtConfig({
         driver: 'fsLite',
         base: '.data/preferences',
       },
-    },
-  },
-  ui: {
-    icons: ['lucide'],
-  },
-  fonts: {
-    experimental: {
-      processCSSVariables: true,
     },
   },
 })
