@@ -47,7 +47,7 @@ async function processData() {
     getCSVData('players_career_batting_stats.csv'),
   ])
   const finishedPlayers = players.filter(p => p.player_id != null).map((p: Partial<Player>) => {
-    const player = {
+    const player: Partial<Player> = {
       bats: p.bats,
       throws: p.throws,
       first_name: p.first_name,
@@ -57,21 +57,23 @@ async function processData() {
       role: p.role,
       age: p.age,
       team_id: p.team_id,
-    } satisfies Partial<Player>
+    }
     const playerPitching = scaleObject(
       pitching.find(p => p.player_id === player.player_id),
     )
     Object.entries(playerPitching).forEach(([key, value]) => {
-      // @ts-expect-error gotta get the key somehow
-      player[key] = value
+      if (key.includes('pitching_ratings'))
+      // @ts-expect-error should be assigning a pitching_ratings_KEY to player
+        player[key] = value
     })
 
     const playerBatting = scaleObject(
       batting.find(p => p.player_id === player.player_id),
     )
     Object.entries(playerBatting).forEach(([key, value]) => {
-      // @ts-expect-error gotta get the key somehow
-      player[key] = value
+      if (key.includes('batting_ratings'))
+        // @ts-expect-error should be assigning a batting_ratings_KEY to player
+        player[key] = value
     })
     if (
       roster.find(r => r.player_id === player.player_id && r.list_id === 2)

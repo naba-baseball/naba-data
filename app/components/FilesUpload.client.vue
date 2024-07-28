@@ -13,7 +13,8 @@ watchEffect(() => {
     return
   const fileArr: File[] = []
   for (const file of dialogFiles.value) {
-    fileArr.push(file)
+    if (store.missingFiles.includes(file.name))
+      fileArr.push(file)
   }
   model.value = fileArr
 })
@@ -43,8 +44,8 @@ watchEffect(() => {
 
 <template>
   <form name="select-files" class="space-y-2" @submit.prevent="execute">
-    <ul v-auto-animate class="grid text-gray-700 dark:text-gray-200 auto-rows-[minmax(40px,1fr)] gap-2">
-      <li class="w-[600px] grid grid-cols-3 self-end text-sm uppercase tracking-wide ">
+    <ul v-auto-animate class="grid grid-cols-3 *:grid *:grid-cols-subgrid *:col-span-full text-gray-700 dark:text-gray-200  gap-y-6">
+      <li class="w-[600px] self-end text-sm uppercase tracking-wide ">
         <div>
           file name
         </div>
@@ -55,7 +56,7 @@ watchEffect(() => {
           last modified
         </div>
       </li>
-      <li v-for="file of model" :key="file.name" class="w-[600px] grid grid-cols-3 p-2">
+      <li v-for="file of model" :key="file.name" class="">
         <div class="text-gray-950 dark:text-white">
           <UIcon class="align-text-bottom text-primary-700 dark:text-primary-500" name="i-lucide-file" />
           {{ file.name }}

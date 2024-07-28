@@ -17,7 +17,7 @@ const { refreshFiles, files } = useFileUploads()
 </script>
 
 <template>
-  <div class="grid gap-5 w-lg">
+  <div class="grid gap-5">
     <h1>Upload CSV files</h1>
     <small>Last uploaded: {{ lastUploaded }}</small>
     <UButton v-if="isWatching" class="w-fit" color="gray" @click="refreshFiles()">
@@ -26,7 +26,7 @@ const { refreshFiles, files } = useFileUploads()
     <UAlert v-if="showNotification && isWatching" icon="i-lucide-folder-search" title="Updated files detected and are ready to upload" />
     <FilesUpload v-model="files" @done="done()" />
     <UDivider />
-    <div class="space-y-3 text-gray-700 dark:text-gray-100">
+    <div class="space-y-3 text-gray-700 dark:text-gray-100 w-lg">
       <div class="flex items-center gap-2">
         <h2 class="text-lg font-medium">
           Automatically discover new CSV Files

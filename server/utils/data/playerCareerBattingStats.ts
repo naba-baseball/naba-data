@@ -41,7 +41,8 @@ export async function createPlayerCareerBattingStats() {
 }
 
 export const PlayerCareerBattingStats = sqliteTable('players_career_batting_stats', {
-  player_id: integer('player_id').notNull().references(() => PlayersTable.player_id),
+  player_id: integer('player_id').notNull()
+    .references(() => PlayersTable.player_id),
   year: integer('year'),
   team_id: integer('team_id'),
   game_id: integer('game_id'),
