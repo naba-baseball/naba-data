@@ -6,7 +6,8 @@ export default defineEventHandler(async (event) => {
   const { password, username } = await validateUsernameAndPassword()
   const hashedPassword = await new Argon2id().hash(password)
   const db = useSqlite()
-  const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.username, username))
+  const [existingUser] = await db.select().from(usersTable)
+    .where(eq(usersTable.username, username))
   if (existingUser)
     return createError({ message: 'Username is not available', status: 400 })
 

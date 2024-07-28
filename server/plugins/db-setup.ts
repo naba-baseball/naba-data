@@ -14,7 +14,7 @@ export default defineNitroPlugin(async (nitro) => {
         user_id TEXT NOT NULL REFERENCES users(id),
         expires_at INTEGER NOT NULL
     )`
-  //if no admin user, trigger onboarding flow
+  // if no admin user, trigger onboarding flow
   const data = await db.sql`SELECT * FROM users WHERE role = 'admin'`
   const adminUser = data.rows?.[0]
   if (!adminUser) {

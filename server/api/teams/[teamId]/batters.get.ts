@@ -36,5 +36,6 @@ export default defineEventHandler(async (event) => {
         gte(PlayersTable.position, 2),
         lte(PlayersTable.position, 10),
       ),
-    ).orderBy(asc(PlayersTable.position))
+    )
+    .orderBy(asc(PlayersTable.position))
 })
