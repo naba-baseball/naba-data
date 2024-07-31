@@ -99,5 +99,10 @@ watchEffect(() => {
         {{ statusMessage ?? 'Upload' }}
       </UButton>
     </div>
+    <UAlert
+      icon="i-lucide-info"
+      variant="subtle" color="primary"
+      description="You could select all of the files in the CSV folder. We'll filter out the ones we don't need."
+    />
   </form>
 </template>

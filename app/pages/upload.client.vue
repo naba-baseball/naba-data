@@ -20,7 +20,7 @@ watch(files, (files) => {
     pause()
   else resume()
 }, { immediate: true })
-const showFoundToast = () => useToast().add({ title: 'Files Found', description: 'New files are ready to upload', timeout: 6000 })
+const showFoundToast = () => useToast().add({ title: 'Files Found', description: 'New files are ready to upload', timeout: 6000, icon: 'i-lucide-file-stack' })
 async function pollForNewFiles() {
   await checkFiles()
   if (files.value.length) {

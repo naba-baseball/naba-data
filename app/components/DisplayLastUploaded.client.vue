@@ -3,7 +3,7 @@ const { lastUploaded } = useLastUploaded()
 </script>
 
 <template>
-  <span>
+  <span v-if="lastUploaded">
     Last updated {{ lastUploaded }}
   </span>
 </template>
