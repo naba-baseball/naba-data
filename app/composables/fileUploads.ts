@@ -67,7 +67,8 @@ async function readDir(dirHandle: FileSystemDirectoryHandle, lastModifedDate = 0
       }
       return null
     }
-    catch (e) {
+    catch (err) {
+      console.error(err)
       return null
     }
   }))

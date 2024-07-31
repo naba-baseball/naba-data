@@ -38,9 +38,11 @@ const { lastUploaded } = useLastUploaded()
       <div class="-mx-2 grid grid-flow-col place-content-between">
         <UHorizontalNavigation :links="user?.role === 'admin' ? authenticatedLinks : guestLinks" />
         <div class="py-2 flex gap-2 items-center">
-          <span class="hidden sm:inline text-sm text-gray-700 dark:text-gray-200">
-            Last updated {{ lastUploaded }}
-          </span>
+          <ClientOnly>
+            <span class="hidden sm:inline text-sm text-gray-700 dark:text-gray-200">
+              Last updated {{ lastUploaded }}
+            </span>
+          </ClientOnly>
           <ColorTheme />
           <UButton v-if="user?.role === 'admin'" color="gray" variant="ghost" @click="logout">
             Logout {{ user.username }}

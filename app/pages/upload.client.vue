@@ -19,7 +19,7 @@ watch(files, (files) => {
   if (files.length > 0)
     pause()
   else resume()
-})
+}, { immediate: true })
 const showFoundToast = () => useToast().add({ title: 'Files Found', description: 'New files are ready to upload', timeout: 6000 })
 async function pollForNewFiles() {
   await checkFiles()

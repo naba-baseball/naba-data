@@ -59,7 +59,7 @@ function handleUserSubmit() {
       Lets get things setup
     </h1>
     <template v-if="data">
-      <transition
+      <Transition
         mode="out-in"
         enter-from-class="translate-x-12 opacity-0"
         enter-to-class="translate-x-0 opacity-100"
@@ -98,7 +98,7 @@ function handleUserSubmit() {
           </h2>
           <FilesUpload class="w-lg" @done="getOnboarding()" />
         </div>
-      </transition>
+      </Transition>
     </template>
   </div>
 </template>

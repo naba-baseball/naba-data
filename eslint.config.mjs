@@ -6,13 +6,11 @@ export default antfu({
       '@stylistic/newline-per-chained-call': 'error',
     },
   },
+  vue: {
+    overrides: {
+      'vue/component-name-in-template-casing': ['error', 'PascalCase', {
+        registeredComponentsOnly: false,
+      }],
+    },
+  },
 })
-// export default withNuxt(
-//   ...antfu({
-//     stylistic: {
-//       overrides: {
-//         '@stylistic/newline-per-chained-call': 'error',
-//       },
-//     },
-//   }),
-// )
