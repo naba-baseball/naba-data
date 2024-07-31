@@ -10,7 +10,6 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/ui',
     '@formkit/auto-animate/nuxt',
-    '@pinia/nuxt',
   ],
   css: [
     '@/assets/css/main.css',

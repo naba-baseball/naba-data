@@ -1,4 +1,4 @@
-import { get } from 'idb-keyval'
+import { get, set } from 'idb-keyval'
 
 const requiredFiles = [
   'teams.csv',
@@ -8,62 +8,55 @@ const requiredFiles = [
   'players_batting.csv',
   'players_career_batting_stats.csv',
 ]
-export const fileUploadsStore = defineStore('fileUploads', () => {
-  const csvDirHandle = shallowRef<FileSystemDirectoryHandle>()
-  const hasDirReadPermission = ref(false)
-  const { isActive: isUserActive } = useUserActivation()
-  const { isWatching: watchingDirectory } = useWatchDirectory()
+const useFilesState = () => useState<File[]>('uploadedFiles', () => [])
+const useCsvDirHandle = () => useState<FileSystemDirectoryHandle>('csvDirHandle')
+
+export function useFileUploads() {
+  const csvDirHandle = useCsvDirHandle()
+  const { hasDirReadPermission } = watchDirectory(csvDirHandle)
   const { lastUploadedDate } = useLastUploaded()
-
-  watch([isUserActive, watchingDirectory], async ([isUserActive, isWatchingDirectory]) => {
-    if (!isUserActive || !isWatchingDirectory)
-      return
-    csvDirHandle.value = await get<FileSystemDirectoryHandle>('handles:csv_directory')
-    try {
-      if (csvDirHandle.value) {
-        const permissionState = await csvDirHandle.value.queryPermission({ mode: 'read' })
-        if (permissionState === 'granted') {
-          hasDirReadPermission.value = true
-        }
-        if (permissionState === 'prompt') {
-          hasDirReadPermission.value = await csvDirHandle.value.requestPermission({ mode: 'read' }) === 'granted'
-        }
-      }
-    }
-    catch (err) {
-      useToast().add({ title: 'Error', description: 'An error occurred while checking for files.', timeout: 0 })
-    }
-  }, { immediate: true })
-
-  const files = ref<File[]>([])
-
-  async function refreshFiles() {
-    if (!csvDirHandle.value || !hasDirReadPermission.value)
-      return
-    files.value = await readDir(csvDirHandle.value, lastUploadedDate.value ?? 0)
-  }
+  const files = useFilesState()
   const missingFiles = computed(() => {
     const missingFiles = requiredFiles.filter(
       fileName => !files.value.find(file => file.name === fileName),
     )
     return missingFiles
   })
-  const { pause, resume } = useTimeoutPoll(refreshFiles, 1000, { immediate: true })
-  watch(files, (files) => {
-    if (files.length > 0)
-      pause()
-    else resume()
-  })
-  return { files, missingFiles, refreshFiles }
-})
-
-export function useFileUploads() {
-  const store = fileUploadsStore()
+  function filterFiles(arr: File[]) {
+    return arr.filter(file => requiredFiles.includes(file.name))
+  }
   return {
-    files: toRef(store, 'files'),
-    refreshFiles: store.refreshFiles,
+    files: computed({
+      get() {
+        return files.value
+      },
+      set: (arr: File[]) => {
+        files.value = filterFiles(arr)
+      },
+    }),
+    missingFiles,
+    checkFiles: async () => {
+      if (!csvDirHandle.value || !hasDirReadPermission.value)
+        return
+      const foundFiles = await readDir(csvDirHandle.value, lastUploadedDate.value ?? 0)
+      if (!foundFiles.length)
+        return
+      files.value = filterFiles(foundFiles)
+    },
+    getFiles: async (updatedDate?: number) => {
+      const foundFiles = await readDir(csvDirHandle.value, updatedDate)
+      if (!foundFiles.length)
+        return
+      files.value = filterFiles(foundFiles)
+    },
+    dirHandle: csvDirHandle,
+    setDirHandle: (handle: FileSystemDirectoryHandle) => {
+      set('handles:csv_directory', handle)
+      csvDirHandle.value = handle
+    },
   }
 }
+
 async function readDir(dirHandle: FileSystemDirectoryHandle, lastModifedDate = 0) {
   const files = await Promise.all(requiredFiles.map(async (name) => {
     try {
@@ -79,4 +72,32 @@ async function readDir(dirHandle: FileSystemDirectoryHandle, lastModifedDate = 0
     }
   }))
   return files.filter(file => file !== null)
+}
+
+function watchDirectory(dirHandleRef: Ref<FileSystemDirectoryHandle | undefined>) {
+  const hasDirReadPermission = ref(false)
+  const { isActive: isUserActive } = useUserActivation()
+  watch([isUserActive, useWatchDirectoryPreference()], async ([isUserActive, isWatchingDirectory]) => {
+    if (!isUserActive || !isWatchingDirectory)
+      return
+    const savedHandle = await get<FileSystemDirectoryHandle>('handles:csv_directory')
+    if (savedHandle)
+      dirHandleRef.value = savedHandle
+    try {
+      if (dirHandleRef.value) {
+        const permissionState = await dirHandleRef.value.queryPermission({ mode: 'read' })
+        if (permissionState === 'granted') {
+          hasDirReadPermission.value = true
+        }
+        if (permissionState === 'prompt') {
+          hasDirReadPermission.value = await dirHandleRef.value.requestPermission({ mode: 'read' }) === 'granted'
+        }
+      }
+    }
+    catch (err) {
+      console.error(err)
+      useToast().add({ title: 'Error', description: 'An error occurred while checking for files.', timeout: 0 })
+    }
+  }, { immediate: true })
+  return { hasDirReadPermission }
 }

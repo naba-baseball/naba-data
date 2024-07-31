@@ -1,22 +1,31 @@
 <script lang="ts" setup>
 const emit = defineEmits<{ done: [] }>()
-const store = fileUploadsStore()
-const model = defineModel<File[]>({ default: () => [] })
-watchEffect(() => model.value = store.files)
-watchEffect(() => store.files = model.value)
+const dropZoneTarget = ref()
+const zone = useDropZone(dropZoneTarget, {
+  onDrop: (files) => {
+    zone.files.value = files
+  },
+})
+const { missingFiles } = useFileUploads()
 const { files: dialogFiles, open } = useFileDialog({
   accept: 'text',
   multiple: true,
 })
-watchEffect(() => {
-  if (!dialogFiles.value)
-    return
+const dialogFilesArr = computed(() => {
   const fileArr: File[] = []
+  if (!dialogFiles.value)
+    return null
   for (const file of dialogFiles.value) {
-    if (store.missingFiles.includes(file.name))
-      fileArr.push(file)
+    fileArr.push(file)
   }
-  model.value = fileArr
+  return fileArr
+})
+const model = defineModel<File[]>({ default: () => [] })
+watch([dialogFilesArr, zone.files], ([dialogFiles, dropFiles]) => {
+  const files = dialogFiles ?? dropFiles
+  if (!files)
+    return
+  model.value = files
 })
 
 const statusMessage = ref()
@@ -43,7 +52,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <form name="select-files" class="space-y-2" @submit.prevent="execute">
+  <form ref="dropZoneTarget" name="select-files" class="space-y-2" :class="{ 'bg-primary-50 dark:bg-primary-950/50 border border-dashed': zone.isOverDropZone.value }" @submit.prevent="execute">
     <ul v-auto-animate class="grid grid-cols-3 *:grid *:grid-cols-subgrid *:col-span-full text-gray-700 dark:text-gray-200  gap-y-6">
       <li class="w-[600px] self-end text-sm uppercase tracking-wide ">
         <div>
@@ -73,7 +82,7 @@ watchEffect(() => {
           }}
         </div>
       </li>
-      <template v-for="fileName of store.missingFiles" :key="fileName">
+      <template v-for="fileName of missingFiles" :key="fileName">
         <li>missing {{ fileName }}</li>
       </template>
     </ul>
@@ -83,7 +92,7 @@ watchEffect(() => {
       </UButton>
       <UButton
         :icon="!statusMessage ? 'i-lucide-upload' : ''"
-        :disabled="store.missingFiles.length !== 0"
+        :disabled="missingFiles.length !== 0"
         type="submit"
         :loading="isLoading"
       >
