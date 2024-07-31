@@ -50,9 +50,11 @@ const { lastUploaded } = useLastUploaded()
         </div>
       </div>
       <div>
-        <span class="sm:hidden text-sm text-gray-700 dark:text-gray-200">
-          Last updated {{ lastUploaded }}
-        </span>
+        <ClientOnly>
+          <span class="sm:hidden text-sm text-gray-700 dark:text-gray-200">
+            Last updated {{ lastUploaded }}
+          </span>
+        </ClientOnly>
       </div>
       <section class="content">
         <slot />
