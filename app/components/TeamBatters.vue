@@ -6,6 +6,7 @@ export type TeamBattersItem = UnwrapRef<typeof players>[number]
 const props = defineProps<TeamTableProps>()
 const defaultColumns = [
   { key: 'last_name', label: 'Name', sortable: true },
+  { key: 'other', label: '' },
   { key: 'bats', label: 'Bats', sortable: true },
   { key: 'age', label: 'Age', sortable: true },
   { key: 'position', label: 'Position', sortable: true },
@@ -40,6 +41,11 @@ const model = defineModel<UnwrapRef<typeof players>[]>()
       <div :data-rating="getRowData(row, column.key)">
         {{ getRowData(row, column.key) }}
       </div>
+    </template>
+    <template #other-data="{ row }">
+      <UButton variant="ghost" :to="`/players/${row.player_id}`">
+        Stats
+      </UButton>
     </template>
   </UTable>
 </template>

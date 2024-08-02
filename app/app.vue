@@ -9,6 +9,8 @@ if (shouldRedirect)
   <Head>
     <Title>Naba data</Title>
     <Body class="dark:bg-gray-950" />
+    <Link rel="preconnect" href="https://rsms.me/" />
+    <Link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
   </Head>
   <NuxtLoadingIndicator />
   <NuxtLayout :name="isOnboarding ? 'onboarding' : 'default'">

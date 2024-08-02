@@ -27,12 +27,14 @@ export default defineEventHandler(async (event) => {
     stuff: PlayersTable[`pitching_ratings_${split}_stuff`],
     movement: PlayersTable[`pitching_ratings_${split}_movement`],
     control: PlayersTable[`pitching_ratings_${split}_control`],
-  }).from(PlayersTable).where(
-    and(
-      eq(PlayersTable.team_id, team_id),
-      eq(PlayersTable.roster, roster),
-      eq(PlayersTable.position, 1),
-    ),
-  ).orderBy(asc(PlayersTable.position))
+  }).from(PlayersTable)
+    .where(
+      and(
+        eq(PlayersTable.team_id, team_id),
+        eq(PlayersTable.roster, roster),
+        eq(PlayersTable.position, 1),
+      ),
+    )
+    .orderBy(asc(PlayersTable.position))
   return res
 })

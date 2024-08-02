@@ -7,11 +7,9 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     '@vueuse/nuxt',
-    '@nuxt/fonts',
     '@nuxt/eslint',
     '@nuxt/ui',
     '@formkit/auto-animate/nuxt',
-    '@pinia/nuxt',
   ],
   css: [
     '@/assets/css/main.css',
@@ -30,6 +28,7 @@ export default defineNuxtConfig({
   },
   experimental: {
     asyncContext: true,
+    typedPages: true,
   },
   nitro: {
     experimental: {
@@ -48,14 +47,6 @@ export default defineNuxtConfig({
         driver: 'fsLite',
         base: '.data/preferences',
       },
-    },
-  },
-  ui: {
-    icons: ['lucide'],
-  },
-  fonts: {
-    experimental: {
-      processCSSVariables: true,
     },
   },
 })

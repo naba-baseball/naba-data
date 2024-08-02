@@ -12,21 +12,42 @@ function notifyFound(files: File[]) {
   showNotification.value = true
 }
 const { lastUploaded } = useLastUploaded()
-const { isWatching } = useWatchDirectory()
-const { refreshFiles, files } = useFileUploads()
+const isWatching = useWatchDirectoryPreference()
+const { files, checkFiles } = useFileUploads()
+const { pause, resume } = useTimeoutPoll(pollForNewFiles, 1000, { immediate: true })
+watch(files, (files) => {
+  if (files.length > 0)
+    pause()
+  else resume()
+}, { immediate: true })
+const showFoundToast = () => useToast().add({ title: 'Files Found', description: 'New files are ready to upload', timeout: 6000, icon: 'i-lucide-file-stack' })
+async function pollForNewFiles() {
+  await checkFiles()
+  if (files.value.length) {
+    showFoundToast()
+  }
+}
+async function checkForNewFiles() {
+  await checkFiles()
+  if (!files.value.length) {
+    useToast().add({ title: 'No new files found', timeout: 3000 })
+    return
+  }
+  showFoundToast()
+}
 </script>
 
 <template>
-  <div class="grid gap-5 w-lg">
+  <div class="grid gap-5">
     <h1>Upload CSV files</h1>
     <small>Last uploaded: {{ lastUploaded }}</small>
-    <UButton v-if="isWatching" class="w-fit" color="gray" @click="refreshFiles()">
-      Check for updates
+    <UButton v-if="isWatching" class="w-fit" color="gray" @click="checkForNewFiles()">
+      Check for new files
     </UButton>
     <UAlert v-if="showNotification && isWatching" icon="i-lucide-folder-search" title="Updated files detected and are ready to upload" />
     <FilesUpload v-model="files" @done="done()" />
     <UDivider />
-    <div class="space-y-3 text-gray-700 dark:text-gray-100">
+    <div class="space-y-3 text-gray-700 dark:text-gray-100 w-lg">
       <div class="flex items-center gap-2">
         <h2 class="text-lg font-medium">
           Automatically discover new CSV Files

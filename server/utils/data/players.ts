@@ -1,5 +1,111 @@
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
+export async function createPlayersTable() {
+  const db = useDatabase()
+  await db.sql`DROP TABLE IF EXISTS players`
+  await db.sql`
+    CREATE TABLE players (
+         "player_id" integer NOT NULL,
+         "first_name" text,
+         "last_name" text,
+         "team_id" integer NOT NULL,
+         "position" integer NOT NULL,
+         "age" integer NOT NULL,
+         "role" integer NOT NULL,
+         "bats" integer NOT NULL,
+         "throws" integer NOT NULL,
+         "roster" text,
+         "batting_ratings_overall_contact" integer NOT NULL,
+         "batting_ratings_overall_gap" integer NOT NULL,
+         "batting_ratings_overall_eye" integer NOT NULL,
+         "batting_ratings_overall_strikeouts" integer NOT NULL,
+         "batting_ratings_overall_hp" integer NOT NULL,
+         "batting_ratings_overall_power" integer NOT NULL,
+         "batting_ratings_overall_babip" integer NOT NULL,
+         "batting_ratings_vsr_contact" integer NOT NULL,
+         "batting_ratings_vsr_gap" integer NOT NULL,
+         "batting_ratings_vsr_eye" integer NOT NULL,
+         "batting_ratings_vsr_strikeouts" integer NOT NULL,
+         "batting_ratings_vsr_hp" integer NOT NULL,
+         "batting_ratings_vsr_power" integer NOT NULL,
+         "batting_ratings_vsr_babip" integer NOT NULL,
+         "batting_ratings_vsl_contact" integer NOT NULL,
+         "batting_ratings_vsl_gap" integer NOT NULL,
+         "batting_ratings_vsl_eye" integer NOT NULL,
+         "batting_ratings_vsl_strikeouts" integer NOT NULL,
+         "batting_ratings_vsl_hp" integer NOT NULL,
+         "batting_ratings_vsl_power" integer NOT NULL,
+         "batting_ratings_vsl_babip" integer NOT NULL,
+         "batting_ratings_talent_contact" integer NOT NULL,
+         "batting_ratings_talent_gap" integer NOT NULL,
+         "batting_ratings_talent_eye" integer NOT NULL,
+         "batting_ratings_talent_strikeouts" integer NOT NULL,
+         "batting_ratings_talent_hp" integer NOT NULL,
+         "batting_ratings_talent_power" integer NOT NULL,
+         "batting_ratings_talent_babip" integer NOT NULL,
+         "batting_ratings_misc_bunt" integer NOT NULL,
+         "batting_ratings_misc_bunt_for_hit" integer NOT NULL,
+         "batting_ratings_misc_gb_hitter_type" integer NOT NULL,
+         "batting_ratings_misc_fb_hitter_type" integer NOT NULL,
+       
+         "pitching_ratings_overall_stuff" integer NOT NULL,
+         "pitching_ratings_overall_control" integer NOT NULL,
+         "pitching_ratings_overall_movement" integer NOT NULL,
+         "pitching_ratings_overall_balk" integer NOT NULL,
+         "pitching_ratings_overall_hp" integer NOT NULL,
+         "pitching_ratings_overall_wild_pitch" integer NOT NULL,
+         "pitching_ratings_vsr_stuff" integer NOT NULL,
+         "pitching_ratings_vsr_control" integer NOT NULL,
+         "pitching_ratings_vsr_movement" integer NOT NULL,
+         "pitching_ratings_vsr_balk" integer NOT NULL,
+         "pitching_ratings_vsr_hp" integer NOT NULL,
+         "pitching_ratings_vsr_wild_pitch" integer NOT NULL,
+         "pitching_ratings_vsl_stuff" integer NOT NULL,
+         "pitching_ratings_vsl_control" integer NOT NULL,
+         "pitching_ratings_vsl_movement" integer NOT NULL,
+         "pitching_ratings_vsl_balk" integer NOT NULL,
+         "pitching_ratings_vsl_hp" integer NOT NULL,
+         "pitching_ratings_vsl_wild_pitch" integer NOT NULL,
+         "pitching_ratings_talent_stuff" integer NOT NULL,
+         "pitching_ratings_talent_control" integer NOT NULL,
+         "pitching_ratings_talent_movement" integer NOT NULL,
+         "pitching_ratings_talent_balk" integer NOT NULL,
+         "pitching_ratings_talent_hp" integer NOT NULL,
+         "pitching_ratings_talent_wild_pitch" integer NOT NULL,
+         "pitching_ratings_pitches_fastball" integer NOT NULL,
+         "pitching_ratings_pitches_slider" integer NOT NULL,
+         "pitching_ratings_pitches_curveball" integer NOT NULL,
+         "pitching_ratings_pitches_screwball" integer NOT NULL,
+         "pitching_ratings_pitches_forkball" integer NOT NULL,
+         "pitching_ratings_pitches_changeup" integer NOT NULL,
+         "pitching_ratings_pitches_sinker" integer NOT NULL,
+         "pitching_ratings_pitches_splitter" integer NOT NULL,
+         "pitching_ratings_pitches_knuckleball" integer NOT NULL,
+         "pitching_ratings_pitches_cutter" integer NOT NULL,
+         "pitching_ratings_pitches_circlechange" integer NOT NULL,
+         "pitching_ratings_pitches_knucklecurve" integer NOT NULL,
+         "pitching_ratings_pitches_talent_fastball" integer NOT NULL,
+         "pitching_ratings_pitches_talent_slider" integer NOT NULL,
+         "pitching_ratings_pitches_talent_curveball" integer NOT NULL,
+         "pitching_ratings_pitches_talent_screwball" integer NOT NULL,
+         "pitching_ratings_pitches_talent_forkball" integer NOT NULL,
+         "pitching_ratings_pitches_talent_changeup" integer NOT NULL,
+         "pitching_ratings_pitches_talent_sinker" integer NOT NULL,
+         "pitching_ratings_pitches_talent_splitter" integer NOT NULL,
+         "pitching_ratings_pitches_talent_knuckleball" integer NOT NULL,
+         "pitching_ratings_pitches_talent_cutter" integer NOT NULL,
+         "pitching_ratings_pitches_talent_circlechange" integer NOT NULL,
+         "pitching_ratings_pitches_talent_knucklecurve" integer NOT NULL,
+         "pitching_ratings_misc_velocity" integer NOT NULL,
+         "pitching_ratings_misc_arm_slot" integer NOT NULL,
+         "pitching_ratings_misc_stamina" integer NOT NULL,
+         "pitching_ratings_misc_ground_fly" integer NOT NULL,
+         "pitching_ratings_misc_hold" integer NOT NULL,
+         "pitching_ratings_babip" integer
+    )
+  `
+}
+
 export const PlayersTable = sqliteTable('players', {
   player_id: integer('player_id').notNull(),
   team_id: integer('team_id').notNull(),
@@ -107,31 +213,3 @@ export const PlayersTable = sqliteTable('players', {
 })
 
 export type Player = typeof PlayersTable.$inferSelect
-
-export const TeamsTable = sqliteTable('teams', {
-  team_id: integer('team_id').notNull(),
-  name: text('name'),
-  abbr: text('abbr'),
-  nickname: text('nickname'),
-  logo_file_name: text('logo_file_name'),
-}, (table) => {
-  return {
-    team_id_idx: index('team_id_idx').on(table.team_id),
-  }
-})
-export type Team = typeof TeamsTable.$inferSelect
-
-export const usersTable = sqliteTable('users', {
-  id: text('id').notNull().primaryKey(),
-  username: text('username').notNull(),
-  role: text('role'),
-  password: text('password').notNull(),
-})
-
-export const sessionsTable = sqliteTable('sessions', {
-  id: text('id').notNull().primaryKey(),
-  userId: text('user_id')
-    .notNull()
-    .references(() => usersTable.id),
-  expiresAt: integer('expires_at').notNull(),
-})
