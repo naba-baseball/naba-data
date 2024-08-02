@@ -1,20 +1,32 @@
 import * as v from 'valibot'
-import { and, asc, eq, gte, lte } from 'drizzle-orm'
+import { and, asc, count, desc, eq, gte, lte, sql } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
   const { teamId: team_id } = await getValidatedRouterParams(
     event,
     parseTeamId(),
   )
-  const { split, roster } = await getValidatedQuery(event, data =>
+  const { split, roster, limit, offset, sortBy: [sortByCol, sortByDir] } = await getValidatedQuery(event, data =>
     v.parse(
       v.object({
         roster: parseRoster(),
         split: parseSplit(),
+        ...paginationSchema,
       }),
       data,
     ))
+  const sortingFn = sortByDir === 'asc' ? asc : desc
   const db = useSqlite()
+  const [{ count: rowCount }] = await db.select({ count: count() }).from(PlayersTable)
+    .where(
+      and(
+        eq(PlayersTable.team_id, team_id),
+        eq(PlayersTable.roster, roster),
+        gte(PlayersTable.position, 2),
+        lte(PlayersTable.position, 10),
+      ),
+    )
+  setHeader(event, 'X-Total-Count', rowCount)
   return db.select({
     player_id: PlayersTable.player_id,
     first_name: PlayersTable.first_name,
@@ -37,5 +49,7 @@ export default defineEventHandler(async (event) => {
         lte(PlayersTable.position, 10),
       ),
     )
-    .orderBy(asc(PlayersTable.position))
+    .limit(limit)
+    .offset(offset)
+    .orderBy(sortingFn(PlayersTable[sortByCol] ?? PlayersTable.position))
 })

@@ -31,6 +31,9 @@ export default defineNuxtConfig({
     typedPages: true,
   },
   nitro: {
+    compressPublicAssets: {
+      brotli: true,
+    },
     experimental: {
       database: true,
     },
@@ -46,6 +49,9 @@ export default defineNuxtConfig({
       preferences: {
         driver: 'fsLite',
         base: '.data/preferences',
+      },
+      cache: {
+        driver: 'memory',
       },
     },
   },
