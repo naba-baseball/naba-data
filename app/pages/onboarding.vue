@@ -51,6 +51,7 @@ function handleUserSubmit() {
     getOnboarding()
   })
 }
+const { files } = useFileUploads()
 </script>
 
 <template>
@@ -96,7 +97,7 @@ function handleUserSubmit() {
           <h2 class="text-xl">
             Upload files
           </h2>
-          <FilesUpload class="w-lg" @done="getOnboarding()" />
+          <FilesUpload v-model="files" class="w-lg" @done="getOnboarding()" />
         </div>
       </Transition>
     </template>
