@@ -1,12 +1,12 @@
 import * as v from 'valibot'
-import { and, asc, count, desc, eq, gte, lte, sql } from 'drizzle-orm'
+import { and, asc, count, desc, eq, gte, lte } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
   const { teamId: team_id } = await getValidatedRouterParams(
     event,
     parseTeamId(),
   )
-  const { split, roster, limit, offset, sortBy: [sortByCol, sortByDir] } = await getValidatedQuery(event, data =>
+  const { split, roster, limit, offset, orderBy: [orderCol, orderDir] } = await getValidatedQuery(event, data =>
     v.parse(
       v.object({
         roster: parseRoster(),
@@ -15,7 +15,8 @@ export default defineEventHandler(async (event) => {
       }),
       data,
     ))
-  const sortingFn = sortByDir === 'asc' ? asc : desc
+  console.log('sort by', orderCol)
+  const sortingFn = orderDir === 'asc' ? asc : desc
   const db = useSqlite()
   const [{ count: rowCount }] = await db.select({ count: count() }).from(PlayersTable)
     .where(
@@ -51,5 +52,5 @@ export default defineEventHandler(async (event) => {
     )
     .limit(limit)
     .offset(offset)
-    .orderBy(sortingFn(PlayersTable[sortByCol] ?? PlayersTable.position))
+    .orderBy(sortingFn(PlayersTable[orderCol] ?? PlayersTable.position))
 })
