@@ -5,12 +5,6 @@ export default defineNuxtConfig({
     compatibilityVersion: 4,
   },
   devtools: { enabled: true },
-  modules: [
-    '@vueuse/nuxt',
-    '@nuxt/eslint',
-    '@nuxt/ui',
-    '@formkit/auto-animate/nuxt',
-  ],
   css: [
     '@/assets/css/main.css',
   ],
@@ -21,14 +15,23 @@ export default defineNuxtConfig({
       },
     },
   },
-  eslint: {
-    config: {
-      standalone: false,
-    },
-  },
   experimental: {
     asyncContext: true,
     typedPages: true,
+  },
+  routeRules: {
+    '/api/teams/**': {
+      swr: 600,
+      cache: {
+        name: 'teams-cache',
+      },
+    },
+    '/api/players/**': {
+      swr: 600,
+      cache: {
+        name: 'players-cache',
+      },
+    },
   },
   nitro: {
     compressPublicAssets: {
@@ -53,6 +56,17 @@ export default defineNuxtConfig({
       cache: {
         driver: 'memory',
       },
+    },
+  },
+  modules: [
+    '@vueuse/nuxt',
+    '@nuxt/eslint',
+    '@nuxt/ui',
+    '@formkit/auto-animate/nuxt',
+  ],
+  eslint: {
+    config: {
+      standalone: false,
     },
   },
 })

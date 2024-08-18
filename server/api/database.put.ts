@@ -26,6 +26,8 @@ export default authenticatedEventHandler(async () => {
   await db.sql`CREATE INDEX "players_career_batting_stats_player_id_idx" ON "players_career_batting_stats" ("player_id")`
   const meta = useStorage('preferences')
   await meta.setItem('last_uploaded', Date.now())
+  await useStorage('cache').clear()
+  setResponseHeader(useEvent(), 'Clear-Site-Data', '"cache"')
   return 'ok'
 }, 'admin')
 
