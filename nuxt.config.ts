@@ -14,6 +14,7 @@ export default defineNuxtConfig({
         lang: 'en',
       },
     },
+    keepalive: true,
   },
   experimental: {
     asyncContext: true,
