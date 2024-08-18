@@ -15,7 +15,6 @@ export default defineEventHandler(async (event) => {
       }),
       data,
     ))
-  console.log('sort by', orderCol)
   const sortingFn = orderDir === 'asc' ? asc : desc
   const db = useSqlite()
   const [{ count: rowCount }] = await db.select({ count: count() }).from(PlayersTable)

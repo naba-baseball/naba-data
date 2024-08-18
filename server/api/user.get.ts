@@ -1,5 +1,4 @@
 export default eventHandler(async (event) => {
-  console.log('GET /api/user')
   const lucia = useLucia()
   const sessionId = getCookie(event, 'auth_session')
   if (!sessionId) {
