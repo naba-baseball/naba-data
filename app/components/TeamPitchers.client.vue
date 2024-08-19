@@ -4,7 +4,9 @@ import type { TeamTableProps } from '~~/types/shared.js'
 
 export type TeamPitchersItem = UnwrapRef<typeof players>[number]
 const props = defineProps<TeamTableProps>()
-const defaultColumns = [
+const { players, total, page, sortBy } = useTeamPlayers(() => props.teamId, 'pitchers')
+const model = defineModel<UnwrapRef<typeof players>>()
+const columns = [
   { key: 'last_name', label: 'Name', sortable: true },
   { key: 'throws', label: 'Throws', sortable: true },
   { key: 'age', label: 'Age', sortable: true },
@@ -13,13 +15,12 @@ const defaultColumns = [
   { key: 'movement', label: 'Movement', sortable: true },
   { key: 'control', label: 'Control', sortable: true },
 ]
-const { players, total, page, sortBy } = useTeamPlayers(() => props.teamId, 'pitchers')
 </script>
 
 <template>
   <div>
     <UPagination v-model="page" :total :page-count="15" />
-    <UTable v-model:sort="sortBy" by="player_id" :rows="players" :columns="defaultColumns">
+    <UTable v-model="model" v-model:sort="sortBy" by="player_id" :rows="players" :columns>
       <template #last_name-data="{ row }">
         <a
           class="underline underline-dashed underline-surface-300 underline-offset-[0.25rem]"
