@@ -5,7 +5,7 @@ import type { TeamTableProps } from '~~/types/shared.js'
 export type TeamPitchersItem = UnwrapRef<typeof players>[number]
 const props = defineProps<TeamTableProps>()
 const { players, total, page, sortBy } = useTeamPlayers(() => props.teamId, 'pitchers')
-const model = defineModel<UnwrapRef<typeof players>>()
+const model = defineModel<UnwrapRef<typeof players>[]>()
 const columns = [
   { key: 'last_name', label: 'Name', sortable: true },
   { key: 'throws', label: 'Throws', sortable: true },

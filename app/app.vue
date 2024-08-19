@@ -8,7 +8,7 @@ if (shouldRedirect)
 <template>
   <Head>
     <Title>Naba data</Title>
-    <Body class="dark:bg-gray-950" />
+    <Body class="dark:bg-gray-950 text-gray-800 dark:text-gray-200" />
     <Link rel="preconnect" href="https://rsms.me/" />
     <Link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
   </Head>
