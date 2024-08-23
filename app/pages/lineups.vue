@@ -70,12 +70,12 @@ const commonColumns = [
           <p v-show="type === 'batters'" class="opacity-80">
             The first 9 players are the starting lineup, and the rest are backups.
           </p>
-          <UTable v-show="type === 'batters'" :sort="{ column: 'index', direction: 'asc' }" :rows="selectedOfType" :columns="[...commonColumns, { key: 'position', label: 'Position' }]">
+          <UTable v-show="type === 'batters'" :sort="{ column: 'index', direction: 'asc' }" :rows="selectedBatters" :columns="[...commonColumns, { key: 'position', label: 'Position' }]" by="player_id">
             <template #index-data="{ row }">
               {{ row.index }}
             </template>
             <template #player_id-data="{ row }">
-              <PlayerName :player-id="row?.player_id" />
+              {{ row.first_name }} {{ row.last_name }}
               <template v-if="row.index > 9">
                 <div class="text-xs opacity-70">
                   Backup
@@ -86,9 +86,9 @@ const commonColumns = [
               <USelect :options="positionOptions" :model-value="row.position" />
             </template>
           </UTable>
-          <UTable v-show="type === 'pitchers'" :rows="selectedOfType" :columns="[...commonColumns, { key: 'role', label: 'Role' }]">
+          <UTable v-show="type === 'pitchers'" :rows="selectedPitchers" :columns="[...commonColumns, { key: 'role', label: 'Role' }]" by="player_id">
             <template #player_id-data="{ row }">
-              <PlayerName :player-id="row?.player_id" />
+              {{ row.first_name }} {{ row.last_name }}
             </template>
             <template #role-data="{ row }">
               <USelect :options="roleOptions" :model-value="row.role" />

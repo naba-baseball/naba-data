@@ -14,7 +14,9 @@ const { data: player } = useLazyFetch(() => `/api/players/${props.playerId}`, {
 
 <template>
   <span>
-    {{ player?.first_name }} {{ player?.last_name }}
+    <slot v-if="player" :player>
+      {{ player?.first_name }} {{ player?.last_name }}
+    </slot>
   </span>
 </template>
 
