@@ -10,8 +10,18 @@ watch(teamId, (id) => {
   battersMap.value[id] ??= []
   pitchersMap.value[id] ??= []
 }, { immediate: true })
-const selectedBatters = computed({ get: () => battersMap.value[teamId.value], set: (val) => { battersMap.value[teamId.value] = val } })
-const selectedPitchers = computed({ get: () => pitchersMap.value[teamId.value], set: (val) => { pitchersMap.value[teamId.value] = val } })
+const selectedBatters = computed({
+  get: () => battersMap.value[teamId.value],
+  set: (val) => {
+    (battersMap.value[teamId.value] = val)
+  },
+})
+const selectedPitchers = computed({
+  get: () => pitchersMap.value[teamId.value],
+  set: (val) => {
+    (pitchersMap.value[teamId.value] = val)
+  },
+})
 watchEffect(() => {
   selectedBatters.value?.forEach((player, index) => {
     player.index = index + 1

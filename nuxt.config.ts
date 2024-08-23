@@ -1,24 +1,14 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  compatibilityDate: '2024-07-01',
   future: {
     compatibilityVersion: 4,
   },
-  devtools: { enabled: true },
+  extends: 'github:naba-baseball/naba-base-layer/layer',
   css: [
     '@/assets/css/main.css',
   ],
   app: {
-    head: {
-      htmlAttrs: {
-        lang: 'en',
-      },
-    },
     keepalive: true,
-  },
-  experimental: {
-    asyncContext: true,
-    typedPages: true,
   },
   routeRules: {
     '/api/teams/**': {
@@ -60,14 +50,6 @@ export default defineNuxtConfig({
     },
   },
   modules: [
-    '@vueuse/nuxt',
-    '@nuxt/eslint',
-    '@nuxt/ui',
     '@formkit/auto-animate/nuxt',
   ],
-  eslint: {
-    config: {
-      standalone: false,
-    },
-  },
 })

@@ -1,4 +1,5 @@
-export default defineNitroPlugin(async (nitro) => {
+/* eslint-disable no-console */
+export default defineNitroPlugin(async () => {
   const db = useDatabase()
   console.log('Setting up database')
   await db.sql`
