@@ -1,3 +1,18 @@
+import type { Player } from '~~/server/utils/data/players.js'
+
+export type TeamBatter = Pick<Player, 'player_id' | 'first_name' | 'last_name' | 'age' | 'position' | 'bats'> & {
+  contact: number
+  gap: number
+  power: number
+  eye: number
+  strikeouts: number
+}
+
+export type TeamPitcher = Pick<Player, 'player_id' | 'first_name' | 'last_name' | 'age' | 'role' | 'throws'> & {
+  stuff: number
+  movement: number
+  control: number
+}
 export function useTeamPlayers(teamId: MaybeRefOrGetter<number | string>, playerType: MaybeRefOrGetter<'batters' | 'pitchers'>) {
   const { split, roster } = useTeamsFilters()
   const { limit, offset, orderBy, total, page, pageCount, sortBy } = usePagination()

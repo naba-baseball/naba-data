@@ -109,8 +109,8 @@ export async function createPlayersTable() {
 export const PlayersTable = sqliteTable('players', {
   player_id: integer('player_id').notNull(),
   team_id: integer('team_id').notNull(),
-  first_name: text('first_name'),
-  last_name: text('last_name'),
+  first_name: text('first_name').notNull(),
+  last_name: text('last_name').notNull(),
   position: integer('position').notNull(),
   age: integer('age').notNull(),
   role: integer('role').notNull(),

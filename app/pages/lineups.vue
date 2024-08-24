@@ -1,41 +1,28 @@
 <script lang="ts" setup>
 import { useRouteQuery } from '@vueuse/router'
-import type { UnwrapRef } from 'vue'
 
 const teamId = ref<number>(1)
 const type = useRouteQuery<'batters' | 'pitchers'>('type', 'batters')
-const pitchersMap = ref<Record<UnwrapRef<typeof teamId>, unknown[]>>({})
-const battersMap = ref<Record<UnwrapRef<typeof teamId>, unknown[]>>({})
+const pitchersMap = ref<Record<number, TeamPitcher[]>>({})
+const battersMap = ref<Record<number, TeamBatter[]>>({})
 watch(teamId, (id) => {
   battersMap.value[id] ??= []
   pitchersMap.value[id] ??= []
 }, { immediate: true })
 const selectedBatters = computed({
-  get: () => battersMap.value[teamId.value],
-  set: (val) => {
+  get: () => battersMap.value[teamId.value] ?? [],
+  set: (val: TeamBatter[]) => {
     (battersMap.value[teamId.value] = val)
   },
 })
 const selectedPitchers = computed({
-  get: () => pitchersMap.value[teamId.value],
-  set: (val) => {
+  get: () => pitchersMap.value[teamId.value] ?? [],
+  set: (val: TeamPitcher[]) => {
     (pitchersMap.value[teamId.value] = val)
   },
 })
-watchEffect(() => {
-  selectedBatters.value?.forEach((player, index) => {
-    player.index = index + 1
-  })
-})
-watchEffect(() => {
-  selectedPitchers.value?.forEach((player, index) => {
-    player.index = index + 1
-  })
-})
-const selectedOfType = computed(() => type.value === 'batters' ? selectedBatters.value : selectedPitchers.value)
 const { roster, split } = useTeamsFilters()
-const positionOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => ({ label: getAbbreviatedPosition(num), value: num }))
-const roleOptions = [11, 12, 13].map(num => ({ label: getAbbreviatedRole(num), value: num }))
+
 const commonColumns = [
   { key: 'index', label: '#' },
   { key: 'player_id', label: 'Player' },
@@ -70,30 +57,8 @@ const commonColumns = [
           <p v-show="type === 'batters'" class="opacity-80">
             The first 9 players are the starting lineup, and the rest are backups.
           </p>
-          <UTable v-show="type === 'batters'" :sort="{ column: 'index', direction: 'asc' }" :rows="selectedBatters" :columns="[...commonColumns, { key: 'position', label: 'Position' }]" by="player_id">
-            <template #index-data="{ row }">
-              {{ row.index }}
-            </template>
-            <template #player_id-data="{ row }">
-              {{ row.first_name }} {{ row.last_name }}
-              <template v-if="row.index > 9">
-                <div class="text-xs opacity-70">
-                  Backup
-                </div>
-              </template>
-            </template>
-            <template #position-data="{ row }">
-              <USelect :options="positionOptions" :model-value="row.position" />
-            </template>
-          </UTable>
-          <UTable v-show="type === 'pitchers'" :rows="selectedPitchers" :columns="[...commonColumns, { key: 'role', label: 'Role' }]" by="player_id">
-            <template #player_id-data="{ row }">
-              {{ row.first_name }} {{ row.last_name }}
-            </template>
-            <template #role-data="{ row }">
-              <USelect :options="roleOptions" :model-value="row.role" />
-            </template>
-          </UTable>
+          <BattingLineupList v-show="type === 'batters'" :players="selectedBatters" />
+          <PitchingLineupList v-show="type === 'pitchers'" :players="selectedPitchers" />
         </div>
       </div>
     </article>

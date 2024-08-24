@@ -1,11 +1,9 @@
 <script lang="ts" setup>
-import type { UnwrapRef } from 'vue'
 import type { TeamTableProps } from '~~/types/shared.js'
 
-export type TeamPitchersItem = UnwrapRef<typeof players>[number]
 const props = defineProps<TeamTableProps>()
 const { players, total, page, sortBy } = useTeamPlayers(() => props.teamId, 'pitchers')
-const model = defineModel<UnwrapRef<typeof players>[]>()
+const model = defineModel<TeamPitcher[]>()
 const columns = [
   { key: 'last_name', label: 'Name', sortable: true },
   { key: 'throws', label: 'Throws', sortable: true },
@@ -33,7 +31,7 @@ const columns = [
         {{ getAbbreviatedRole(row.role) }}
       </template>
       <template #throws-data="{ row }">
-        {{ useHandAbbreviation(row.throws).value }}
+        {{ getHandAbbreviation(row.throws).value }}
       </template>
       <template v-for="rating of ['stuff', 'movement', 'control']" #[`${rating}-data`]="{ row, column, getRowData }" :key="rating">
         <div :data-rating="getRowData(row, column.key)">
