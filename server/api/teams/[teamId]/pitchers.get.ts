@@ -35,6 +35,7 @@ export default defineEventHandler(async (event) => {
     position: PlayersTable.position,
     role: PlayersTable.role,
     throws: PlayersTable.throws,
+    stamina: PlayersTable.pitching_ratings_misc_stamina,
     stuff: PlayersTable[`pitching_ratings_${split}_stuff`],
     movement: PlayersTable[`pitching_ratings_${split}_movement`],
     control: PlayersTable[`pitching_ratings_${split}_control`],

@@ -1,8 +1,14 @@
-<script lang="ts" setup generic="T extends TeamPitcher | TeamBatter">
-withDefaults(defineProps<{
-  players?: (T extends { role: number } ? TeamPitcher : T extends { position: number } ? TeamBatter : never)[]
+<script lang="ts" setup generic="T extends {player_id: number, first_name: string, last_name: string}">
+import { useDragAndDrop } from '@formkit/drag-and-drop/vue'
+
+const props = withDefaults(defineProps<{
+  players?: T[]
   title: string
 }>(), { players: () => [] })
+const [listRef, sortedItems] = useDragAndDrop(props.players)
+watchEffect(() => {
+  sortedItems.value = props.players
+})
 </script>
 
 <template>
@@ -22,24 +28,19 @@ withDefaults(defineProps<{
         <slot name="append-th" />
       </tr>
     </thead>
-    <tbody>
-      <tr v-for="(player, i) of players" :key="player.player_id">
+    <tbody ref="listRef">
+      <tr v-for="(player, i) of sortedItems" :key="player.player_id">
         <th scope="row">
           {{ i + 1 }}
         </th>
         <slot name="prepend-td" :player :index="i" />
         <td>
-          {{ player.first_name }} {{ player.last_name }}
-          <span v-if="i > 9" class="block opacity-70">
-            Backup
-          </span>
+          <slot name="name" :player :index="i">
+            {{ player.first_name }} {{ player.last_name }}
+          </slot>
         </td>
         <slot name="append-td" :player :index="i" />
       </tr>
     </tbody>
   </table>
 </template>
-
-<style>
-
-</style>

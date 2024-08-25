@@ -3,8 +3,6 @@ export function useTeams() {
     default: () => [],
     key: 'get-teams',
   })
-  const teamsData = useNuxtData<typeof api.data.value>('get-teams').data
-  const teams = computed(() => teamsData.value ?? [])
 
-  return { teams, api }
+  return { teams: toRef(() => api.data.value), api }
 }

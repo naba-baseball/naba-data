@@ -4,11 +4,20 @@ const clonedPlayers = ref<TeamPitcher[]>([])
 watchEffect(() => {
   clonedPlayers.value = props.players?.map(player => ({ ...player })) ?? []
 })
-const options = [11, 12, 13].map(num => ({ label: getAbbreviatedRole(num), value: num }))
+const options = [
+  { label: 'Starter', value: 11 },
+  { label: 'Relief', value: 12 },
+  { label: 'Middle Relief', value: 14 },
+  { label: 'Long Relief', value: 15 },
+  { label: 'Setup', value: 16 },
+  { label: 'Closer', value: 13 },
+  { label: 'Stopper', value: 17 },
+  { label: 'Specialist', value: 18 },
+]
 </script>
 
 <template>
-  <LineupList :players="clonedPlayers" title="Lineup vs LHP">
+  <LineupList :players="clonedPlayers" title="">
     <template #prepend-th>
       <th>
         Throws
@@ -23,6 +32,12 @@ const options = [11, 12, 13].map(num => ({ label: getAbbreviatedRole(num), value
       <td>
         {{ getHandAbbreviation(player.throws) }}
       </td>
+    </template>
+    <template #name="{ player, index }">
+      {{ player.first_name }} {{ player.last_name }} <br>
+      <span class="text-xs opacity-70 tabular-nums">
+        S {{ player.stuff }} M {{ player.movement }} C {{ player.control }} Sta {{ player.stamina }}
+      </span>
     </template>
     <template #append-td="{ player }">
       <td>

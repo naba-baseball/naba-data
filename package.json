@@ -37,5 +37,8 @@
     "tailwindcss": "^3.4.10",
     "typescript": "^5.5.4",
     "valibot": "^0.38.0"
+  },
+  "dependencies": {
+    "@formkit/drag-and-drop": "^0.1.6"
   }
 }

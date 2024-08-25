@@ -12,6 +12,7 @@ export type TeamPitcher = Pick<Player, 'player_id' | 'first_name' | 'last_name' 
   stuff: number
   movement: number
   control: number
+  stamina: number
 }
 export function useTeamPlayers(teamId: MaybeRefOrGetter<number | string>, playerType: MaybeRefOrGetter<'batters' | 'pitchers'>) {
   const { split, roster } = useTeamsFilters()

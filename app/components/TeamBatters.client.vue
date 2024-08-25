@@ -31,10 +31,10 @@ const columns = [
         {{ usePositionDisplay(row, row.position).value }}
       </template>
       <template #bats-data="{ row }">
-        {{ getHandAbbreviation(row.bats).value }}
+        {{ getHandAbbreviation(row.bats) }}
       </template>
       <template
-        v-for="rating of ['contact', 'eye', 'gap', 'power', 'strikeouts']"
+        v-for="rating of ['contact', 'eye', 'gap', 'power', 'strikeouts'] as const"
         #[`${rating}-data`]="{ row, column, getRowData }"
         :key="rating"
       >

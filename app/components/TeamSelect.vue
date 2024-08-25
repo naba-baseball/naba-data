@@ -6,6 +6,6 @@ const options = computed(() => teams.value.map(team => ({ label: team.name, valu
 
 <template>
   <UFormGroup label="Team">
-    <USelect v-model="model" name="team" :options />
+    <USelect v-model.number="model" name="team" :options />
   </UFormGroup>
 </template>

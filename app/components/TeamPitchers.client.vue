@@ -12,6 +12,7 @@ const columns = [
   { key: 'stuff', label: 'Stuff', sortable: true },
   { key: 'movement', label: 'Movement', sortable: true },
   { key: 'control', label: 'Control', sortable: true },
+  { key: 'stamina', label: 'Stamina', sortable: true },
 ]
 </script>
 
@@ -31,9 +32,9 @@ const columns = [
         {{ getAbbreviatedRole(row.role) }}
       </template>
       <template #throws-data="{ row }">
-        {{ getHandAbbreviation(row.throws).value }}
+        {{ getHandAbbreviation(row.throws) }}
       </template>
-      <template v-for="rating of ['stuff', 'movement', 'control']" #[`${rating}-data`]="{ row, column, getRowData }" :key="rating">
+      <template v-for="rating of ['stuff', 'movement', 'control', 'stamina'] as const" #[`${rating}-data`]="{ row, column, getRowData }" :key="rating">
         <div :data-rating="getRowData(row, column.key)">
           {{ getRowData(row, column.key) }}
         </div>
