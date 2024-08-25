@@ -13,6 +13,7 @@ function bindPlayer(key: string, player: TeamBatter) {
     },
   }
 }
+/** NOTE: I might want to refactor this to use a <Player :player-id /> component. That could expose more player specific things than just ratings. */
 </script>
 
 <template>
