@@ -16,14 +16,14 @@ watchEffect(() => {
     <caption class="text-xl font-bold">
       {{ title }}
     </caption>
-    <thead>
+    <thead class="text-xs uppercase opacity-90 [&_th]:font-medium">
       <tr>
         <th scope="col">
           #
         </th>
         <slot name="prepend-th" />
         <th scope="col">
-          Name
+          Player
         </th>
         <slot name="append-th" />
       </tr>

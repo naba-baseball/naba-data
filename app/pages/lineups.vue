@@ -1,7 +1,5 @@
 <script lang="ts" setup>
-import { useRouteQuery } from '@vueuse/router'
-
-const teamId = ref<number>(1)
+const teamId = useRouteQuery<number>('team', 1, { transform: Number })
 const type = useRouteQuery<'batters' | 'pitchers'>('type', 'batters')
 const pitchersMap = ref<Record<number, TeamPitcher[]>>({})
 const battersMap = ref<Record<number, TeamBatter[]>>({})
