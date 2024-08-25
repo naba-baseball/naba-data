@@ -3,7 +3,7 @@ import { useDragAndDrop } from '@formkit/drag-and-drop/vue'
 
 const props = withDefaults(defineProps<{
   players?: T[]
-  title: string
+  title?: string
 }>(), { players: () => [] })
 const [listRef, sortedItems] = useDragAndDrop(props.players)
 watchEffect(() => {
@@ -13,11 +13,11 @@ watchEffect(() => {
 
 <template>
   <table class="[&_*]:text-start w-full">
-    <caption class="text-xl font-bold">
+    <caption v-if="title" class="text-xl font-bold">
       {{ title }}
     </caption>
-    <thead class="text-xs uppercase opacity-90 [&_th]:font-medium">
-      <tr>
+    <thead class="text-xs uppercase opacity-90 [&_th]:font-medium ">
+      <tr class="border-b h-10">
         <th scope="col">
           #
         </th>

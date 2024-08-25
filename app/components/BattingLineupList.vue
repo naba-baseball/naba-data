@@ -16,7 +16,7 @@ function bindPlayer(key: string, player: TeamBatter) {
 </script>
 
 <template>
-  <LineupList :players="clonedPlayers" title="Lineup vs LHP">
+  <LineupList :players="clonedPlayers">
     <template #prepend-th>
       <th scope="col">
         Bats
