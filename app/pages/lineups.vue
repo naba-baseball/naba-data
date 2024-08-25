@@ -54,7 +54,7 @@ const { roster, split } = useTeamsFilters()
             The first 9 players are the starting lineup, and the rest are backups.
           </p>
           <p v-show="type === 'pitchers'" class="opacity-80">
-            The game only exports players as Starters, Relievers, and Closers.<br> That means you'll need to specify middle/long relief, stopper/closer, etc.
+            The game only exports players as Starters, Relievers, and Closers.<br> You'll need to specify middle/long relief, stopper/closer, etc.
           </p>
           <BattingLineupList v-show="type === 'batters'" :players="selectedBatters" />
           <PitchingLineupList v-show="type === 'pitchers'" :players="selectedPitchers" />
