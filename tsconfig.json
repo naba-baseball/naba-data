@@ -3,7 +3,8 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "types": [
-      "@types/wicg-file-system-access"
+      "@types/wicg-file-system-access",
+      "./types/pwa.ts"
     ]
   }
 }
