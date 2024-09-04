@@ -1,9 +1,12 @@
+import { CacheFirst } from 'workbox-strategies'
+import { CacheableResponsePlugin } from 'workbox-cacheable-response'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
   extends: 'github:naba-baseball/naba-base-layer/layer',
+  ssr: false,
   css: [
     '@/assets/css/main.css',
   ],
@@ -13,24 +16,7 @@ export default defineNuxtConfig({
   experimental: {
     buildCache: true,
   },
-  routeRules: {
-    '/api/teams/**': {
-      swr: 600,
-      cache: {
-        name: 'teams-cache',
-      },
-    },
-    '/api/players/**': {
-      swr: 600,
-      cache: {
-        name: 'players-cache',
-      },
-    },
-  },
   nitro: {
-    compressPublicAssets: {
-      brotli: true,
-    },
     experimental: {
       database: true,
     },
@@ -51,8 +37,49 @@ export default defineNuxtConfig({
         driver: 'memory',
       },
     },
+    prerender: {
+      routes: ['/'],
+    },
   },
-  modules: [
-    '@formkit/auto-animate/nuxt',
-  ],
+  modules: ['@formkit/auto-animate/nuxt', '@vite-pwa/nuxt'],
+  pwa: {
+    registerType: 'prompt',
+    scope: '/',
+    workbox: {
+      navigateFallbackDenylist: [/^http:\/\/localhost:3000\/api\/teams/i],
+      globPatterns: ['**/*'],
+      runtimeCaching: [{
+        urlPattern: /^http:\/\/localhost:3000\/api\/teams|players/i,
+        options: {
+          cacheableResponse: { statuses: [200] },
+          cacheName: 'api-teams-cache',
+        },
+        handler: 'CacheFirst',
+      }],
+    },
+    manifest: {
+      name: 'NABA Data',
+      short_name: 'NABAData',
+      theme_color: '#ffffff',
+      icons: [
+        {
+          src: 'icon-black.png',
+          sizes: '192x192',
+          type: 'image/png',
+        },
+        {
+          src: 'icon-black.png',
+          sizes: '512x512',
+          type: 'image/png',
+        },
+        {
+          src: 'icon-black.png',
+          sizes: '512x512',
+          type: 'image/png',
+          purpose: 'any maskable',
+        },
+      ],
+    },
+  },
+
 })

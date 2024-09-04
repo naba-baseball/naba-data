@@ -9,12 +9,16 @@ if (shouldRedirect)
 
 <template>
   <Head>
-    <Title>Naba data</Title>
+    <Title>Naba data app</Title>
     <Body class="dark:bg-gray-950 text-gray-800 dark:text-gray-200 mx-4" />
   </Head>
+  <NuxtPwaManifest />
   <NuxtLoadingIndicator />
+  <PwaPrompt />
   <NuxtLayout :name="isOnboarding ? 'onboarding' : 'default'">
-    <NuxtPage />
+    <ClientOnly>
+      <NuxtPage />
+    </ClientOnly>
   </NuxtLayout>
   <UNotifications />
 </template>

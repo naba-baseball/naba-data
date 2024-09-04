@@ -23,6 +23,8 @@
     "@nuxt/ui": "^2.18.4",
     "@types/better-sqlite3": "^7.6.11",
     "@types/wicg-file-system-access": "^2023.10.5",
+    "@vite-pwa/assets-generator": "^0.2.5",
+    "@vite-pwa/nuxt": "^0.10.1",
     "@vueuse/core": "^11.0.3",
     "@vueuse/nuxt": "^11.0.3",
     "@vueuse/router": "^11.0.3",
@@ -39,4 +41,5 @@
     "typescript": "^5.5.4",
     "valibot": "^0.40.0"
   }
+
 }
