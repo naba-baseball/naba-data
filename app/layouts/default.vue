@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-const { user, fetch } = useUserSession()
+const { fetch } = useUserSession()
 async function logout() {
   await $fetch('/api/logout', { method: 'POST' })
   await fetch()
@@ -36,13 +36,18 @@ const authenticatedLinks = [
   <main>
     <UContainer>
       <div class="-mx-2 grid grid-flow-col place-content-between">
-        <UHorizontalNavigation :links="user?.role === 'admin' ? authenticatedLinks : guestLinks" />
+        <AuthState #="{loggedIn, user}">
+          <UHorizontalNavigation v-if="loggedIn && user?.role === 'admin'" :links="authenticatedLinks" />
+          <UHorizontalNavigation v-else :links="guestLinks" />
+        </AuthState>
         <div class="py-2 flex gap-2 items-center">
           <DisplayLastUploaded class="hidden sm:inline text-sm text-gray-700 dark:text-gray-200" />
           <ColorTheme />
-          <UButton v-if="user?.role === 'admin'" color="gray" variant="ghost" @click="logout">
-            Logout {{ user.username }}
-          </UButton>
+          <AuthState #="{loggedIn, user}">
+            <UButton v-if="loggedIn" color="gray" variant="ghost" @click="logout">
+              Logout {{ user?.username }}
+            </UButton>
+          </AuthState>
         </div>
       </div>
       <div>
