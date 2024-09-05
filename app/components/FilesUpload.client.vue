@@ -92,7 +92,6 @@ watchEffect(() => {
       </UButton>
       <UButton
         :icon="!statusMessage ? 'i-lucide-upload' : ''"
-        :disabled="missingFiles.length !== 0"
         type="submit"
         :loading="isLoading"
       >
