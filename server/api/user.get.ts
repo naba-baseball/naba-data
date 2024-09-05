@@ -1,13 +1,7 @@
 export default eventHandler(async (event) => {
-  const lucia = useLucia()
-  const sessionId = getCookie(event, 'auth_session')
-  if (!sessionId) {
-    appendHeader(
-      event,
-      'Set-Cookie',
-      lucia.createBlankSessionCookie().serialize(),
-    )
-    return { role: 'guest' }
+  const { user } = await getUserSession(event)
+  if (!user) {
+    return await setUserSession(event, { user: { role: 'guest', username: 'guest', id: '' } })
   }
-  return (await lucia.validateSession(sessionId)).user ?? undefined
+  return user
 })

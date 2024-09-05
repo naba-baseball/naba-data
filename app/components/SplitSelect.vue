@@ -1,6 +1,4 @@
 <script lang="ts" setup>
-import type { Split } from '~~/types/index.js'
-
 const options: { value: Split, label: string }[] = [
   { value: 'overall', label: 'Overall' },
   { value: 'vsl', label: 'vs. Left' },

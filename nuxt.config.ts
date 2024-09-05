@@ -26,6 +26,9 @@ export default defineNuxtConfig({
         name: 'players-cache',
       },
     },
+    '/': {
+      redirect: '/teams',
+    },
   },
   nitro: {
     compressPublicAssets: {
@@ -52,7 +55,5 @@ export default defineNuxtConfig({
       },
     },
   },
-  modules: [
-    '@formkit/auto-animate/nuxt',
-  ],
+  modules: ['@formkit/auto-animate/nuxt', 'nuxt-auth-utils'],
 })

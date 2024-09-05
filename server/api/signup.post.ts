@@ -1,25 +1,19 @@
 import { eq } from 'drizzle-orm'
-import { generateIdFromEntropySize } from 'lucia'
 import { Argon2id } from 'oslo/password'
 
 export default defineEventHandler(async (event) => {
+  const { user } = await getUserSession(event)
+  if (user)
+    return createError({ message: 'Already logged in', status: 400 })
   const body = await validateUsernameAndPassword()
   const { password, username } = body
-  const hashedPassword = await new Argon2id().hash(password)
   const db = useSqlite()
-  const [existingUser] = await db.select().from(usersTable)
-    .where(eq(usersTable.username, username))
+  const [existingUser] = await db.select().from(usersTable).where(eq(usersTable.username, username))
   if (existingUser)
     return createError({ message: 'Username is not available', status: 400 })
+  const hashedPassword = await new Argon2id().hash(password)
 
-  const userId = generateIdFromEntropySize(16)
+  const userId = crypto.randomUUID()
   await db.insert(usersTable).values({ id: userId, username, password: hashedPassword, role: 'user' })
-
-  const lucia = useLucia()
-  const session = await lucia.createSession(userId, {})
-  appendHeader(
-    event,
-    'Set-Cookie',
-    lucia.createSessionCookie(session.id).serialize(),
-  )
+  await replaceUserSession(event, { user: { id: userId, username, role: 'guest' } })
 })

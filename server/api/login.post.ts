@@ -1,21 +1,11 @@
-import * as v from 'valibot'
 import { Argon2id } from 'oslo/password'
 import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
-  const { username, password } = await readValidatedBody(event, body =>
-    v.parse(
-      v.required(
-        v.object({
-          username: v.string(),
-          password: v.string(),
-        }),
-      ),
-      body,
-    ))
+  const { username, password } = await validateUsernameAndPassword()
   const db = useSqlite()
   const [existingUser] = await db
-    .select({ password: usersTable.password, id: usersTable.id })
+    .select({ password: usersTable.password, id: usersTable.id, role: usersTable.role, username: usersTable.username })
     .from(usersTable)
     .where(eq(usersTable.username, username))
   if (!existingUser) {
@@ -34,7 +24,9 @@ export default defineEventHandler(async (event) => {
       status: 401,
     })
   }
-  const lucia = useLucia()
-  const session = await lucia.createSession(existingUser.id, {})
-  appendHeader(event, 'Set-Cookie', lucia.createSessionCookie(session.id).serialize())
+  await replaceUserSession(event, { user: {
+    id: existingUser.id,
+    username: existingUser.username,
+    role: existingUser.role as AuthRole,
+  } })
 })

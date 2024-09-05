@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-const { user } = useUser()
+const { user, fetch } = useUserSession()
 async function logout() {
   await $fetch('/api/logout', { method: 'POST' })
-  location.reload()
+  await fetch()
+  await navigateTo('/')
 }
 const constantLinks = [{
   to: '/teams',
