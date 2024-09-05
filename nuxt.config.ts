@@ -16,6 +16,14 @@ export default defineNuxtConfig({
   experimental: {
     buildCache: true,
   },
+  routeRules: {
+    '/teams': {
+      redirect: '/',
+    },
+    '/': {
+      prerender: true,
+    },
+  },
   nitro: {
     experimental: {
       database: true,
@@ -37,24 +45,31 @@ export default defineNuxtConfig({
         driver: 'memory',
       },
     },
-    prerender: {
-      routes: ['/'],
-    },
   },
   modules: ['@formkit/auto-animate/nuxt', '@vite-pwa/nuxt'],
   pwa: {
     registerType: 'prompt',
     scope: '/',
     workbox: {
-      navigateFallbackDenylist: [/^http:\/\/localhost:3000\/api\/teams/i],
-      globPatterns: ['**/*'],
+      globPatterns: ['**\/*.{js,json,css,html,png,jpg,jpeg,svg}'],
       runtimeCaching: [{
-        urlPattern: /^http:\/\/localhost:3000\/api\/teams|players/i,
-        options: {
-          cacheableResponse: { statuses: [200] },
-          cacheName: 'api-teams-cache',
-        },
+        urlPattern: ({ url }) => url.origin === 'http://localhost:3000' && (url.pathname.startsWith('/api/teams') || url.pathname.startsWith('/api/players')),
         handler: 'CacheFirst',
+        options: {
+          cacheName: 'teams-players-cache',
+          cacheableResponse: {
+            statuses: [200],
+          },
+        },
+      }, {
+        urlPattern: ({ url }) => url.origin === 'https://api.iconify.design',
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'iconify-cache',
+          cacheableResponse: {
+            statuses: [200],
+          },
+        },
       }],
     },
     manifest: {
