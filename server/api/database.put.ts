@@ -1,7 +1,8 @@
 import papa from 'papaparse'
 import { drizzle } from 'db0/integrations/drizzle/index'
 
-export default authenticatedEventHandler(async () => {
+export default eventHandler(async () => {
+  await checkRole('admin')
   await createTeamsTable()
   await createPlayersTable()
   await createPlayerCareerBattingStats()
@@ -29,7 +30,7 @@ export default authenticatedEventHandler(async () => {
   await useStorage('cache').clear()
   setResponseHeader(useEvent(), 'Clear-Site-Data', '"cache"')
   return 'ok'
-}, 'admin')
+})
 
 async function getCSVData<T>(fileName: string) {
   const file = (await useStorage('files').getItem(fileName)) as string

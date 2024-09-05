@@ -1,36 +1,23 @@
 import { Lucia } from 'lucia'
-import type { EventHandler, EventHandlerRequest } from 'h3'
 import { DrizzleSQLiteAdapter } from '@lucia-auth/adapter-drizzle'
-import * as v from 'valibot'
 import type { AuthRole } from '~~/types/auth.js'
 
-export function authenticatedEventHandler<T extends EventHandlerRequest, D>(handler: EventHandler<T, D>, role?: AuthRole): EventHandler<T, D> {
-  return defineEventHandler<T>(async (event) => {
-    try {
-      const sessionId = getCookie(event, 'auth_session')
-      if (!sessionId)
-        return createError({ message: 'no sess', status: 401 })
-      const { session, user } = await useLucia().validateSession(sessionId)
-      event.context.user = user
-      event.context.session = session
-      if (!user)
-        return createError({ message: 'no user', status: 401 })
-      if (!session)
-        return createError({ message: 'no sess', status: 401 })
-      if (role) {
-        if (user?.role !== role)
-          return createError({ message: 'Unauthorized', status: 401 })
-      }
+export async function checkRole(role?: AuthRole) {
+  if (!role)
+    throw createError({ message: `role not found: ${role}`, status: 401 })
+  const event = useEvent()
+  const sessionId = getCookie(event, 'auth_session')
+  if (!sessionId)
+    throw createError({ message: 'no sess', status: 401 })
+  const { session, user } = await useLucia().validateSession(sessionId)
+  if (!user)
+    throw createError({ message: 'no user', status: 401 })
+  if (!session)
+    throw createError({ message: 'no session', status: 401 })
+  if (role && user.role !== role)
+    throw createError({ message: 'Unauthorized', status: 401 })
 
-      const response = await handler(event)
-      return { response }
-    }
-    catch (err) {
-      if (err instanceof Error)
-        throw err
-      // Error handling
-    }
-  })
+  return { user, session }
 }
 
 export function useLucia() {
@@ -61,18 +48,4 @@ declare module 'lucia' {
 interface DatabaseUserAttributes {
   username: string
   role: AuthRole
-}
-
-export async function validateUsernameAndPassword() {
-  const body = await readValidatedBody(useEvent(), body =>
-    v.parse(
-      v.required(
-        v.object({
-          username: v.pipe(v.string(), v.minLength(3, 'Username must be 3 characters or more')),
-          password: v.pipe(v.string(), v.minLength(6, 'Username must be 6 characters or more')),
-        }),
-      ),
-      body,
-    ))
-  return body
 }

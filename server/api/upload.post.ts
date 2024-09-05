@@ -1,4 +1,5 @@
-export default authenticatedEventHandler(async (event) => {
+export default eventHandler(async (event) => {
+  await checkRole('admin')
   const data = await readFormData(event)
   for await (const chunk of data.entries()) {
     const [field, file] = chunk as [string, File]
@@ -8,4 +9,4 @@ export default authenticatedEventHandler(async (event) => {
     await storage.setItemRaw(file.name, file.stream())
   }
   return 'ok'
-}, 'admin')
+})
