@@ -9,6 +9,9 @@ export default defineNitroPlugin(async () => {
         role TEXT,
         password TEXT NOT NULL
     )`
+  await db.sql`CREATE INDEX IF NOT EXISTS "username_idx" ON "users" ("username")`
+  await db.sql`CREATE INDEX IF NOT EXISTS "role_idx" ON "users" ("role")`
+  await db.sql`CREATE INDEX IF NOT EXISTS "id_idx" ON "users" ("id")`
   await db.sql`
     CREATE TABLE IF NOT EXISTS sessions (
         id TEXT PRIMARY KEY NOT NULL,

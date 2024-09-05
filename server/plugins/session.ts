@@ -11,10 +11,17 @@ export default defineNitroPlugin(() => {
       .select({ id: usersTable.id, role: usersTable.role, username: usersTable.username })
       .from(usersTable)
       .where(eq(usersTable.username, session.user.username))
-    session.user = {
-      username: existingUser.username,
-      role: existingUser.role as AuthRole,
-      id: existingUser.id,
+    if (!existingUser) {
+      clearUserSession(event)
+      session.user = undefined
+      throw createError({ message: 'User not found', status: 404 })
+    }
+    else {
+      session.user = {
+        username: existingUser.username,
+        role: existingUser.role as AuthRole,
+        id: existingUser.id,
+      }
     }
     // extend User Session by calling your database
     // or

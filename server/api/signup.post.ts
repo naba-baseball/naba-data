@@ -14,6 +14,7 @@ export default defineEventHandler(async (event) => {
   const hashedPassword = await new Argon2id().hash(password)
 
   const userId = crypto.randomUUID()
-  await db.insert(usersTable).values({ id: userId, username, password: hashedPassword, role: 'user' })
+  await db.insert(usersTable).values({ id: userId, username, password: hashedPassword, role: 'guest' })
   await replaceUserSession(event, { user: { id: userId, username, role: 'guest' } })
+  return { id: userId, username, role: 'guest' }
 })

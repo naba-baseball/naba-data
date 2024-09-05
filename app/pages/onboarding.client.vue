@@ -46,10 +46,11 @@ const { execute: updateUser, error: userError } = useFetch('/api/onboarding-user
     }
   }),
 })
-function handleUserSubmit() {
-  updateUser().then(() => {
-    getOnboarding()
-  })
+const { fetch: refreshUser } = useUserSession()
+async function handleUserSubmit() {
+  await updateUser()
+  await refreshUser()
+  await getOnboarding()
 }
 const { files } = useFileUploads()
 </script>

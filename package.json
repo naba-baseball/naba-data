@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@9.9.0",
   "scripts": {
-    "build": "nuxt build",
+    "build": "nuxt build && mkdir -p .output/.data",
     "dev": "nuxt dev",
     "lint": "eslint .",
     "generate": "nuxt generate",
