@@ -11,7 +11,8 @@ export default eventHandler(async () => {
   const driz = drizzle(db)
   const batchSize = 100
   const total = players.length
-  await driz.insert(PlayerCareerBattingStats).values(playerCareerBattingStats)
+  if (playerCareerBattingStats)
+    await driz.insert(PlayerCareerBattingStats).values(playerCareerBattingStats)
   let startIndex = 0
   while (startIndex < total) {
     const endIndex = Math.min(startIndex + batchSize, total)
@@ -42,7 +43,7 @@ async function getCSVData<T>(fileName: string) {
 }
 
 async function processData() {
-  const [teams, roster, players, batting, pitching, careerBattingStats] = await Promise.all([
+  const [{ value: teams }, { value: roster }, { value: players }, { value: batting }, { value: pitching }, { value: careerBattingStats }] = await Promise.allSettled([
     getCSVData<any>('teams.csv'),
     getCSVData<any>('team_roster.csv'),
     getCSVData<any>('players.csv'),

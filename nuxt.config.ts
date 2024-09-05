@@ -10,9 +10,6 @@ export default defineNuxtConfig({
   app: {
     keepalive: true,
   },
-  experimental: {
-    buildCache: true,
-  },
   routeRules: {
     '/api/teams/**': {
       swr: 600,
