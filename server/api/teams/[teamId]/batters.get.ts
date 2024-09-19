@@ -1,5 +1,5 @@
-import * as v from 'valibot'
 import { and, asc, count, desc, eq, gte, lte } from 'drizzle-orm'
+import * as v from 'valibot'
 
 export default defineEventHandler(async (event) => {
   const { teamId: team_id } = await getValidatedRouterParams(
@@ -17,15 +17,14 @@ export default defineEventHandler(async (event) => {
     ))
   const sortingFn = orderDir === 'asc' ? asc : desc
   const db = useSqlite()
-  const [{ count: rowCount }] = await db.select({ count: count() }).from(PlayersTable)
-    .where(
-      and(
-        eq(PlayersTable.team_id, team_id),
-        eq(PlayersTable.roster, roster),
-        gte(PlayersTable.position, 2),
-        lte(PlayersTable.position, 10),
-      ),
-    )
+  const [{ count: rowCount }] = await db.select({ count: count() }).from(PlayersTable).where(
+    and(
+      eq(PlayersTable.team_id, team_id),
+      eq(PlayersTable.roster, roster),
+      gte(PlayersTable.position, 2),
+      lte(PlayersTable.position, 10),
+    ),
+  )
   setHeader(event, 'X-Total-Count', rowCount)
   return db.select({
     player_id: PlayersTable.player_id,
@@ -40,16 +39,12 @@ export default defineEventHandler(async (event) => {
     power: PlayersTable[`batting_ratings_${split}_power`],
     eye: PlayersTable[`batting_ratings_${split}_eye`],
     strikeouts: PlayersTable[`batting_ratings_${split}_strikeouts`],
-  }).from(PlayersTable)
-    .where(
-      and(
-        eq(PlayersTable.team_id, team_id),
-        eq(PlayersTable.roster, roster),
-        gte(PlayersTable.position, 2),
-        lte(PlayersTable.position, 10),
-      ),
-    )
-    .limit(limit)
-    .offset(offset)
-    .orderBy(sortingFn(PlayersTable[orderCol] ?? PlayersTable.position))
+  }).from(PlayersTable).where(
+    and(
+      eq(PlayersTable.team_id, team_id),
+      eq(PlayersTable.roster, roster),
+      gte(PlayersTable.position, 2),
+      lte(PlayersTable.position, 10),
+    ),
+  ).limit(limit).offset(offset).orderBy(sortingFn(PlayersTable[orderCol] ?? PlayersTable.position))
 })

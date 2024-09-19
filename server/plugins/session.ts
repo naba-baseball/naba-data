@@ -29,7 +29,7 @@ export default defineNitroPlugin(() => {
   })
 
   // Called when we call useUserSession().clear() or clearUserSession(event)
-  sessionHooks.hook('clear', async (session, event) => {
+  sessionHooks.hook('clear', async () => {
     // Log that user logged out
   })
 })

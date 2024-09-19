@@ -6,9 +6,7 @@ export default defineEventHandler(async (event) => {
     event,
     parseNumeric('teamId'),
   )
-  return (await drizzle(useDatabase()).select()
-    .from(TeamsTable)
-    .where(
-      eq(TeamsTable.team_id, teamId),
-    ))[0]
+  return (await drizzle(useDatabase()).select().from(TeamsTable).where(
+    eq(TeamsTable.team_id, teamId),
+  ))[0]
 })

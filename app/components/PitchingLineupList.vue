@@ -33,7 +33,7 @@ const options = [
         {{ getHandAbbreviation(player.throws) }}
       </td>
     </template>
-    <template #name="{ player, index }">
+    <template #name="{ player }">
       {{ player.first_name }} {{ player.last_name }} <br>
       <span class="text-xs opacity-70 tabular-nums">
         S {{ player.stuff }} M {{ player.movement }} C {{ player.control }} Sta {{ player.stamina }}

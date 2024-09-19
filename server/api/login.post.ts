@@ -1,5 +1,5 @@
-import { Argon2id } from 'oslo/password'
 import { eq } from 'drizzle-orm'
+import { Argon2id } from 'oslo/password'
 
 export default defineEventHandler(async (event) => {
   const { username, password } = await validateUsernameAndPassword()
