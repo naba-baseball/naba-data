@@ -2,6 +2,7 @@
 export default defineNitroPlugin(async () => {
   const db = useDatabase()
   console.log('Setting up database')
+  await db.sql`PRAGMA journal_mode=WAL`
   await db.sql`
     CREATE TABLE IF NOT EXISTS users (
         id TEXT PRIMARY KEY NOT NULL,

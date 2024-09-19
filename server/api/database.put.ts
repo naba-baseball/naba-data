@@ -25,6 +25,7 @@ export default eventHandler(async () => {
   await db.sql`CREATE INDEX "team_id_idx" ON "teams" ("team_id")`
   await db.sql`CREATE INDEX "players_player_id_idx" ON "players" ("player_id")`
   await db.sql`CREATE INDEX "players_team_id_idx" ON "players" ("team_id")`
+  await db.sql`CREATE INDEX" players_team_id_roster_position_idx" ON "players" ("team_id", "roster", "position", "last_name" asc)`
   await db.sql`CREATE INDEX "players_career_batting_stats_player_id_idx" ON "players_career_batting_stats" ("player_id")`
   const meta = useStorage('preferences')
   await meta.setItem('last_uploaded', Date.now())
