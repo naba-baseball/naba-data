@@ -1,4 +1,3 @@
-import { drizzle } from 'db0/integrations/drizzle/index'
 import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
@@ -6,7 +5,8 @@ export default defineEventHandler(async (event) => {
     event,
     parseNumeric('teamId'),
   )
-  return (await drizzle(useDatabase()).select().from(TeamsTable).where(
+  const res = await useSqlite().select().from(TeamsTable).where(
     eq(TeamsTable.team_id, teamId),
-  ))[0]
+  )
+  return res[0]
 })
