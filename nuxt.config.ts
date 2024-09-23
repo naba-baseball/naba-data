@@ -3,6 +3,9 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
+  experimental: {
+    viewTransition: true,
+  },
   extends: 'github:naba-baseball/naba-base-layer/layer',
   css: [
     '@/assets/css/main.css',
@@ -34,7 +37,7 @@ export default defineNuxtConfig({
     experimental: {
       database: true,
     },
-    storage: {
+    devStorage: {
       meta: {
         driver: 'fsLite',
         base: '.data/meta',
@@ -47,10 +50,24 @@ export default defineNuxtConfig({
         driver: 'fsLite',
         base: '.data/preferences',
       },
-      cache: {
-        driver: 'memory',
+    },
+    storage: {
+      meta: {
+        driver: 'cloudflareKVBinding',
+        binding: 'META',
+      },
+      files: {
+        driver: 'cloudflareR2Binding',
+        binding: 'FILES',
+      },
+      preferences: {
+        driver: 'cloudflareKVBinding',
+        binding: 'PREFERENCES',
       },
     },
   },
-  modules: ['@formkit/auto-animate/nuxt', 'nuxt-auth-utils'],
+  modules: [
+    '@formkit/auto-animate/nuxt',
+    'nuxt-auth-utils',
+  ],
 })

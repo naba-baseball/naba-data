@@ -1,5 +1,5 @@
+import { parse } from '@std/csv'
 import { drizzle } from 'db0/integrations/drizzle/index'
-import papa from 'papaparse'
 
 export default eventHandler(async () => {
   await checkRole('admin')
@@ -36,10 +36,19 @@ export default eventHandler(async () => {
 
 async function getCSVData<T>(fileName: string) {
   const file = (await useStorage('files').getItem(fileName)) as string
-  const { data: docs } = await papa.parse(file, {
-    dynamicTyping: true,
-    header: true,
-  })
+  const docs = parse(file, { skipFirstRow: true })
+  for (const doc of docs) {
+    for (const key in doc) {
+      if (doc[key] === '') {
+        doc[key] = null
+      }
+      const num = Number(doc[key])
+      if (!isNaN(num)) {
+        doc[key] = num
+      }
+    }
+  }
+
   return docs as T[]
 }
 
