@@ -8,22 +8,16 @@ export default eventHandler(async () => {
   const db = useDatabase()
   const { players, teams, playerCareerBattingStats } = await processData()
   const driz = useSqlite()
-  const batchSize = 25
-  const total = players.length
   if (playerCareerBattingStats) {
     await driz.transaction(async () => {
       await driz.insert(PlayerCareerBattingStats).values(playerCareerBattingStats)
     })
   }
-  let startIndex = 0
-  while (startIndex < total) {
-    const endIndex = Math.min(startIndex + batchSize, total)
-    const batch = players.slice(startIndex, endIndex)
+  await batchOperations(players, async (batch) => {
     await driz.transaction(async () => {
       await driz.insert(PlayersTable).values(batch)
     })
-    startIndex += batchSize
-  }
+  })
   teams.push({ team_id: 0, name: 'Free agents', abbr: 'FA', nickname: '', logo_file_name: '' })
   await driz.transaction(async () => {
     await driz.insert(TeamsTable).values(teams)
@@ -39,6 +33,18 @@ export default eventHandler(async () => {
   setResponseHeader(useEvent(), 'Clear-Site-Data', '"cache"')
   return 'ok'
 })
+
+async function batchOperations<T>(data: T[], operation: (val: T[]) => void | Promise<void>) {
+  const batchSize = 5
+  let startIndex = 0
+  const total = data.length
+  while (startIndex < total) {
+    const endIndex = Math.min(startIndex + batchSize, total)
+    const batch = data.slice(startIndex, endIndex)
+    await operation(batch)
+    startIndex += batchSize
+  }
+}
 
 async function getCSVData<T>(fileName: string) {
   const file = (await useStorage('files').getItem(fileName)) as string

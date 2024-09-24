@@ -2,6 +2,7 @@ FROM docker.io/node:22-alpine AS base
 WORKDIR /usr/app
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
+RUN apk add python3 make build-base
 RUN corepack enable
 COPY package.json pnpm-lock.yaml /usr/app/
 
