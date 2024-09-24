@@ -1,4 +1,3 @@
-import { drizzle } from 'db0/integrations/drizzle/index'
 import papa from 'papaparse'
 
 export default eventHandler(async () => {
@@ -8,20 +7,27 @@ export default eventHandler(async () => {
   await createPlayerCareerBattingStats()
   const db = useDatabase()
   const { players, teams, playerCareerBattingStats } = await processData()
-  const driz = drizzle(db)
+  const driz = useSqlite()
   const batchSize = 25
   const total = players.length
-  if (playerCareerBattingStats)
-    await driz.insert(PlayerCareerBattingStats).values(playerCareerBattingStats)
+  if (playerCareerBattingStats) {
+    await driz.transaction(async () => {
+      await driz.insert(PlayerCareerBattingStats).values(playerCareerBattingStats)
+    })
+  }
   let startIndex = 0
   while (startIndex < total) {
     const endIndex = Math.min(startIndex + batchSize, total)
     const batch = players.slice(startIndex, endIndex)
-    await driz.insert(PlayersTable).values(batch)
+    await driz.transaction(async () => {
+      await driz.insert(PlayersTable).values(batch)
+    })
     startIndex += batchSize
   }
   teams.push({ team_id: 0, name: 'Free agents', abbr: 'FA', nickname: '', logo_file_name: '' })
-  await driz.insert(TeamsTable).values(teams)
+  await driz.transaction(async () => {
+    await driz.insert(TeamsTable).values(teams)
+  })
   await db.sql`CREATE INDEX "team_id_idx" ON "teams" ("team_id")`
   await db.sql`CREATE INDEX "players_player_id_idx" ON "players" ("player_id")`
   await db.sql`CREATE INDEX "players_team_id_idx" ON "players" ("team_id")`
