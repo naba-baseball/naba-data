@@ -9,7 +9,7 @@ export default eventHandler(async () => {
   const db = useDatabase()
   const { players, teams, playerCareerBattingStats } = await processData()
   const driz = drizzle(db)
-  const batchSize = 100
+  const batchSize = 25
   const total = players.length
   if (playerCareerBattingStats)
     await driz.insert(PlayerCareerBattingStats).values(playerCareerBattingStats)
