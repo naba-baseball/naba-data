@@ -66,6 +66,11 @@ export default defineNuxtConfig({
       },
     },
   },
+  runtimeConfig: {
+    public: {
+      discordAuthorizeUrl: '',
+    },
+  },
   modules: [
     '@formkit/auto-animate/nuxt',
     'nuxt-auth-utils',
