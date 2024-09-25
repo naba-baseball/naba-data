@@ -1,9 +1,10 @@
+import { sql } from 'drizzle-orm'
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
-export async function createPlayersTable() {
-  const db = useDatabase()
-  await db.sql`DROP TABLE IF EXISTS players`
-  await db.sql`
+export function createPlayersTable() {
+  return [
+    sql`DROP TABLE IF EXISTS players`,
+    sql`
     CREATE TABLE players (
          "player_id" integer NOT NULL,
          "first_name" text,
@@ -102,8 +103,9 @@ export async function createPlayersTable() {
          "pitching_ratings_misc_ground_fly" integer NOT NULL,
          "pitching_ratings_misc_hold" integer NOT NULL,
          "pitching_ratings_babip" integer
-    )
-  `
+  )
+  `,
+  ]
 }
 
 export const PlayersTable = sqliteTable('players', {

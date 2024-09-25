@@ -23,7 +23,7 @@ const { roster, split } = useTeamsFilters()
 </script>
 
 <template>
-  <div>
+  <ClientOnly>
     <article>
       <h1 heading>
         Lineup tool (WIP)
@@ -61,5 +61,5 @@ const { roster, split } = useTeamsFilters()
         </div>
       </div>
     </article>
-  </div>
+  </ClientOnly>
 </template>

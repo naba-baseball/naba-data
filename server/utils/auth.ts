@@ -1,7 +1,8 @@
-export async function checkRole(role?: AuthRole) {
+import type { H3Event } from 'h3'
+
+export async function checkRole(event: H3Event, role?: AuthRole) {
   if (!role)
     throw createError({ message: `role not found: ${role}`, status: 401 })
-  const event = useEvent()
   const { user } = await getUserSession(event)
   if (!user)
     throw createError({ message: 'no session', status: 401 })

@@ -1,5 +1,9 @@
-import Database from 'better-sqlite3'
-import { drizzle } from 'drizzle-orm/better-sqlite3'
+import type { H3Event } from 'h3'
+import { createClient } from '@libsql/client'
+import { drizzle } from 'drizzle-orm/libsql'
 
-const sqlite = new Database('.data/db.sqlite3')
-export const useSqlite = () => drizzle(sqlite)
+let client: ReturnType<typeof createClient>
+export function useSqlite(event?: H3Event) {
+  client ??= createClient({ url: useRuntimeConfig(event).dbUrl, authToken: useRuntimeConfig(event).dbToken })
+  return drizzle(client)
+}

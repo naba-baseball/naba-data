@@ -38,17 +38,3 @@ export function parseRoster() {
     'primary',
   )
 }
-
-export async function validateUsernameAndPassword() {
-  const body = await readValidatedBody(useEvent(), body =>
-    v.parse(
-      v.required(
-        v.object({
-          username: v.pipe(v.string(), v.minLength(3, 'Username must be 3 characters or more')),
-          password: v.pipe(v.string(), v.minLength(6, 'Username must be 6 characters or more')),
-        }),
-      ),
-      body,
-    ))
-  return body
-}

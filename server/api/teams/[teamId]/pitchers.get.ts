@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
       data,
     ))
   const sortingFn = orderDir === 'asc' ? asc : desc
-  const db = useSqlite()
+  const db = useSqlite(event)
   const [{ count: rowCount }] = await db.select({ count: count() }).from(PlayersTable).where(
     and(
       eq(PlayersTable.team_id, team_id),

@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm'
 
 export default defineEventHandler(async (event) => {
-  const db = useSqlite()
+  const db = useSqlite(event)
   const playerId = Number(getRouterParam(event, 'playerId'))
   const playerData = await db.select().from(PlayersTable).where(eq(PlayersTable.player_id, playerId))
 

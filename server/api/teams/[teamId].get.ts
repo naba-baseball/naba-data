@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
     event,
     parseNumeric('teamId'),
   )
-  const res = await useSqlite().select().from(TeamsTable).where(
+  const res = await useSqlite(event).select().from(TeamsTable).where(
     eq(TeamsTable.team_id, teamId),
   )
   return res[0]

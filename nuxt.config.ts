@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   future: {
     compatibilityVersion: 4,
   },
+  compatibilityDate: '2024-09-24',
   experimental: {
     viewTransition: true,
   },
@@ -31,17 +32,7 @@ export default defineNuxtConfig({
     },
   },
   nitro: {
-    compressPublicAssets: {
-      brotli: true,
-    },
-    experimental: {
-      database: true,
-    },
     devStorage: {
-      meta: {
-        driver: 'fsLite',
-        base: '.data/meta',
-      },
       files: {
         driver: 'fsLite',
         base: '.data/files',
@@ -52,10 +43,6 @@ export default defineNuxtConfig({
       },
     },
     storage: {
-      meta: {
-        driver: 'cloudflareKVBinding',
-        binding: 'META',
-      },
       files: {
         driver: 'cloudflareR2Binding',
         binding: 'FILES',
@@ -70,6 +57,10 @@ export default defineNuxtConfig({
     public: {
       discordAuthorizeUrl: '',
     },
+    dbUrl: '',
+    dbToken: '',
+    /** seperated by : */
+    adminUsers: '',
   },
   modules: [
     '@formkit/auto-animate/nuxt',

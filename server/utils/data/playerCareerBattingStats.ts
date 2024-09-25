@@ -1,9 +1,8 @@
+import { sql } from 'drizzle-orm'
 import { integer, real, sqliteTable } from 'drizzle-orm/sqlite-core'
 
-export async function createPlayerCareerBattingStats() {
-  const db = useDatabase()
-  await db.sql`DROP TABLE IF EXISTS players_career_batting_stats`
-  await db.sql`
+export function createPlayerCareerBattingStats() {
+  return [sql`DROP TABLE IF EXISTS players_career_batting_stats`, sql`
     CREATE TABLE players_career_batting_stats (
     "player_id" integer,
     "year" integer,
@@ -37,7 +36,7 @@ export async function createPlayerCareerBattingStats() {
     "wpa" real,
     "stint" integer,
     "ubr" real,
-    "war" real)`
+    "war" real)`]
 }
 
 export const PlayerCareerBattingStats = sqliteTable('players_career_batting_stats', {

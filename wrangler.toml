@@ -1,5 +1,14 @@
-r2_buckets = [ { binding = "FILES", bucket_name = "naba-data" } ]
-kv_namespaces = [
-  { binding = "META", id = "meta_id" },
-  { binding = "PREFERENCES", id = "preferences_id" }
-]
+compatibility_flags = [ "nodejs_compat", ]
+
+[[r2_buckets]]
+binding = "FILES"
+bucket_name = "naba-data"
+
+[[kv_namespaces]]
+binding = "PREFERENCES"
+id = "preferences_id"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "db_name"
+database_id = "db_id"

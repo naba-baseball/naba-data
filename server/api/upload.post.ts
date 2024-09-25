@@ -1,5 +1,5 @@
 export default eventHandler(async (event) => {
-  await checkRole('admin')
+  await checkRole(event, 'admin')
   const data = await readFormData(event)
   for await (const chunk of data.entries()) {
     const [field, file] = chunk as [string, File]

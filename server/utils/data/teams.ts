@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm'
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
 export const TeamsTable = sqliteTable('teams', {
@@ -13,14 +14,15 @@ export const TeamsTable = sqliteTable('teams', {
 })
 export type Team = typeof TeamsTable.$inferSelect
 
-export async function createTeamsTable() {
-  const db = useDatabase()
-  await db.sql`DROP TABLE IF EXISTS teams`
-  await db.sql`CREATE TABLE teams (
+export function createTeamsTable() {
+  return [
+    sql`DROP TABLE IF EXISTS teams`,
+    sql`CREATE TABLE teams (
         "team_id" integer NOT NULL,
         "name" text,
         "abbr" text,
         "nickname" text,
         "logo_file_name" text
-      )`
+      )`,
+  ]
 }
