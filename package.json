@@ -2,7 +2,6 @@
   "name": "naba-data",
   "type": "module",
   "private": true,
-  "packageManager": "pnpm@9.11.0",
   "scripts": {
     "build": "nuxt build && mkdir -p .output/.data",
     "dev": "nuxt dev",
