@@ -1,4 +1,4 @@
-import papa from 'papaparse'
+import { parse } from '@std/csv'
 
 export default eventHandler(async () => {
   await checkRole('admin')
@@ -46,13 +46,17 @@ async function batchOperations<T>(data: T[], operation: (val: T[]) => void | Pro
   }
 }
 
-async function getCSVData<T>(fileName: string) {
+async function getCSVData<T extends object>(fileName: string) {
   const file = (await useStorage('files').getItem(fileName)) as string
-  const { data: docs } = await papa.parse(file, {
-    dynamicTyping: true,
-    header: true,
+  const docs = parse(file, { skipFirstRow: true })
+  return docs.map((doc) => {
+    const newDoc = {}
+    for (const key in doc) {
+      const num = Number(doc[key])
+      newDoc[key] = Number.isNaN(num) ? doc[key] : num
+    }
+    return newDoc as T
   })
-  return docs as T[]
 }
 
 async function processData() {

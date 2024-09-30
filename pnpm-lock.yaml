@@ -32,6 +32,9 @@ importers:
       '@nuxt/ui':
         specifier: ^2.18.6
         version: 2.18.6(idb-keyval@6.2.1)(magicast@0.3.5)(rollup@4.22.4)(vite@5.4.7(@types/node@22.6.1)(terser@5.33.0))(vue@3.5.8(typescript@5.6.2))
+      '@std/csv':
+        specifier: npm:@jsr/std__csv@^1.0.3
+        version: '@jsr/std__csv@1.0.3'
       '@types/better-sqlite3':
         specifier: ^7.6.11
         version: 7.6.11
@@ -71,9 +74,6 @@ importers:
       oslo:
         specifier: ^1.2.1
         version: 1.2.1
-      papaparse:
-        specifier: ^5.4.1
-        version: 5.4.1
       tailwindcss:
         specifier: ^3.4.13
         version: 3.4.13
@@ -892,6 +892,15 @@ packages:
 
   '@jsdevtools/ono@7.1.3':
     resolution: {integrity: sha512-4JQNk+3mVzK3xh2rqd6RB4J46qUR19azEHBneZyTZM+c456qOrbbM/5xcR8huNCCcbVt7+UmizG6GuUvPvKUYg==}
+
+  '@jsr/std__bytes@1.0.2':
+    resolution: {integrity: sha512-bkZ1rllRB1qsxFbPqtO1VAYTW2+3ZDmf6pcy8xihKS33r0Z1ly6/E/5DoapnJsNy05LdnANUySWt5kj/awgGdg==, tarball: https://npm.jsr.io/~/11/@jsr/std__bytes/1.0.2.tgz}
+
+  '@jsr/std__csv@1.0.3':
+    resolution: {integrity: sha512-Cs3x/LiZPgL7eQYNelqLurUXW72CBIp+79AxRbMJFNMPSm56WMeTH+36yCV93oxV28452/LTmaA9TvrNv/yqpQ==, tarball: https://npm.jsr.io/~/11/@jsr/std__csv/1.0.3.tgz}
+
+  '@jsr/std__streams@1.0.6':
+    resolution: {integrity: sha512-dY+/k1K6AAp3xcygUthkl+6CwMA0f/bwMzRbK0SvTb/Ub6Ze7s2fQnux/e1k8N6T549RmRLEhgFp1hmj594kAQ==, tarball: https://npm.jsr.io/~/11/@jsr/std__streams/1.0.6.tgz}
 
   '@koa/router@12.0.2':
     resolution: {integrity: sha512-sYcHglGKTxGF+hQ6x67xDfkE9o+NhVlRHBqq6gLywaMc6CojK/5vFZByphdonKinYlMLkEkacm+HEse9HzwgTA==}
@@ -3874,9 +3883,6 @@ packages:
   pako@1.0.11:
     resolution: {integrity: sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==}
 
-  papaparse@5.4.1:
-    resolution: {integrity: sha512-HipMsgJkZu8br23pW15uvo6sib6wne/4woLZPlFf3rpDyMe9ywEXUsuD7+6K9PRkJlVT51j/sCOYDKGGS3ZJrw==}
-
   parent-module@1.0.1:
     resolution: {integrity: sha512-GQ2EWRpQV8/o+Aw8YqtfZZPfNRWZYkbidE9k5rpl/hC3vtHHBfGm2Ifi6qWV+coDGkrUKZAxE3Lot5kcsRlh+g==}
     engines: {node: '>=6'}
@@ -5840,6 +5846,16 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.5.0
 
   '@jsdevtools/ono@7.1.3': {}
+
+  '@jsr/std__bytes@1.0.2': {}
+
+  '@jsr/std__csv@1.0.3':
+    dependencies:
+      '@jsr/std__streams': 1.0.6
+
+  '@jsr/std__streams@1.0.6':
+    dependencies:
+      '@jsr/std__bytes': 1.0.2
 
   '@koa/router@12.0.2':
     dependencies:
@@ -9535,8 +9551,6 @@ snapshots:
   package-manager-detector@0.2.0: {}
 
   pako@1.0.11: {}
-
-  papaparse@5.4.1: {}
 
   parent-module@1.0.1:
     dependencies:

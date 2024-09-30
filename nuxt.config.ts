@@ -27,12 +27,16 @@ export default defineNuxtConfig({
       redirect: '/teams',
     },
   },
+  experimental: {
+    asyncContext: true,
+  },
   nitro: {
     compressPublicAssets: {
       brotli: true,
     },
     experimental: {
       database: true,
+      asyncContext: true,
     },
     storage: {
       meta: {
