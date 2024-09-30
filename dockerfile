@@ -1,15 +1,11 @@
 FROM docker.io/node:22-alpine AS base
 WORKDIR /usr/app
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN apk add python3 make build-base
-RUN corepack enable
-COPY package.json pnpm-lock.yaml /usr/app/
+COPY package.json .npmrc package-lock.json /usr/app/
 
 FROM base AS build
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN npm ci 
 COPY . /usr/app/
-RUN pnpm build
+RUN npm run build
 
 FROM base
 COPY --from=build /usr/app/.output /usr/app/

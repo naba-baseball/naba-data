@@ -1,32 +1,32 @@
 import { parse } from '@std/csv'
+import { sql } from 'drizzle-orm'
 
 export default eventHandler(async () => {
   await checkRole('admin')
   await createTeamsTable()
   await createPlayersTable()
   await createPlayerCareerBattingStats()
-  const db = useDatabase()
   const { players, teams, playerCareerBattingStats } = await processData()
-  const driz = useSqlite()
+  const db = useSqlite()
   if (playerCareerBattingStats) {
-    await driz.transaction(async () => {
-      await driz.insert(PlayerCareerBattingStats).values(playerCareerBattingStats)
+    await db.transaction(async () => {
+      await db.insert(PlayerCareerBattingStats).values(playerCareerBattingStats)
     })
   }
   await batchOperations(players, async (batch) => {
-    await driz.transaction(async () => {
-      await driz.insert(PlayersTable).values(batch)
+    await db.transaction(async () => {
+      await db.insert(PlayersTable).values(batch)
     })
   })
   teams.push({ team_id: 0, name: 'Free agents', abbr: 'FA', nickname: '', logo_file_name: '' })
-  await driz.transaction(async () => {
-    await driz.insert(TeamsTable).values(teams)
+  await db.transaction(async () => {
+    await db.insert(TeamsTable).values(teams)
   })
-  await db.sql`CREATE INDEX "team_id_idx" ON "teams" ("team_id")`
-  await db.sql`CREATE INDEX "players_player_id_idx" ON "players" ("player_id")`
-  await db.sql`CREATE INDEX "players_team_id_idx" ON "players" ("team_id")`
-  await db.sql`CREATE INDEX" players_team_id_roster_position_idx" ON "players" ("team_id", "roster", "position", "last_name" asc)`
-  await db.sql`CREATE INDEX "players_career_batting_stats_player_id_idx" ON "players_career_batting_stats" ("player_id")`
+  await db.run(sql`CREATE INDEX "team_id_idx" ON "teams" ("team_id")`)
+  await db.run(sql`CREATE INDEX "players_player_id_idx" ON "players" ("player_id")`)
+  await db.run(sql`CREATE INDEX "players_team_id_idx" ON "players" ("team_id")`)
+  await db.run(sql`CREATE INDEX" players_team_id_roster_position_idx" ON "players" ("team_id", "roster", "position", "last_name" asc)`)
+  await db.run(sql`CREATE INDEX "players_career_batting_stats_player_id_idx" ON "players_career_batting_stats" ("player_id")`)
   const meta = useStorage('preferences')
   await meta.setItem('last_uploaded', Date.now())
   await useStorage('cache').clear()

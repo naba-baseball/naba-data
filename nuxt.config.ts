@@ -31,11 +31,7 @@ export default defineNuxtConfig({
     asyncContext: true,
   },
   nitro: {
-    compressPublicAssets: {
-      brotli: true,
-    },
     experimental: {
-      database: true,
       asyncContext: true,
     },
     storage: {
