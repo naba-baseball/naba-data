@@ -1,32 +1,79 @@
+import type { CareerBatting, Player, PlayerBattingRating, PlayerPitchingRating, Team, TeamRoster } from '~~/types/db.js'
+import type { H3Event } from 'h3'
 import { parse } from '@std/csv'
-import { sql } from 'drizzle-orm'
+import { defu } from 'defu'
 
-export default eventHandler(async () => {
+export default eventHandler(async (event) => {
   await checkRole('admin')
-  await createTeamsTable()
-  await createPlayersTable()
-  await createPlayerCareerBattingStats()
-  const { players, teams, playerCareerBattingStats } = await processData()
+  await rollbackMigrations()
+  await runMigrations()
   const db = useSqlite()
-  if (playerCareerBattingStats) {
-    await db.transaction(async () => {
-      await db.insert(PlayerCareerBattingStats).values(playerCareerBattingStats)
-    })
-  }
-  await batchOperations(players, async (batch) => {
-    await db.transaction(async () => {
-      await db.insert(PlayersTable).values(batch)
-    })
-  })
+
+  const teams = await getCSVData<Team>('teams.csv', { pick: ['abbr', 'name', 'nickname', 'team_id', 'logo_file_name'] })
   teams.push({ team_id: 0, name: 'Free agents', abbr: 'FA', nickname: '', logo_file_name: '' })
-  await db.transaction(async () => {
-    await db.insert(TeamsTable).values(teams)
+  await batchOperations(event, teams, async (batch) => {
+    await db.transaction().execute((trx) => {
+      return trx.insertInto('teams').values(batch).execute()
+    })
   })
-  await db.run(sql`CREATE INDEX "team_id_idx" ON "teams" ("team_id")`)
-  await db.run(sql`CREATE INDEX "players_player_id_idx" ON "players" ("player_id")`)
-  await db.run(sql`CREATE INDEX "players_team_id_idx" ON "players" ("team_id")`)
-  await db.run(sql`CREATE INDEX" players_team_id_roster_position_idx" ON "players" ("team_id", "roster", "position", "last_name" asc)`)
-  await db.run(sql`CREATE INDEX "players_career_batting_stats_player_id_idx" ON "players_career_batting_stats" ("player_id")`)
+
+  const players = await getCSVData<Player>('players.csv', { pick: ['age', 'bats', 'first_name', 'last_name', 'player_id', 'position', 'role', 'team_id', 'throws'] })
+  await batchOperations(event, players, async (batch) => {
+    await db.transaction().execute((trx) => {
+      return trx.insertInto('players').values(batch).execute()
+    })
+  })
+
+  const playerBatting = await getCSVData<PlayerBattingRating>('players_batting.csv')
+  await batchOperations(event, playerBatting, async (batch) => {
+    await db.transaction().execute((trx) => {
+      return trx.insertInto('players_batting').values(batch.map(scaleObject)).execute()
+    })
+  })
+
+  const playerPitching = await getCSVData<PlayerPitchingRating>('players_pitching.csv')
+  await batchOperations(event, playerPitching, async (batch) => {
+    await db.transaction().execute((trx) => {
+      return trx.insertInto('players_pitching').values(batch.map(scaleObject)).execute()
+    })
+  })
+
+  const careerBattingStats = await getCSVData<CareerBatting>('players_career_batting_stats.csv')
+  await batchOperations(event, careerBattingStats, async (batch) => {
+    await db.transaction().execute((trx) => {
+      return trx.insertInto('players_career_batting').values(batch).execute()
+    })
+  })
+
+  /** ADD PLAYER ROSTER FIELD */
+  const roster = await getCSVData<TeamRoster>('team_roster.csv')
+  await batchOperations(event, roster, async (batch) => {
+    await db.transaction().execute((trx) => {
+      return trx.insertInto('team_roster').values(batch).execute()
+    })
+  })
+
+  await db
+    .updateTable('players')
+    .set('roster', 'r.roster')
+    .from(eb => eb
+      .selectFrom('team_roster')
+      .select(eb => [
+        'player_id',
+        'list_id',
+        eb.case()
+          .when('list_id', '=', 2)
+          .then('primary')
+          .when('list_id', '=', 1)
+          .then('reserve')
+          .else('none')
+          .end()
+          .as('roster'),
+      ])
+      .as('r'),
+    )
+    .where('players.player_id', '=', 'r.player_id')
+    .execute()
   const meta = useStorage('preferences')
   await meta.setItem('last_uploaded', Date.now())
   await useStorage('cache').clear()
@@ -34,8 +81,8 @@ export default eventHandler(async () => {
   return 'ok'
 })
 
-async function batchOperations<T>(data: T[], operation: (val: T[]) => void | Promise<void>) {
-  const batchSize = 5
+async function batchOperations<T>(event: H3Event, data: T[], operation: (val: T[]) => void | Promise<void>) {
+  const batchSize = useRuntimeConfig(event).dbImportChunks
   let startIndex = 0
   const total = data.length
   while (startIndex < total) {
@@ -46,13 +93,21 @@ async function batchOperations<T>(data: T[], operation: (val: T[]) => void | Pro
   }
 }
 
-async function getCSVData<T extends object>(fileName: string) {
+async function getCSVData<T extends Record<string, number | string | null>>(fileName: string, _opts: { pick?: (keyof T)[], omit?: string[] } = {}) {
+  const options = defu(_opts, {
+    omit: ['league_id'],
+  })
   const file = (await useStorage('files').getItem(fileName)) as string
+  if (!file)
+    return []
   const docs = parse(file, { skipFirstRow: true })
   return docs.map((doc) => {
-    const newDoc = {}
-    for (const key in doc) {
-      const num = Number(doc[key])
+    const newDoc = {} as T
+    let keyArr = options.pick || Object.keys(doc)
+    if (options.omit)
+      keyArr = keyArr.filter(key => !options.omit.includes(key))
+    for (const key of keyArr) {
+      const num = Number(doc[key as string])
       newDoc[key] = Number.isNaN(num) ? doc[key] : num
     }
     return newDoc as T

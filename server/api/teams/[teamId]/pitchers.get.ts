@@ -1,4 +1,5 @@
-import { and, asc, count, desc, eq } from 'drizzle-orm'
+import type { Player } from '~~/types/db.js'
+import { sql } from 'kysely'
 import * as v from 'valibot'
 
 export default defineEventHandler(async (event) => {
@@ -7,42 +8,44 @@ export default defineEventHandler(async (event) => {
     parseTeamId(),
   )
 
-  const { split, roster, limit, offset, orderBy: [orderCol, orderDir] } = await getValidatedQuery(event, data =>
-    v.parse(
-      v.object({
-        roster: parseRoster(),
-        split: parseSplit(),
-        ...paginationSchema,
-      }),
-      data,
-    ))
-  const sortingFn = orderDir === 'asc' ? asc : desc
+  const { split, roster, limit, orderBy: [orderCol, orderDir] }
+    = await getValidatedQuery(event, data =>
+      v.parse(
+        v.object({
+          roster: parseRoster(),
+          split: parseSplit(),
+          ...paginationSchema,
+        }),
+        data,
+      ))
   const db = useSqlite()
-  const [{ count: rowCount }] = await db.select({ count: count() }).from(PlayersTable).where(
-    and(
-      eq(PlayersTable.team_id, team_id),
-      eq(PlayersTable.roster, roster),
-      eq(PlayersTable.position, 1),
-    ),
-  )
+  const [{ count: rowCount }] = await db.selectFrom('players')
+    .select(sql<number>`count(*)`.as('count'))
+    .where('team_id', '=', team_id)
+    .where('roster', '=', roster)
+    .where('position', '=', 1)
+    .limit(limit)
+    .execute()
   setHeader(event, 'X-Total-Count', rowCount)
-  return db.select({
-    player_id: PlayersTable.player_id,
-    first_name: PlayersTable.first_name,
-    age: PlayersTable.age,
-    last_name: PlayersTable.last_name,
-    position: PlayersTable.position,
-    role: PlayersTable.role,
-    throws: PlayersTable.throws,
-    stamina: PlayersTable.pitching_ratings_misc_stamina,
-    stuff: PlayersTable[`pitching_ratings_${split}_stuff`],
-    movement: PlayersTable[`pitching_ratings_${split}_movement`],
-    control: PlayersTable[`pitching_ratings_${split}_control`],
-  }).from(PlayersTable).where(
-    and(
-      eq(PlayersTable.team_id, team_id),
-      eq(PlayersTable.roster, roster),
-      eq(PlayersTable.position, 1),
-    ),
-  ).limit(limit).offset(offset).orderBy(sortingFn(PlayersTable[orderCol] ?? PlayersTable.position))
+  const orderBy: `p.${keyof Player}` = orderCol ? `p.${orderCol as keyof Player}` : 'p.position'
+  return db.selectFrom('players as p')
+    .innerJoin('players_pitching as pi', 'p.player_id', 'pi.player_id')
+    .where('p.team_id', '=', team_id)
+    .where('p.roster', '=', roster)
+    .where('p.position', '=', 1)
+    .select([
+      'p.player_id',
+      'p.first_name',
+      'p.last_name',
+      'p.age',
+      'p.position',
+      'p.role',
+      'p.throws',
+      'pi.pitching_ratings_misc_stamina as stamina',
+      `pi.pitching_ratings_${split}_stuff as stuff`,
+      `pi.pitching_ratings_${split}_movement as movement`,
+      `pi.pitching_ratings_${split}_control as control`,
+    ])
+    .orderBy(orderBy, orderDir)
+    .execute()
 })

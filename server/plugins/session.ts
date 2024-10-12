@@ -1,5 +1,3 @@
-import { eq } from 'drizzle-orm'
-
 export default defineNitroPlugin(() => {
   // Called when the session is fetched during SSR for the Vue composable (/api/_auth/session)
   // Or when we call useUserSession().fetch()
@@ -8,9 +6,10 @@ export default defineNitroPlugin(() => {
       throw createError({ message: 'Unauthorized', status: 401 })
     const db = useSqlite()
     const [existingUser] = await db
-      .select({ id: usersTable.id, role: usersTable.role, username: usersTable.username })
-      .from(usersTable)
-      .where(eq(usersTable.username, session.user.username))
+      .selectFrom('users')
+      .select(['id', 'role', 'username'])
+      .where('username', '=', session.user.username)
+      .execute()
     if (!existingUser) {
       clearUserSession(event)
       session.user = undefined
