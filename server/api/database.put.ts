@@ -11,7 +11,6 @@ export default eventHandler(async (event) => {
   const db = useSqlite()
 
   const teams = await getCSVData<Team>('teams.csv', { pick: ['abbr', 'name', 'nickname', 'team_id', 'logo_file_name'] })
-  teams.push({ team_id: 0, name: 'Free agents', abbr: 'FA', nickname: '', logo_file_name: '' })
   await batchOperations(event, teams, async (batch) => {
     await db.transaction().execute((trx) => {
       return trx.insertInto('teams').values(batch).execute()

@@ -2,7 +2,7 @@
 import type { TeamTableProps } from '~~/types/shared.js'
 
 const props = defineProps<TeamTableProps>()
-const { players, total, page, sortBy } = useTeamPlayers(() => props.teamId, 'pitchers')
+const { players } = useTeamPlayers(() => props.teamId, 'pitchers')
 const model = defineModel<TeamPitcher[]>()
 const columns = [
   { key: 'last_name', label: 'Name', sortable: true },
@@ -18,8 +18,7 @@ const columns = [
 
 <template>
   <div>
-    <UPagination v-model="page" :total :page-count="15" />
-    <UTable v-model="model" v-model:sort="sortBy" by="player_id" :rows="players" :columns>
+    <UTable v-model="model" by="player_id" :rows="players" :columns>
       <template #last_name-data="{ row }">
         <a
           class="underline underline-dashed underline-surface-300 underline-offset-[0.25rem]"

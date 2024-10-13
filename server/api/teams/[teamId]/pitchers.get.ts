@@ -1,4 +1,3 @@
-import type { Player } from '~~/types/db.js'
 import { sql } from 'kysely'
 import * as v from 'valibot'
 
@@ -8,13 +7,12 @@ export default defineEventHandler(async (event) => {
     parseTeamId(),
   )
 
-  const { split, roster, limit, orderBy: [orderCol, orderDir] }
+  const { split, roster }
     = await getValidatedQuery(event, data =>
       v.parse(
         v.object({
           roster: parseRoster(),
           split: parseSplit(),
-          ...paginationSchema,
         }),
         data,
       ))
@@ -24,10 +22,8 @@ export default defineEventHandler(async (event) => {
     .where('team_id', '=', team_id)
     .where('roster', '=', roster)
     .where('position', '=', 1)
-    .limit(limit)
     .execute()
   setHeader(event, 'X-Total-Count', rowCount)
-  const orderBy: `p.${keyof Player}` = orderCol ? `p.${orderCol as keyof Player}` : 'p.position'
   return db.selectFrom('players as p')
     .innerJoin('players_pitching as pi', 'p.player_id', 'pi.player_id')
     .where('p.team_id', '=', team_id)
@@ -46,6 +42,5 @@ export default defineEventHandler(async (event) => {
       `pi.pitching_ratings_${split}_movement as movement`,
       `pi.pitching_ratings_${split}_control as control`,
     ])
-    .orderBy(orderBy, orderDir)
     .execute()
 })
