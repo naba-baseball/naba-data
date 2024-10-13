@@ -8,7 +8,7 @@ const sortedTeams = computed(() => teams.value.toSorted((a, b) => a.name.localeC
     <h1>
       Teams
     </h1>
-    <ul class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+    <ul v-if="sortedTeams?.length" class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <UCard v-for="team in sortedTeams" :key="team.team_id" as="li" :ui="{ background: 'bg-pinstripe', ring: 'ring-1 ring-gray-50 dark:ring-gray-900', shadow: 'shadow-none', body: { base: 'flex gap-4 items-center' } }">
         <img class="size-16" width="64px" height="64px" :src="`https://nabaleague.com/images/team_logos/${team.logo_file_name}`" :alt="`Logo for${team.name}`">
         <NuxtLink class="underline" :to="`/teams/${team.team_id}`">
@@ -16,6 +16,9 @@ const sortedTeams = computed(() => teams.value.toSorted((a, b) => a.name.localeC
         </NuxtLink>
       </UCard>
     </ul>
+    <p v-else>
+      No teams found. Tell the comissioner to update the teams!
+    </p>
   </div>
 </template>
 
