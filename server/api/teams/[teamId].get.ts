@@ -7,6 +7,6 @@ export default defineEventHandler(async (event) => {
     .selectFrom('teams')
     .selectAll()
     .where('team_id', '=', teamId)
-    .execute()
+    .executeTakeFirst()
   return res
 })
