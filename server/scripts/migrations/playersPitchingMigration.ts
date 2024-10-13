@@ -60,6 +60,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('pitching_ratings_misc_stamina', 'integer', col => col.notNull())
     .addColumn('pitching_ratings_misc_ground_fly', 'integer', col => col.notNull())
     .addColumn('pitching_ratings_misc_hold', 'integer', col => col.notNull())
+    .addColumn('pitching_ratings_babip', 'integer')
     .execute()
 
   await db.schema

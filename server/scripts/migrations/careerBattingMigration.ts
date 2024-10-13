@@ -8,7 +8,7 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn('year', 'integer', col => col.notNull())
     .addColumn('team_id', 'integer', col => col.notNull())
     .addColumn('game_id', 'integer', col => col.notNull())
-    .addColumn('league_id', 'integer', col => col.notNull())
+    .addColumn('league_id', 'integer')
     .addColumn('level_id', 'integer', col => col.notNull())
     .addColumn('split_id', 'integer', col => col.notNull())
     .addColumn('position', 'integer', col => col.notNull())

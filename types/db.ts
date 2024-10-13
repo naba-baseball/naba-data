@@ -128,7 +128,8 @@ export interface PlayersPitchingTable {
   pitching_ratings_misc_stamina: number
   pitching_ratings_misc_ground_fly: number
   pitching_ratings_misc_hold: number
-  pitching_ratings_babip: number
+  /** only seems to be in ootp 2024+ */
+  pitching_ratings_babip?: number
 }
 export type PlayerPitchingRating = Selectable<PlayersPitchingTable>
 export type PlayerPitchingRatingNew = Insertable<PlayersPitchingTable>
@@ -140,7 +141,7 @@ export interface PlayersCareerBattingTable {
   year: number
   team_id: number
   game_id: number
-  league_id: number
+  league_id?: number
   level_id: number
   split_id: number
   position: number

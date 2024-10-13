@@ -2,6 +2,7 @@ import type { CareerBatting, Player, PlayerBattingRating, PlayerPitchingRating, 
 import type { H3Event } from 'h3'
 import { parse } from '@std/csv'
 import { defu } from 'defu'
+import { sql } from 'kysely'
 
 export default eventHandler(async (event) => {
   await checkRole('admin')
@@ -52,28 +53,17 @@ export default eventHandler(async (event) => {
       return trx.insertInto('team_roster').values(batch).execute()
     })
   })
+  await sql`update players 
+set 
+    roster = 'reserve'
+from team_roster as r
+where r.player_id = players.player_id and r.list_id=1`.execute(db)
+  await sql`update players 
+set 
+    roster = 'primary'
+from team_roster as r
+where r.player_id = players.player_id and r.list_id=2`.execute(db)
 
-  await db
-    .updateTable('players')
-    .set('roster', 'r.roster')
-    .from(eb => eb
-      .selectFrom('team_roster')
-      .select(eb => [
-        'player_id',
-        'list_id',
-        eb.case()
-          .when('list_id', '=', 2)
-          .then('primary')
-          .when('list_id', '=', 1)
-          .then('reserve')
-          .else('none')
-          .end()
-          .as('roster'),
-      ])
-      .as('r'),
-    )
-    .where('players.player_id', '=', 'r.player_id')
-    .execute()
   const meta = useStorage('preferences')
   await meta.setItem('last_uploaded', Date.now())
   await useStorage('cache').clear()
