@@ -17,7 +17,7 @@ export function scaleRatings(value: number) {
   return result
 }
 
-export function scaleObject(obj: Record<string, unknown>) {
+export function scaleObject<T extends Record<string, unknown>>(obj: T): T {
   for (const [key, value] of Object.entries(obj)) {
     if (typeof value === 'number' && key.toLowerCase().includes('ratings'))
       obj[key] = scaleRatings(value)

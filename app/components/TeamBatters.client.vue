@@ -2,7 +2,7 @@
 import type { TeamTableProps } from '~~/types/shared.js'
 
 const props = defineProps<TeamTableProps>()
-const { players, total, page, sortBy } = useTeamPlayers(() => props.teamId, 'batters')
+const { players } = useTeamPlayers(() => props.teamId, 'batters')
 const model = defineModel<TeamBatter[]>()
 const columns = [
   { key: 'last_name', label: 'Name', sortable: true },
@@ -20,8 +20,7 @@ const columns = [
 
 <template>
   <div>
-    <UPagination v-model="page" :total :page-count="15" />
-    <UTable v-model="model" v-model:sort="sortBy" by="player_id" :rows="players" :columns>
+    <UTable v-model="model" by="player_id" :rows="players" :columns>
       <template #last_name-data="{ row }">
         <a class="underline underline-dashed underline-gray-300 underline-offset-4" :href="`https://nabaleague.com/players/player_${row.player_id}`">
           {{ row.first_name }} {{ row.last_name }}
@@ -43,7 +42,7 @@ const columns = [
         </div>
       </template>
       <template #other-data="{ row }">
-        <UButton variant="ghost" :to="`/players/${row.player_id}`">
+        <UButton size="2xs" variant="link" :to="`/players/${row.player_id}`">
           Stats
         </UButton>
       </template>

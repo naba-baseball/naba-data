@@ -34,6 +34,9 @@ function getSplit(id: number) {
       <template #split_id-data="{ row }">
         {{ getSplit(row.split_id) }}
       </template>
+    <template #empty-state>
+      No stats found, tell the comissioner to update the stats!
+    </template>
     </UTable>
   </div>
 </template>

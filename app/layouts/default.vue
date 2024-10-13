@@ -53,9 +53,9 @@ const authenticatedLinks = [
       <div>
         <DisplayLastUploaded class="sm:hidden text-sm text-gray-700 dark:text-gray-200" />
       </div>
-      <section class="content">
+      <article class="content">
         <slot />
-      </section>
+      </article>
     </UContainer>
   </main>
 </template>

@@ -10,19 +10,26 @@ export default defineNuxtConfig({
   app: {
     keepalive: true,
   },
+  $production: {
+    routeRules: {
+      '/api/teams/*': {
+        cache: {
+          headersOnly: true,
+          swr: true,
+          maxAge: 60 * 60 * 24 * 7,
+        },
+      },
+      '/api/players/*': {
+        cache: {
+          headersOnly: true,
+          swr: true,
+          maxAge: 60 * 60 * 24 * 7,
+        },
+      },
+
+    },
+  },
   routeRules: {
-    '/api/teams/**': {
-      swr: 600,
-      cache: {
-        name: 'teams-cache',
-      },
-    },
-    '/api/players/**': {
-      swr: 600,
-      cache: {
-        name: 'players-cache',
-      },
-    },
     '/': {
       redirect: '/teams',
     },
@@ -51,6 +58,10 @@ export default defineNuxtConfig({
         driver: 'memory',
       },
     },
+  },
+  runtimeConfig: {
+    /** Try lowering this number if you get errors on database import. This is how many records will be loaded at a time when inserting.  */
+    dbImportChunks: 100,
   },
   modules: ['@formkit/auto-animate/nuxt', 'nuxt-auth-utils'],
 })

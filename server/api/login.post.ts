@@ -1,13 +1,13 @@
-import { eq } from 'drizzle-orm'
 import { Argon2id } from 'oslo/password'
 
 export default defineEventHandler(async (event) => {
   const { username, password } = await validateUsernameAndPassword()
   const db = useSqlite()
   const [existingUser] = await db
-    .select({ password: usersTable.password, id: usersTable.id, role: usersTable.role, username: usersTable.username })
-    .from(usersTable)
-    .where(eq(usersTable.username, username))
+    .selectFrom('users')
+    .select(['password', 'id', 'role', 'username'])
+    .where('username', '=', username)
+    .execute()
   if (!existingUser) {
     return createError({
       message: 'Invalid username or password',
@@ -24,9 +24,11 @@ export default defineEventHandler(async (event) => {
       status: 401,
     })
   }
-  await replaceUserSession(event, { user: {
-    id: existingUser.id,
-    username: existingUser.username,
-    role: existingUser.role as AuthRole,
-  } })
+  await replaceUserSession(event, {
+    user: {
+      id: existingUser.id,
+      username: existingUser.username,
+      role: existingUser.role as AuthRole,
+    },
+  })
 })
