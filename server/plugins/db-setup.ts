@@ -1,7 +1,7 @@
 import { sql } from 'kysely'
 /* eslint-disable no-console */
 export default defineNitroPlugin(async () => {
-  const db = useSqlite()
+  const db = useDB()
   console.log('Setting up database')
   await sql`PRAGMA journal_mode=WAL`.execute(db)
   await sql`

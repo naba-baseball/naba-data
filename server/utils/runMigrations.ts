@@ -9,7 +9,7 @@ export async function runMigrations() {
   ]
 
   for await (const migration of migrations) {
-    await migration.up(useSqlite())
+    await migration.up(useDB())
   }
 }
 
@@ -23,6 +23,6 @@ export async function rollbackMigrations() {
     import('@@/server/scripts/migrations/teamRosterMigration.js'),
   ]
   for await (const migration of migrations) {
-    await migration.down(useSqlite())
+    await migration.down(useDB())
   }
 }

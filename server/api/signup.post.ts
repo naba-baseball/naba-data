@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
     return createError({ message: 'Already logged in', status: 400 })
   const body = await validateUsernameAndPassword()
   const { password, username } = body
-  const db = useSqlite()
+  const db = useDB()
   const [existingUser] = await db.selectFrom('users').select('username').where('username', '=', username).execute()
   if (existingUser)
     return createError({ message: 'Username is not available', status: 400 })

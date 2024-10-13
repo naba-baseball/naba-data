@@ -4,7 +4,7 @@ export default defineNitroPlugin(() => {
   sessionHooks.hook('fetch', async (session, event) => {
     if (!session?.user?.username)
       throw createError({ message: 'Unauthorized', status: 401 })
-    const db = useSqlite()
+    const db = useDB()
     const [existingUser] = await db
       .selectFrom('users')
       .select(['id', 'role', 'username'])

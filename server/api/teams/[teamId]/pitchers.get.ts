@@ -16,7 +16,7 @@ export default defineEventHandler(async (event) => {
         }),
         data,
       ))
-  const db = useSqlite()
+  const db = useDB()
   const [{ count: rowCount }] = await db.selectFrom('players')
     .select(sql<number>`count(*)`.as('count'))
     .where('team_id', '=', team_id)

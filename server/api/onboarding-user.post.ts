@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
   if (!user) {
     throw createError({ message: `Error creating user ${user}`, status: 500 })
   }
-  const db = useSqlite()
+  const db = useDB()
   await db.updateTable('users').set({ role: 'admin' }).where(
     'id',
     '=',

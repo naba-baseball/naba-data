@@ -3,7 +3,7 @@ export default defineEventHandler(async (event) => {
     event,
     parseNumeric('teamId'),
   )
-  const res = await useSqlite()
+  const res = await useDB()
     .selectFrom('teams')
     .selectAll()
     .where('team_id', '=', teamId)

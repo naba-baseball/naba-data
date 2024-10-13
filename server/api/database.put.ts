@@ -8,7 +8,7 @@ export default eventHandler(async (event) => {
   await checkRole('admin')
   await rollbackMigrations()
   await runMigrations()
-  const db = useSqlite()
+  const db = useDB()
 
   const teams = await getCSVData<Team>('teams.csv', { pick: ['abbr', 'name', 'nickname', 'team_id', 'logo_file_name'] })
   await batchOperations(event, teams, async (batch) => {
@@ -101,65 +101,4 @@ async function getCSVData<T extends Record<string, number | string | null>>(file
     }
     return newDoc as T
   })
-}
-
-async function processData() {
-  const [{ value: teams }, { value: roster }, { value: players }, { value: batting }, { value: pitching }, { value: careerBattingStats }] = await Promise.allSettled([
-    getCSVData<any>('teams.csv'),
-    getCSVData<any>('team_roster.csv'),
-    getCSVData<any>('players.csv'),
-    getCSVData<any>('players_batting.csv'),
-    getCSVData<any>('players_pitching.csv'),
-    getCSVData('players_career_batting_stats.csv'),
-  ])
-  const finishedPlayers = players.filter(p => p.player_id != null).map((p: Partial<Player>) => {
-    const player: Partial<Player> = {
-      bats: p.bats,
-      throws: p.throws,
-      first_name: p.first_name,
-      last_name: p.last_name,
-      player_id: p.player_id,
-      position: p.position,
-      role: p.role,
-      age: p.age,
-      team_id: p.team_id,
-    }
-    const playerPitching = scaleObject(
-      pitching.find(p => p.player_id === player.player_id),
-    )
-    Object.entries(playerPitching).forEach(([key, value]) => {
-      if (key.includes('pitching_ratings'))
-      // @ts-expect-error should be assigning a pitching_ratings_KEY to player
-        player[key] = value
-    })
-
-    const playerBatting = scaleObject(
-      batting.find(p => p.player_id === player.player_id),
-    )
-    Object.entries(playerBatting).forEach(([key, value]) => {
-      if (key.includes('batting_ratings'))
-        // @ts-expect-error should be assigning a batting_ratings_KEY to player
-        player[key] = value
-    })
-    if (
-      roster.find(r => r.player_id === player.player_id && r.list_id === 2)
-    )
-      player.roster = 'primary'
-
-    player.roster ??= 'reserve'
-    return player
-  })
-  return {
-    players: finishedPlayers,
-    teams: teams.filter(team => team.team_id != null && team.nickname.toLowerCase() !== 'all-stars').map((team) => {
-      return {
-        abbr: team.abbr,
-        name: team.name,
-        nickname: team.nickname,
-        team_id: team.team_id,
-        logo_file_name: team.logo_file_name,
-      } satisfies Team
-    }),
-    playerCareerBattingStats: careerBattingStats,
-  }
 }

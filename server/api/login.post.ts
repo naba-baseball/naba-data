@@ -2,7 +2,7 @@ import { Argon2id } from 'oslo/password'
 
 export default defineEventHandler(async (event) => {
   const { username, password } = await validateUsernameAndPassword()
-  const db = useSqlite()
+  const db = useDB()
   const [existingUser] = await db
     .selectFrom('users')
     .select(['password', 'id', 'role', 'username'])

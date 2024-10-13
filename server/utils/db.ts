@@ -10,8 +10,8 @@ const dialect = new SqliteDialect({
 // knows your database structure.
 // Dialect is passed to Kysely's constructor, and from now on, Kysely knows how
 // to communicate with your database.
-const sqlite = new Kysely<Database>({
+const db = new Kysely<Database>({
   dialect,
 })
 
-export const useSqlite = () => sqlite
+export const useDB = () => db

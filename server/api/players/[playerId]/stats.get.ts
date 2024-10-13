@@ -1,5 +1,5 @@
 export default defineEventHandler(async (event) => {
-  const db = useSqlite()
+  const db = useDB()
   const playerId = Number(getRouterParam(event, 'playerId'))
   const statsData = await db.selectFrom('players_career_batting')
     .selectAll()

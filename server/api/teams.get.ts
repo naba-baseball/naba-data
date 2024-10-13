@@ -1,3 +1,3 @@
 export default defineEventHandler(async () => {
-  return useSqlite().selectFrom('teams').selectAll().execute()
+  return useDB().selectFrom('teams').selectAll().execute()
 })
