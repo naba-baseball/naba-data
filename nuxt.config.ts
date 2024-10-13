@@ -17,6 +17,7 @@ export default defineNuxtConfig({
   },
   experimental: {
     asyncContext: true,
+    viewTransition: true,
   },
   nitro: {
     experimental: {

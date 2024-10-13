@@ -20,7 +20,7 @@ function getSplit(id: number) {
 </script>
 
 <template>
-  <div>
+  <section>
     <h1>
       {{ player?.first_name }} {{ player?.last_name }} Batting Stats
     </h1>
@@ -34,11 +34,11 @@ function getSplit(id: number) {
       <template #split_id-data="{ row }">
         {{ getSplit(row.split_id) }}
       </template>
-    <template #empty-state>
-      No stats found, tell the comissioner to update the stats!
-    </template>
+      <template #empty-state>
+        No stats found, tell the comissioner to update the stats!
+      </template>
     </UTable>
-  </div>
+  </section>
 </template>
 
 <style>

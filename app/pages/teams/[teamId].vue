@@ -28,7 +28,7 @@ const teamId = toRef(() => route.params.teamId as string)
 </script>
 
 <template>
-  <article class="space-y-4">
+  <section class="space-y-4">
     <div class="inline-flex gap-4 items-center justify-between">
       <h1 v-if="team">
         {{ team.name }} {{ team.nickname }}
@@ -48,5 +48,5 @@ const teamId = toRef(() => route.params.teamId as string)
         </div>
       </template>
     </UTabs>
-  </article>
+  </section>
 </template>
