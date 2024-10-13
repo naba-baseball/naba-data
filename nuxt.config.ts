@@ -10,6 +10,25 @@ export default defineNuxtConfig({
   app: {
     keepalive: true,
   },
+  $production: {
+    routeRules: {
+      '/api/teams/*': {
+        cache: {
+          headersOnly: true,
+          swr: true,
+          maxAge: 60 * 60 * 24 * 7,
+        },
+      },
+      '/api/players/*': {
+        cache: {
+          headersOnly: true,
+          swr: true,
+          maxAge: 60 * 60 * 24 * 7,
+        },
+      },
+
+    },
+  },
   routeRules: {
     '/': {
       redirect: '/teams',

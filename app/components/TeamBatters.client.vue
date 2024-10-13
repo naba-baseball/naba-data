@@ -42,7 +42,7 @@ const columns = [
         </div>
       </template>
       <template #other-data="{ row }">
-        <UButton variant="ghost" :to="`/players/${row.player_id}`">
+        <UButton size="2xs" variant="link" :to="`/players/${row.player_id}`">
           Stats
         </UButton>
       </template>
