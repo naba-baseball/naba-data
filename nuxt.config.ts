@@ -11,6 +11,9 @@ export default defineNuxtConfig({
     keepalive: true,
   },
   routeRules: {
+    '/lineups': {
+      ssr: false,
+    },
     '/': {
       redirect: '/teams',
     },

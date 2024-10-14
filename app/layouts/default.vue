@@ -34,7 +34,7 @@ const authenticatedLinks = [
 
 <template>
   <main>
-    <UContainer>
+    <UContainer :ui="{padding: 'p-1'}">
       <div class="-mx-2 grid grid-flow-col place-content-between">
         <AuthState #="{loggedIn, user}">
           <UHorizontalNavigation v-if="loggedIn && user?.role === 'admin'" :links="authenticatedLinks" />

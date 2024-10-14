@@ -8,7 +8,7 @@ if (shouldRedirect)
 <template>
   <Head>
     <Title>Naba data</Title>
-    <Body class="dark:bg-gray-950 text-gray-800 dark:text-gray-200 mx-4" />
+    <Body class="dark:bg-gray-950 text-gray-800 dark:text-gray-200 md:mx-4" />
   </Head>
   <NuxtLoadingIndicator />
   <NuxtLayout :name="isOnboarding ? 'onboarding' : 'default'">
