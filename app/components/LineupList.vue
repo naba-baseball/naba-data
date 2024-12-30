@@ -6,6 +6,8 @@ const { players = [] } = defineProps<{ players?: T[], title?: string }>()
 const [listRef, sortedItems] = useDragAndDrop(players, {
   dragHandle: '.lineup-list-drag-handle',
   longPress: true,
+  draggingClass: 'dark:bg-primary-950 bg-primary-50',
+  longPressClass: 'dark:bg-primary-950 bg-primary-50',
 })
 watchEffect(() => {
   sortedItems.value = players
@@ -35,7 +37,8 @@ watchEffect(() => {
     <tbody ref="listRef">
       <tr v-for="(player, i) of sortedItems" :key="player.player_id">
         <th>
-          <UIcon class="lineup-list-drag-handle cursor-grab" name="i-lucide-grip-vertical" />
+          <UIcon title="click and drag" class="hidden sm:block lineup-list-drag-handle cursor-grab" name="i-lucide-grip-vertical" />
+          <UIcon title="long press and drag" class=" sm:hidden text-xl lineup-list-drag-handle cursor-grab" name="i-lucide-grip-vertical" />
         </th>
         <th scope="row">
           {{ i + 1 }}
