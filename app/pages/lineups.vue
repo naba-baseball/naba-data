@@ -1,10 +1,5 @@
 <script lang="ts" setup>
-const teamId = useRouteQuery<string>('team', '1')
-const savedId = useLocalStorage('lineups-teamId', teamId)
-if (savedId.value) {
-  teamId.value = savedId.value
-}
-syncRef(teamId, savedId, {})
+const teamId = useLocalStorage('lineups-teamId', 1)
 const type = useRouteQuery<'batters' | 'pitchers'>('type', 'batters')
 const pitchersMap = ref<Record<string, TeamPitcher[]>>({})
 const battersMap = ref<Record<string, TeamBatter[]>>({})
@@ -25,15 +20,6 @@ const selectedPitchers = computed({
   },
 })
 const { roster, split } = useTeamsFilters()
-
-const selectTeamId = computed<number>({
-  get() {
-    return Number(teamId.value)
-  },
-  set(val) {
-    teamId.value = val.toString()
-  },
-})
 </script>
 
 <template>
@@ -47,7 +33,7 @@ const selectTeamId = computed<number>({
       </p>
       <div class="sm:grid sm:grid-cols-2 gap-y-12 gap-x-4">
         <div class="space-y-3">
-          <TeamSelect v-model="selectTeamId" />
+          <TeamSelect v-model="teamId" />
           <UFormGroup label="Players">
             <URadioGroup v-model="type" :options="[{ label: 'Batters', value: 'batters' }, { label: 'Pitchers', value: 'pitchers' }]" />
           </UFormGroup>
