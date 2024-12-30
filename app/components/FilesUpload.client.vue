@@ -87,13 +87,14 @@ watchEffect(() => {
       </template>
     </ul>
     <div class="flex items-center gap-2">
-      <UButton color="gray" type="button" @click="open">
+      <UButton color="neutral" variant="subtle" type="button" @click="open">
         Select files
       </UButton>
       <UButton
         :icon="!statusMessage ? 'i-lucide-upload' : ''"
         type="submit"
         :loading="isLoading"
+        :disabled="!model.length"
       >
         {{ statusMessage ?? 'Upload' }}
       </UButton>

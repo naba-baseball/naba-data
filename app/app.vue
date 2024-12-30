@@ -12,7 +12,8 @@ if (shouldRedirect)
   </Head>
   <NuxtLoadingIndicator />
   <NuxtLayout :name="isOnboarding ? 'onboarding' : 'default'">
-    <NuxtPage />
+    <UApp :toaster="{ position: 'top-center' }">
+      <NuxtPage />
+    </UApp>
   </NuxtLayout>
-  <UNotifications />
 </template>

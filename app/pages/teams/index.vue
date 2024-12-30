@@ -9,7 +9,7 @@ const sortedTeams = computed(() => teams.value.toSorted((a, b) => a.name.localeC
       Teams
     </h1>
     <ul v-if="sortedTeams?.length" class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      <UCard v-for="team in sortedTeams" :key="team.team_id" as="li" :ui="{ background: 'bg-pinstripe', ring: 'ring-1 ring-gray-50 dark:ring-gray-900', shadow: 'shadow-none', body: { base: 'flex gap-4 items-center' } }">
+      <UCard v-for="team in sortedTeams" :key="team.team_id" as="li" :ui="{ root: 'shadow-none bg-pinstripe ring-1 ring-gray-100 dark:ring-gray-900', body: 'flex gap-4 items-center' }">
         <img class="size-16" width="64px" height="64px" :src="`https://nabaleague.com/images/team_logos/${team.logo_file_name}`" :alt="`Logo for${team.name}`">
         <NuxtLink class="underline" :to="`/teams/${team.team_id}`">
           {{ team.name }} {{ team.nickname }}
@@ -24,10 +24,10 @@ const sortedTeams = computed(() => teams.value.toSorted((a, b) => a.name.localeC
 
 <style>
 .dark .bg-pinstripe {
---pinstripe-color: theme('colors.gray.950');
+--pinstripe-color: color-mix(in srgb, var(--color-gray-950), white 10%);
 }
 .bg-pinstripe {
-  --pinstripe-color: theme('colors.gray.50');
+  --pinstripe-color: var(--color-gray-50);
   background: repeating-linear-gradient(
     75deg,
     var(--pinstripe-color),

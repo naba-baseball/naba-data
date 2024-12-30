@@ -6,13 +6,13 @@ definePageMeta({
 
 <template>
   <div class="space-x-4">
-    <a href="/api/downloads/database" download="database.zip" color="gray">
+    <UButton external href="/api/downloads/database" icon="i-lucide-database" download="database.zip" class="inline-flex items-center gap-0.5">
       Download database
-    </a>
+    </UButton>
 
-    <a href="/api/downloads/csv" download="csv.zip" color="gray">
+    <UButton external href="/api/downloads/csv" icon="i-lucide-file-spreadsheet" download="csv.zip" class="inline-flex items-center gap-0.5">
       Download csv files
-    </a>
+    </UButton>
   </div>
 </template>
 

@@ -38,5 +38,11 @@
     "toml",
     "gql",
     "graphql"
-  ]
+  ],
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  }
 }

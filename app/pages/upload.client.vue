@@ -1,7 +1,7 @@
 <script setup lang="ts">
 function done() {
   const toast = useToast()
-  toast.add({ title: 'Site upload successful', actions: [{ label: 'Go home', click: () => navigateTo('/') }] })
+  toast.add({ title: 'Site upload successful', actions: [{ label: 'Go home', onClick: () => void navigateTo('/') }] })
 }
 const showNotification = ref(false)
 function notifyFound(files: File[]) {
@@ -41,18 +41,18 @@ async function checkForNewFiles() {
   <div class="grid gap-5">
     <h1>Upload CSV files</h1>
     <small>Last uploaded: {{ lastUploaded }}</small>
-    <UButton v-if="isWatching" class="w-fit" color="gray" @click="checkForNewFiles()">
+    <UButton v-if="isWatching" class="w-fit" variant="subtle" color="neutral" @click="checkForNewFiles()">
       Check for new files
     </UButton>
     <UAlert v-if="showNotification && isWatching" icon="i-lucide-folder-search" title="Updated files detected and are ready to upload" />
     <FilesUpload v-model="files" @done="done()" />
-    <UDivider />
+    <USeparator />
     <div class="space-y-3 text-gray-700 dark:text-gray-100 w-lg">
       <div class="flex items-center gap-2">
         <h2 class="text-lg font-medium">
           Automatically discover new CSV Files
         </h2>
-        <UToggle v-model="isWatching" />
+        <USwitch v-model="isWatching" />
       </div>
       <p>
         You can select your save's csv folder and it'll automatically be checked for any updates when you visit this page.

@@ -14,15 +14,15 @@ const form = ref<UserFormData>({
 <template>
   <form class="w-60 space-y-6" @submit.prevent="$emit('submit', form)">
     <h1>{{ variant === 'login' ? 'Login' : 'Signup' }}</h1>
-    <UFormGroup label="Username">
+    <UFormField label="Username">
       <UInput v-model="form.username" name="username" />
-    </UFormGroup>
-    <UFormGroup label="Password">
+    </UFormField>
+    <UFormField label="Password">
       <UInput v-model="form.password" type="password" name="password" />
-    </UFormGroup>
-    <UFormGroup v-if="variant === 'signup'" label="Confirm password">
+    </UFormField>
+    <UFormField v-if="variant === 'signup'" label="Confirm password">
       <UInput v-model="form.confirm" type="password" name="confirm" />
-    </UFormGroup>
+    </UFormField>
     <UButton type="submit">
       Login
     </UButton>

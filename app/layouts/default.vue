@@ -34,17 +34,17 @@ const authenticatedLinks = [
 
 <template>
   <main class="overflow-x-hidden">
-    <UContainer :ui="{padding: 'p-1'}">
+    <UContainer>
       <div class="grid grid-flow-col place-content-between">
         <AuthState #="{loggedIn, user}">
-          <UHorizontalNavigation v-if="loggedIn && user?.role === 'admin'" :links="authenticatedLinks" />
-          <UHorizontalNavigation v-else :links="guestLinks" />
+          <UNavigationMenu v-if="loggedIn && user?.role === 'admin'" :items="authenticatedLinks" />
+          <UNavigationMenu v-else :items="guestLinks" />
         </AuthState>
-        <div class="py-2 flex gap-2 items-center">
+        <div class="py-2 flex gap-2 items-center justify-end">
           <DisplayLastUploaded class="hidden sm:inline text-sm text-gray-700 dark:text-gray-200" />
           <ColorTheme />
           <AuthState #="{loggedIn, user}">
-            <UButton v-if="loggedIn" color="gray" variant="ghost" @click="logout">
+            <UButton v-if="loggedIn" color="neutral" variant="ghost" @click="logout">
               Logout {{ user?.username }}
             </UButton>
           </AuthState>
