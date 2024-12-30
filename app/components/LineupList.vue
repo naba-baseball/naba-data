@@ -1,13 +1,14 @@
 <script lang="ts" setup generic="T extends {player_id: number, first_name: string, last_name: string}">
 import { useDragAndDrop } from '@formkit/drag-and-drop/vue'
 
-const props = withDefaults(defineProps<{
-  players?: T[]
-  title?: string
-}>(), { players: () => [] })
-const [listRef, sortedItems] = useDragAndDrop(props.players)
+const { players = [] } = defineProps<{ players?: T[], title?: string }>()
+
+const [listRef, sortedItems] = useDragAndDrop(players, {
+  dragHandle: '.lineup-list-drag-handle',
+  longPress: true,
+})
 watchEffect(() => {
-  sortedItems.value = props.players
+  sortedItems.value = players
 })
 </script>
 
@@ -18,6 +19,9 @@ watchEffect(() => {
     </caption>
     <thead class="text-xs uppercase opacity-90 [&_th]:font-medium ">
       <tr class="border-b h-10">
+        <th>
+          <UIcon name="i-lucide-grip-vertical" />
+        </th>
         <th scope="col">
           #
         </th>
@@ -30,6 +34,9 @@ watchEffect(() => {
     </thead>
     <tbody ref="listRef">
       <tr v-for="(player, i) of sortedItems" :key="player.player_id">
+        <th>
+          <UIcon class="lineup-list-drag-handle cursor-grab" name="i-lucide-grip-vertical" />
+        </th>
         <th scope="row">
           {{ i + 1 }}
         </th>

@@ -1,8 +1,13 @@
 <script lang="ts" setup>
-const teamId = useRouteQuery<number>('team', 1, { transform: Number })
+const teamId = useRouteQuery<string>('team', '1')
+const savedId = useLocalStorage('lineups-teamId', teamId)
+if (savedId.value) {
+  teamId.value = savedId.value
+}
+syncRef(teamId, savedId, {})
 const type = useRouteQuery<'batters' | 'pitchers'>('type', 'batters')
-const pitchersMap = ref<Record<number, TeamPitcher[]>>({})
-const battersMap = ref<Record<number, TeamBatter[]>>({})
+const pitchersMap = ref<Record<string, TeamPitcher[]>>({})
+const battersMap = ref<Record<string, TeamBatter[]>>({})
 watch(teamId, (id) => {
   battersMap.value[id] ??= []
   pitchersMap.value[id] ??= []
@@ -20,6 +25,15 @@ const selectedPitchers = computed({
   },
 })
 const { roster, split } = useTeamsFilters()
+
+const selectTeamId = computed<number>({
+  get() {
+    return Number(teamId.value)
+  },
+  set(val) {
+    teamId.value = val.toString()
+  },
+})
 </script>
 
 <template>
@@ -31,9 +45,9 @@ const { roster, split } = useTeamsFilters()
       <p>
         Select players from the table on the left, then drag them to reorder them in the lineup.
       </p>
-      <div class="grid sm:grid-cols-2 gap-y-12 gap-x-4">
+      <div class="sm:grid sm:grid-cols-2 gap-y-12 gap-x-4">
         <div class="space-y-3">
-          <TeamSelect v-model="teamId" />
+          <TeamSelect v-model="selectTeamId" />
           <UFormGroup label="Players">
             <URadioGroup v-model="type" :options="[{ label: 'Batters', value: 'batters' }, { label: 'Pitchers', value: 'pitchers' }]" />
           </UFormGroup>
@@ -46,7 +60,7 @@ const { roster, split } = useTeamsFilters()
           <TeamBatters v-show="type === 'batters'" v-model="selectedBatters" :team-id />
           <TeamPitchers v-show="type === 'pitchers'" v-model="selectedPitchers" :team-id />
         </div>
-        <div class="-mt-6 ">
+        <div class="sm:-mt-6">
           <h2 class="text-2xl">
             {{ type === 'batters' ? 'Batting' : 'Pitching' }} Lineup
           </h2>

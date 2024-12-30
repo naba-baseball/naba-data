@@ -1,9 +1,6 @@
 <script lang="ts" setup>
-const props = withDefaults(defineProps<{ players?: TeamBatter[] }>(), { players: () => [] })
-const clonedPlayers = ref<TeamBatter[]>([])
-watchEffect(() => {
-  clonedPlayers.value = props.players?.map(player => ({ ...player })) ?? []
-})
+const { players = [] } = defineProps<{ players?: TeamBatter[] }>()
+const { cloned: clonedPlayers } = useCloned(() => players)
 const options = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(num => ({ label: getAbbreviatedPosition(num), value: num }))
 function bindPlayer(key: string, player: TeamBatter) {
   return {
