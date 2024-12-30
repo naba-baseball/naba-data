@@ -19,33 +19,31 @@ const columns = [
 </script>
 
 <template>
-  <div>
-    <UTable v-model="model" by="player_id" :rows="players" :columns>
-      <template #last_name-data="{ row }">
-        <a class="underline underline-dashed underline-gray-300 underline-offset-4" :href="`https://nabaleague.com/players/player_${row.player_id}`">
-          {{ row.first_name }} {{ row.last_name }}
-        </a>
-      </template>
-      <template #position-data="{ row }">
-        {{ usePositionDisplay(row, row.position).value }}
-      </template>
-      <template #bats-data="{ row }">
-        {{ getHandAbbreviation(row.bats) }}
-      </template>
-      <template
-        v-for="rating of ['contact', 'eye', 'gap', 'power', 'strikeouts'] as const"
-        #[`${rating}-data`]="{ row, column, getRowData }"
-        :key="rating"
-      >
-        <div :data-rating="getRowData(row, column.key)">
-          {{ getRowData(row, column.key) }}
-        </div>
-      </template>
-      <template #other-data="{ row }">
-        <UButton size="2xs" variant="link" :to="`/players/${row.player_id}`">
-          Stats
-        </UButton>
-      </template>
-    </UTable>
-  </div>
+  <UTable v-model="model" by="player_id" :rows="players" :columns>
+    <template #last_name-data="{ row }">
+      <a class="underline underline-dashed underline-gray-300 underline-offset-4" :href="`https://nabaleague.com/players/player_${row.player_id}`">
+        {{ row.first_name }} {{ row.last_name }}
+      </a>
+    </template>
+    <template #position-data="{ row }">
+      {{ usePositionDisplay(row, row.position).value }}
+    </template>
+    <template #bats-data="{ row }">
+      {{ getHandAbbreviation(row.bats) }}
+    </template>
+    <template
+      v-for="rating of ['contact', 'eye', 'gap', 'power', 'strikeouts'] as const"
+      #[`${rating}-data`]="{ row, column, getRowData }"
+      :key="rating"
+    >
+      <div :data-rating="getRowData(row, column.key)">
+        {{ getRowData(row, column.key) }}
+      </div>
+    </template>
+    <template #other-data="{ row }">
+      <UButton size="2xs" variant="link" :to="`/players/${row.player_id}`">
+        Stats
+      </UButton>
+    </template>
+  </UTable>
 </template>

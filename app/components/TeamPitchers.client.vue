@@ -17,27 +17,25 @@ const columns = [
 </script>
 
 <template>
-  <div>
-    <UTable v-model="model" by="player_id" :rows="players" :columns>
-      <template #last_name-data="{ row }">
-        <a
-          class="underline underline-dashed underline-surface-300 underline-offset-[0.25rem]"
-          :href="`https://nabaleague.com/players/player_${row.player_id}`"
-        >
-          {{ row.first_name }} {{ row.last_name }}
-        </a>
-      </template>
-      <template #role-data="{ row }">
-        {{ getAbbreviatedRole(row.role) }}
-      </template>
-      <template #throws-data="{ row }">
-        {{ getHandAbbreviation(row.throws) }}
-      </template>
-      <template v-for="rating of ['stuff', 'movement', 'control', 'stamina'] as const" #[`${rating}-data`]="{ row, column, getRowData }" :key="rating">
-        <div :data-rating="getRowData(row, column.key)">
-          {{ getRowData(row, column.key) }}
-        </div>
-      </template>
-    </UTable>
-  </div>
+  <UTable v-model="model" by="player_id" :rows="players" :columns>
+    <template #last_name-data="{ row }">
+      <a
+        class="underline underline-dashed underline-surface-300 underline-offset-[0.25rem]"
+        :href="`https://nabaleague.com/players/player_${row.player_id}`"
+      >
+        {{ row.first_name }} {{ row.last_name }}
+      </a>
+    </template>
+    <template #role-data="{ row }">
+      {{ getAbbreviatedRole(row.role) }}
+    </template>
+    <template #throws-data="{ row }">
+      {{ getHandAbbreviation(row.throws) }}
+    </template>
+    <template v-for="rating of ['stuff', 'movement', 'control', 'stamina'] as const" #[`${rating}-data`]="{ row, column, getRowData }" :key="rating">
+      <div :data-rating="getRowData(row, column.key)">
+        {{ getRowData(row, column.key) }}
+      </div>
+    </template>
+  </UTable>
 </template>
