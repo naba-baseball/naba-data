@@ -1,10 +1,8 @@
 <script lang="ts" setup>
-import { useIDBKeyval } from '@vueuse/integrations/useIDBKeyval'
-
-const { data: teamId } = useIDBKeyval('lineups-teamId', 1)
-const { data: type } = useIDBKeyval<'batters' | 'pitchers'>('lineups-type', 'batters')
-const pitchersMap = ref<Record<string, TeamPitcher[]>>({})
-const battersMap = ref<Record<string, TeamBatter[]>>({})
+const teamId = useLocalStorage('lineups-teamId', 1)
+const type = useLocalStorage<'batters' | 'pitchers'>('lineups-type', 'batters')
+const pitchersMap = useLocalStorage<Record<string, TeamPitcher[]>>('lineups-pitchers', {})
+const battersMap = useLocalStorage<Record<string, TeamBatter[]>>('lineups-batters', {})
 watch(teamId, (id) => {
   battersMap.value[id] ??= []
   pitchersMap.value[id] ??= []
@@ -22,9 +20,9 @@ const selectedPitchers = computed({
   },
 })
 const { roster, split } = useTeamsFilters()
-const { data: rosterIDB } = useIDBKeyval('lineups-roster', roster)
+const rosterIDB = useLocalStorage('lineups-roster', roster)
 syncRef(roster, rosterIDB)
-const { data: splitIDB } = useIDBKeyval('lineups-split', split)
+const splitIDB = useLocalStorage('lineups-split', split)
 syncRef(split, splitIDB)
 </script>
 
