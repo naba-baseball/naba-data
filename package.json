@@ -18,7 +18,7 @@
     "@iconify-json/lucide": "^1.2.20",
     "@nuxt/eslint": "^0.7.4",
     "@nuxt/icon": "^1.10.3",
-    "@nuxt/ui": "^2.20.0",
+    "@nuxt/ui": "~2.18.7",
     "@std/csv": "npm:@jsr/std__csv@^1.0.3",
     "@types/better-sqlite3": "^7.6.12",
     "@types/wicg-file-system-access": "^2023.10.5",
