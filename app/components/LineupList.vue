@@ -2,10 +2,13 @@
 import { useDragAndDrop } from '@formkit/drag-and-drop/vue'
 
 const { players = [] } = defineProps<{ players?: T[], title?: string }>()
-
+const isMobile = useMobileWidth()
 const [listRef, sortedItems] = useDragAndDrop(players, {
   dragHandle: '.lineup-list-drag-handle',
-  longPress: true,
+  // NOTE: in v0.2.2 of @formkit/drag-and-drop errors are caused when LongPress is enabled and the screen is resized between mobile and large screen sizes.
+  // this is fixed in v0.2.3+, but v0.2.3 breaks dragging completely on mobile with drag handles.
+  // I chose to take the errors when resizing over breaking mobile drag/drop. We can mitigate this and assume the initial screen size is an indicator of "mobile".
+  longPress: isMobile.value,
   draggingClass: 'dark:bg-primary-950 bg-primary-50',
   longPressClass: 'dark:bg-primary-950 bg-primary-50',
 })
