@@ -78,12 +78,12 @@ const { files } = useFileUploads()
           <h2 class="text-xl">
             Create Admin user
           </h2>
-          <UFormGroup label="Username" name="username">
+          <UFormField label="Username" name="username">
             <UInput id="username" v-model="userForm.username" type="text" placeholder="Username" />
-          </UFormGroup>
-          <UFormGroup label="Password" name="password">
+          </UFormField>
+          <UFormField label="Password" name="password">
             <UInput id="password" v-model="userForm.password" type="password" placeholder="Password" />
-          </UFormGroup>
+          </UFormField>
           <input type="hidden">
 
           <div v-if="userError" id="warnings">
