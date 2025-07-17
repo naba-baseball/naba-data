@@ -1,3 +1,8 @@
+# NABA-DATA
+- View ALL (primary and reserve roster) of your players' ratings.
+- Lineup builder
+
+
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
