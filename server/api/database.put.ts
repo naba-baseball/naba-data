@@ -1,6 +1,6 @@
 import type { CareerBatting, Player, PlayerBattingRating, PlayerPitchingRating, Team, TeamRoster } from '~~/types/db.js'
 import type { H3Event } from 'h3'
-import { parse } from '@std/csv'
+import Papa from 'papaparse'
 import { defu } from 'defu'
 import { sql } from 'kysely'
 
@@ -89,8 +89,8 @@ async function getCSVData<T extends Record<string, number | string | null>>(file
   const file = (await useStorage('files').getItem(fileName)) as string
   if (!file)
     return []
-  const docs = parse(file, { skipFirstRow: true })
-  return docs.map((doc) => {
+  const parsed = Papa.parse(file, { header: true, skipEmptyLines: true })
+  return parsed.data.map((doc) => {
     const newDoc = {} as T
     let keyArr = options.pick || Object.keys(doc)
     if (options.omit)
