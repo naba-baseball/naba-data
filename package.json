@@ -8,7 +8,9 @@
     "lint": "eslint .",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.12.1",
@@ -19,22 +21,27 @@
     "@nuxt/eslint": "^0.7.4",
     "@nuxt/icon": "^1.10.3",
     "@nuxt/ui": "~2.18.7",
-    "@std/csv": "npm:@jsr/std__csv@^1.0.3",
     "@types/better-sqlite3": "^7.6.12",
+    "@types/papaparse": "^5.3.15",
     "@types/wicg-file-system-access": "^2023.10.5",
+    "@vitest/coverage-v8": "^2.1.8",
+    "@vue/test-utils": "^2.4.6",
     "@vueuse/core": "^12.2.0",
     "@vueuse/nuxt": "^12.2.0",
     "@vueuse/router": "^12.2.0",
     "better-sqlite3": "^11.7.0",
+    "happy-dom": "^15.11.7",
     "idb-keyval": "^6.2.1",
     "jszip": "^3.10.1",
     "kysely": "^0.27.5",
     "nuxt": "^3.15.0",
     "nuxt-auth-utils": "^0.5.7",
     "oslo": "^1.2.1",
+    "papaparse": "^5.4.1",
     "tailwindcss": "^3.4.17",
     "typescript": "^5.7.2",
-    "valibot": "^0.42.1"
+    "valibot": "^0.42.1",
+    "vitest": "^2.1.8"
   },
   "dependencies": {
     "@vueuse/integrations": "^12.2.0"
