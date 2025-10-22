@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest'
 import * as v from 'valibot'
+import { describe, expect, it } from 'vitest'
 import { parseNumeric, parseRoster, parseSplit, parseTeamId } from './parsers'
 
 describe('parseNumeric', () => {
